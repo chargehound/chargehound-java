@@ -1,4 +1,4 @@
-package com.chargehound.resources;
+package com.chargehound.net;
 
 import com.chargehound.Chargehound;
 import com.google.api.client.http.GenericUrl;
@@ -8,7 +8,6 @@ import com.google.api.client.http.HttpRequestFactory;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.JsonObjectParser;
@@ -17,13 +16,12 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Map;
 
-class ApiRequestor {
+public class ApiRequestor {
   private Chargehound chargehound;
 
   // TODO: get configured version
   public static final String CHARGEHOUND_USERAGENT = "Chargehound/v1 JavaBindings/";
 
-  static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
   static final JsonFactory JSON_FACTORY = new JacksonFactory();
 
   public ApiRequestor (Chargehound chargehound) {
@@ -44,21 +42,23 @@ class ApiRequestor {
     return resultString.length() > 0 ? resultString.substring(0, resultString.length() - 1) : resultString;
   }
 
-  private String getUrl (String path, Map<String, String> params) {
+  private GenericUrl getUrl (String path, Map<String, String> params) {
     try {
       String query = this.getParamsString(params);
       if (query.length() > 0) {
         query = "?" + query;
       }
-      return this.chargehound.getApiBase() + path + query;
+      return new GenericUrl(this.chargehound.getApiBase() + path + query);
     } catch (UnsupportedEncodingException e) {
-      return this.chargehound.getApiBase() + path;
+      return new GenericUrl(this.chargehound.getApiBase() + path);
     }
   }
 
   public HttpResponse request (String method, String path, Map<String, String> params, Map<String, String> data) throws IOException {
+    HttpTransport transport = this.chargehound.getHttpTransport();
+
     HttpRequestFactory requestFactory =
-        HTTP_TRANSPORT.createRequestFactory(new HttpRequestInitializer() {
+        transport.createRequestFactory(new HttpRequestInitializer() {
             @Override
           public void initialize(HttpRequest request) {
             HttpHeaders headers = request.getHeaders();
@@ -69,8 +69,8 @@ class ApiRequestor {
             request.setParser(new JsonObjectParser(JSON_FACTORY));
           }
         });
-    String url = this.getUrl(path, params);
-    HttpRequest request = requestFactory.buildGetRequest(new GenericUrl(url));
+    GenericUrl url = this.getUrl(path, params);
+    HttpRequest request = requestFactory.buildGetRequest(url);
     HttpResponse response = request.execute();
 
     return response;
