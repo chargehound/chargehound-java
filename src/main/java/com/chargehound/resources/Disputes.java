@@ -1,6 +1,8 @@
 package com.chargehound.resources;
 
 import com.chargehound.Chargehound;
+import com.chargehound.errors.ChargehoundException;
+import com.chargehound.errors.ChargehoundExceptionFactory;
 import com.chargehound.models.Dispute;
 import com.chargehound.models.DisputesList;
 import com.chargehound.models.Response;
@@ -13,6 +15,8 @@ import java.util.Map;
 public class Disputes {
   private ApiRequestor client;
 
+  static final ChargehoundExceptionFactory ERROR_FACTORY = new ChargehoundExceptionFactory();
+
   // Creates a new disputes resource
   public Disputes(Chargehound chargehound) {
     this.client = new ApiRequestor(chargehound);
@@ -22,72 +26,66 @@ public class Disputes {
    * Retrieve a dispute
    * This endpoint will return a single dispute.
    */
-  public Dispute retrieve(String id) {
-    try {
-      HttpResponse response = this.client.request(
-        "GET",
-        "/disputes/" + id
-      );
+  public Dispute retrieve(String id) throws ChargehoundException {
+    HttpResponse response = this.client.request(
+      "GET",
+      "/disputes/" + id
+    );
 
+    try {
       Dispute dispute = response.parseAs(Dispute.class);
       dispute.response = response;
       return dispute;
     } catch (IOException e) {
-      // TODO: chargehound errors
-      System.out.println(e);
-      return null;
+      throw ERROR_FACTORY.genericChargehoundException(e);
     }
   }
 
   /**
    * Retrieve a dispute response
    */
-  public Response response (String id) {
-    try {
-      HttpResponse httpResponse = this.client.request(
-        "GET",
-        "/disputes/" + id + "/response"
-      );
+  public Response response (String id) throws ChargehoundException {
+    HttpResponse httpResponse = this.client.request(
+      "GET",
+      "/disputes/" + id + "/response"
+    );
 
+    try {
       Response disputeResponse = httpResponse.parseAs(Response.class);
       disputeResponse.response = httpResponse;
       return disputeResponse;
     } catch (IOException e) {
-      // TODO: chargehound errors
-      System.out.println(e);
-      return null;
+      throw ERROR_FACTORY.genericChargehoundException(e);
     }
   }
 
   /**
    * Retrieve a list of disputes
    */
-  public DisputesList list () {
+  public DisputesList list () throws ChargehoundException {
     return this.list(Collections.emptyMap());
   }
 
   /**
    * Retrieve a list of disputes
    */
-  public DisputesList list (Map<String, String> params) {
+  public DisputesList list (Map<String, String> params) throws ChargehoundException {
     if (params == null) {
       return this.list();
     }
 
-    try {
-      HttpResponse httpResponse = this.client.request(
-        "GET",
-        "/disputes",
-        params
-      );
+    HttpResponse httpResponse = this.client.request(
+      "GET",
+      "/disputes",
+      params
+    );
 
+    try {
       DisputesList disputesList = httpResponse.parseAs(DisputesList.class);
       disputesList.response = httpResponse;
       return disputesList;
     } catch (IOException e) {
-      // TODO: chargehound errors
-      System.out.println(e);
-      return null;
+      throw ERROR_FACTORY.genericChargehoundException(e);
     }
   }
 }

@@ -1,12 +1,15 @@
 package com.chargehound.net;
 
 import com.chargehound.Chargehound;
+import com.chargehound.errors.ChargehoundException;
+import com.chargehound.errors.ChargehoundExceptionFactory;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestFactory;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpResponse;
+import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.json.JsonFactory;
@@ -24,6 +27,7 @@ public class ApiRequestor {
   public static final String CHARGEHOUND_USERAGENT = "Chargehound/v1 JavaBindings/";
 
   static final JsonFactory JSON_FACTORY = new JacksonFactory();
+  static final ChargehoundExceptionFactory ERROR_FACTORY = new ChargehoundExceptionFactory();
 
   public ApiRequestor (Chargehound chargehound) {
     this.chargehound = chargehound;
@@ -43,7 +47,7 @@ public class ApiRequestor {
     return resultString.length() > 0 ? resultString.substring(0, resultString.length() - 1) : resultString;
   }
 
-  private GenericUrl getUrl (String path, Map<String, String> params) {
+  private GenericUrl getUrl (String path, Map<String, String> params) throws ChargehoundException {
     try {
       String query = this.getParamsString(params);
       if (query.length() > 0) {
@@ -51,12 +55,11 @@ public class ApiRequestor {
       }
       return new GenericUrl(this.chargehound.getApiBase() + path + query);
     } catch (UnsupportedEncodingException e) {
-      // TODO: throw error
-      return new GenericUrl(this.chargehound.getApiBase() + path);
+      throw ERROR_FACTORY.genericChargehoundException(e);
     }
   }
 
-  public HttpResponse request (String method, String path, Map<String, String> params, Map<String, String> data) throws IOException {
+  public HttpResponse request (String method, String path, Map<String, String> params, Map<String, String> data) throws ChargehoundException {
     HttpTransport transport = this.chargehound.getHttpTransport();
     String apiVersion = this.chargehound.getApiVersion();
     int connectTimeout = this.chargehound.getHttpConnectTimeout();
@@ -82,17 +85,24 @@ public class ApiRequestor {
         });
 
     GenericUrl url = this.getUrl(path, params);
-    HttpRequest request = requestFactory.buildGetRequest(url);
-    HttpResponse response = request.execute();
 
-    return response;
+    try {
+      HttpRequest request = requestFactory.buildGetRequest(url);
+      HttpResponse response = request.execute();
+
+      return response;
+    } catch (HttpResponseException error) {
+      throw ERROR_FACTORY.httpResponseException(error);
+    } catch (IOException error) {
+      throw ERROR_FACTORY.genericChargehoundException(error);
+    }
   }
 
-  public HttpResponse request (String method, String path) throws IOException {
+  public HttpResponse request (String method, String path) throws ChargehoundException {
     return this.request(method, path, Collections.emptyMap(), Collections.emptyMap());
   }
 
-  public HttpResponse request (String method, String path, Map<String, String> params) throws IOException {
+  public HttpResponse request (String method, String path, Map<String, String> params) throws ChargehoundException {
     return this.request(method, path, params, Collections.emptyMap());
   }
 }

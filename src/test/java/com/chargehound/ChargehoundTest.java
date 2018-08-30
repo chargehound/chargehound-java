@@ -1,5 +1,6 @@
 package com.chargehound;
 
+import com.chargehound.errors.ChargehoundException;
 import com.chargehound.models.Dispute;
 import com.chargehound.models.DisputesList;
 import com.chargehound.models.Response;
@@ -35,7 +36,7 @@ public class ChargehoundTest {
     assertEquals("http://test.test.com/v1", chargehound.getApiBase());
   }
 
-  @Test public void testDisputeRetrieve() throws IOException {
+  @Test public void testDisputeRetrieve() throws IOException, ChargehoundException {
     Chargehound chargehound = new Chargehound("test_123");
     chargehound.setApiProtocol("http://");
     chargehound.setApiHost("test.test.com");
@@ -69,7 +70,7 @@ public class ChargehoundTest {
     assertEquals(JSON_FACTORY.toString(testDispute), JSON_FACTORY.toString(result));
   }
 
-  @Test public void testDisputeResponse() throws IOException {
+  @Test public void testDisputeResponse() throws IOException, ChargehoundException {
     Chargehound chargehound = new Chargehound("test_123");
     chargehound.setApiProtocol("http://");
     chargehound.setApiHost("test.test.com");
@@ -103,7 +104,7 @@ public class ChargehoundTest {
     assertEquals(JSON_FACTORY.toString(testResponse), JSON_FACTORY.toString(result));
   }
 
-  @Test public void testDisputesList() throws IOException {
+  @Test public void testDisputesList() throws IOException, ChargehoundException {
     Chargehound chargehound = new Chargehound("test_123");
     chargehound.setApiProtocol("http://");
     chargehound.setApiHost("test.test.com");
