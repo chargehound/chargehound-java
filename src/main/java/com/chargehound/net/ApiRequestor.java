@@ -14,6 +14,7 @@ import com.google.api.client.json.JsonObjectParser;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Collections;
 import java.util.Map;
 
 public class ApiRequestor {
@@ -50,29 +51,48 @@ public class ApiRequestor {
       }
       return new GenericUrl(this.chargehound.getApiBase() + path + query);
     } catch (UnsupportedEncodingException e) {
+      // TODO: throw error
       return new GenericUrl(this.chargehound.getApiBase() + path);
     }
   }
 
   public HttpResponse request (String method, String path, Map<String, String> params, Map<String, String> data) throws IOException {
     HttpTransport transport = this.chargehound.getHttpTransport();
+    String apiVersion = this.chargehound.getApiVersion();
+    int connectTimeout = this.chargehound.getHttpConnectTimeout();
+    int readTimeout = this.chargehound.getHttpReadTimeout();
 
     HttpRequestFactory requestFactory =
         transport.createRequestFactory(new HttpRequestInitializer() {
             @Override
           public void initialize(HttpRequest request) {
+            request.setConnectTimeout(connectTimeout * 1000);
+            request.setReadTimeout(readTimeout * 1000);
+
             HttpHeaders headers = request.getHeaders();
             headers.setContentType("application/json");
             headers.setUserAgent(CHARGEHOUND_USERAGENT);
-            headers.set("chargehound-version", "TODO: get the version here");
+
+            if (apiVersion != null) {
+              headers.set("chargehound-version", apiVersion);
+            }
 
             request.setParser(new JsonObjectParser(JSON_FACTORY));
           }
         });
+
     GenericUrl url = this.getUrl(path, params);
     HttpRequest request = requestFactory.buildGetRequest(url);
     HttpResponse response = request.execute();
 
     return response;
+  }
+
+  public HttpResponse request (String method, String path) throws IOException {
+    return this.request(method, path, Collections.emptyMap(), Collections.emptyMap());
+  }
+
+  public HttpResponse request (String method, String path, Map<String, String> params) throws IOException {
+    return this.request(method, path, params, Collections.emptyMap());
   }
 }
