@@ -88,4 +88,42 @@ public class Disputes {
       throw ERROR_FACTORY.genericChargehoundException(e);
     }
   }
+
+  /**
+   * Accept a dispute if you do not want to submit a response
+   */
+  public Dispute accept (String id) throws ChargehoundException {
+    HttpResponse response = this.client.request(
+      "POST",
+      "/disputes/" + id + "/accept"
+    );
+
+    try {
+      Dispute dispute = response.parseAs(Dispute.class);
+      dispute.response = response;
+      return dispute;
+    } catch (IOException e) {
+      throw ERROR_FACTORY.genericChargehoundException(e);
+    }
+  }
+
+  /**
+   * Update the template and the fields on a dispute.
+   */
+  public Dispute update (String id, Dispute.UpdateParams update) {
+    HttpResponse response = this.client.request(
+      "PUT",
+      "/disputes/" + id,
+      null,
+      update
+    );
+
+    try {
+      Dispute dispute = response.parseAs(Dispute.class);
+      dispute.response = response;
+      return dispute;
+    } catch (IOException e) {
+      throw ERROR_FACTORY.genericChargehoundException(e);
+    }
+  }
 }

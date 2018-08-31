@@ -4,6 +4,7 @@ import com.chargehound.Chargehound;
 import com.chargehound.errors.ChargehoundException;
 import com.chargehound.errors.ChargehoundExceptionFactory;
 import com.google.api.client.http.GenericUrl;
+import com.google.api.client.http.HttpContent;
 import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestFactory;
@@ -11,6 +12,8 @@ import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.json.JsonHttpContent;
+import com.google.api.client.json.GenericJson;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.JsonObjectParser;
@@ -48,6 +51,9 @@ public class ApiRequestor {
   }
 
   private GenericUrl getUrl (String path, Map<String, String> params) throws ChargehoundException {
+    if (params == null) {
+      return this.getUrl(path);
+    }
     try {
       String query = this.getParamsString(params);
       if (query.length() > 0) {
@@ -59,7 +65,19 @@ public class ApiRequestor {
     }
   }
 
-  public HttpResponse request (String method, String path, Map<String, String> params, Map<String, String> data) throws ChargehoundException {
+  private GenericUrl getUrl (String path) throws ChargehoundException {
+    this.getUrl(path, Collections.emptyMap());
+  }
+
+  private HttpContent getContent (GenericJson data) {
+    if (data == null) {
+      return null;
+    }
+
+    return new JsonHttpContent(JSON_FACTORY, data);
+  }
+
+  public HttpResponse request (String method, String path, Map<String, String> params, GenericJson data) throws ChargehoundException {
     HttpTransport transport = this.chargehound.getHttpTransport();
     String apiVersion = this.chargehound.getApiVersion();
     int connectTimeout = this.chargehound.getHttpConnectTimeout();
@@ -85,9 +103,10 @@ public class ApiRequestor {
         });
 
     GenericUrl url = this.getUrl(path, params);
+    HttpContent content = this.getContent(data);
 
     try {
-      HttpRequest request = requestFactory.buildGetRequest(url);
+      HttpRequest request = requestFactory.buildRequest(method, url, content);
       HttpResponse response = request.execute();
 
       return response;
