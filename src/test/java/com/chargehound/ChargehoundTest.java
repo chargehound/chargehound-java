@@ -15,6 +15,7 @@ import com.google.api.client.testing.http.MockLowLevelHttpRequest;
 import com.google.api.client.testing.http.MockLowLevelHttpResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -175,6 +176,44 @@ public class ChargehoundTest {
     assertEquals(JSON_FACTORY.toString(testList), JSON_FACTORY.toString(result));
   }
 
+  // TODO: list params
+  @Test public void testDisputesListWithParams() throws IOException, ChargehoundException {
+    Chargehound chargehound = new Chargehound("test_123");
+    chargehound.setApiProtocol("http://");
+    chargehound.setApiHost("test.test.com");
+
+    DisputesList testList = new DisputesList();
+    Dispute testDispute = new Dispute();
+    testDispute.id = "dp_123";
+    testDispute.kind = "chargeback";
+    testList.data = new ArrayList();
+    testList.data.add(testDispute);
+
+    HttpTransport transport = new MockHttpTransport() {
+      @Override
+      public LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
+        assertEquals(method, "GET");
+        assertEquals(url, "http://test.test.com/v1/disputes");
+
+        return new MockLowLevelHttpRequest() {
+          @Override
+          public LowLevelHttpResponse execute() throws IOException {
+            MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();
+            result.setContentType(Json.MEDIA_TYPE);
+            result.setContent(JSON_FACTORY.toString(testList));
+            return result;
+          }
+        };
+      }
+    };
+
+    chargehound.setHttpTransport(transport);
+
+    DisputesList result = chargehound.Disputes.list();
+
+    assertEquals(JSON_FACTORY.toString(testList), JSON_FACTORY.toString(result));
+  }
+
   @Test public void testDisputeUpdate() throws IOException, ChargehoundException {
     Chargehound chargehound = new Chargehound("test_123");
     chargehound.setApiProtocol("http://");
@@ -185,8 +224,8 @@ public class ChargehoundTest {
     testDispute.kind = "chargeback";
 
     Dispute.UpdateParams disputeUpdate = new Dispute.UpdateParams();
-    testDispute.id = "dp_123";
-    testDispute.kind = "chargeback";
+    disputeUpdate.fields = new HashMap();
+    disputeUpdate.fields.put("key", "value");
 
     HttpTransport transport = new MockHttpTransport() {
       @Override
@@ -197,6 +236,8 @@ public class ChargehoundTest {
         return new MockLowLevelHttpRequest() {
           @Override
           public LowLevelHttpResponse execute() throws IOException {
+            assertEquals("{\"fields\":{\"key\":\"value\"}}", this.getContentAsString());
+
             MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();
             result.setContentType(Json.MEDIA_TYPE);
             result.setContent(JSON_FACTORY.toString(testDispute));
@@ -224,10 +265,9 @@ public class ChargehoundTest {
     testDispute.kind = "chargeback";
 
     Dispute.UpdateParams disputeUpdate = new Dispute.UpdateParams();
-    testDispute.id = "dp_123";
-    testDispute.kind = "chargeback";
+    disputeUpdate.template = "template";
 
-    HttpTransport transport = new MockHttpTransport() {
+    MockHttpTransport transport = new MockHttpTransport() {
       @Override
       public LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
         assertEquals(method, "PUT");
@@ -236,6 +276,9 @@ public class ChargehoundTest {
         return new MockLowLevelHttpRequest() {
           @Override
           public LowLevelHttpResponse execute() throws IOException {
+
+            assertEquals("{\"template\":\"template\"}", this.getContentAsString());
+
             MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();
             result.setContentType(Json.MEDIA_TYPE);
             result.setContent(JSON_FACTORY.toString(testDispute));
@@ -247,10 +290,11 @@ public class ChargehoundTest {
 
     chargehound.setHttpTransport(transport);
 
+    MockLowLevelHttpRequest request = transport.getLowLevelHttpRequest();
 
-    Dispute result = chargehound.Disputes.submit(testDispute.id, disputeUpdate);
+    Dispute disputeResult = chargehound.Disputes.submit(testDispute.id, disputeUpdate);
 
-    assertEquals(JSON_FACTORY.toString(testDispute), JSON_FACTORY.toString(result));
+    assertEquals(JSON_FACTORY.toString(testDispute), JSON_FACTORY.toString(disputeResult));
   }
 
   @Test public void testDisputeSubmitNoParams() throws IOException, ChargehoundException {
@@ -271,6 +315,9 @@ public class ChargehoundTest {
         return new MockLowLevelHttpRequest() {
           @Override
           public LowLevelHttpResponse execute() throws IOException {
+
+            assertEquals("", this.getContentAsString());
+
             MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();
             result.setContentType(Json.MEDIA_TYPE);
             result.setContent(JSON_FACTORY.toString(testDispute));
@@ -281,7 +328,6 @@ public class ChargehoundTest {
     };
 
     chargehound.setHttpTransport(transport);
-
 
     Dispute result = chargehound.Disputes.submit(testDispute.id);
 
@@ -298,8 +344,8 @@ public class ChargehoundTest {
     testDispute.kind = "chargeback";
 
     Dispute.CreateParams disputeCreate = new Dispute.CreateParams();
-    testDispute.id = "dp_123";
-    testDispute.kind = "chargeback";
+    disputeCreate.id = "dp_123";
+    disputeCreate.kind = "chargeback";
 
     HttpTransport transport = new MockHttpTransport() {
       @Override
@@ -310,6 +356,8 @@ public class ChargehoundTest {
         return new MockLowLevelHttpRequest() {
           @Override
           public LowLevelHttpResponse execute() throws IOException {
+            assertEquals("{\"id\":\"dp_123\",\"kind\":\"chargeback\"}", this.getContentAsString());
+
             MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();
             result.setContentType(Json.MEDIA_TYPE);
             result.setContent(JSON_FACTORY.toString(testDispute));
@@ -320,7 +368,6 @@ public class ChargehoundTest {
     };
 
     chargehound.setHttpTransport(transport);
-
 
     Dispute result = chargehound.Disputes.create(testDispute.id, disputeCreate);
 

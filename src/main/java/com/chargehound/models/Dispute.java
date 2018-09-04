@@ -36,7 +36,7 @@ public class Dispute extends GenericJson {
   public String closedAt;
   // Number of times the dispute evidence has been submitted.
   @Key("submitted_count")
-  public int submittedCount;
+  public Integer submittedCount;
   // Location of the generated evidence document.
   @Key("file_url")
   public String fileURL;
@@ -60,16 +60,16 @@ public class Dispute extends GenericJson {
   public Boolean isChargeRefundable;
   // Amount of the disputed charge. Amounts are in cents (or other minor currency unit.)
   @Key("amount")
-  public int amount;
+  public Integer amount;
   // Currency code of the disputed charge. e.g. 'USD'.
   @Key("currency")
   public String currency;
   // Dispute fee.
   @Key("fee")
-  public int fee;
+  public Integer fee;
   // The amount deducted due to the chargeback. Amounts are in cents (or other minor currency unit.)
   @Key("reversal_amount")
-  public int reversalAmount;
+  public Integer reversalAmount;
   // Currency code of the deduction amount. e.g. 'USD'.
   @Key("reversal_currency")
   public String reversalCurrency;
@@ -187,7 +187,7 @@ public class Dispute extends GenericJson {
     public String currency;
     // The amount of the disputed charge. Amounts are in cents (or other minor currency unit.)
     @Key("amount")
-    public int amount;
+    public Integer amount;
     // The payment processor for the charge. One of `braintree` or `stripe`. (optional)
     @Key("processor")
     public String processor;
@@ -199,19 +199,19 @@ public class Dispute extends GenericJson {
     public String reversalCurrency;
     // The amount of the dispute fee. Amounts are in cents (or other minor currency unit.) (optional)
     @Key("fee")
-    public int fee;
+    public Integer fee;
     // The amount of the dispute balance withdrawal (without fee). Amounts are in cents (or other minor currency unit.) (optional)
     @Key("reversal_amount")
-    public int reversalAmount;
+    public Integer reversalAmount;
     // The total amount of the dispute balance withdrawal (with fee). Amounts are in cents (or other minor currency unit.) (optional)
     @Key("reversal_total")
-    public int reversalTotal;
+    public Integer reversalTotal;
     // Is the disputed charge refundable. (optional)
     @Key("is_charge_refundable")
     public Boolean isChargeRefundable;
     // How many times has dispute evidence been submitted. (optional)
     @Key("submitted_count")
-    public int submittedCount;
+    public Integer submittedCount;
     // State of address check (if available). One of `pass`, `fail`, `unavailable`, `checked`. (optional)
     @Key("address_line1_check")
     public String addressLine1Check;

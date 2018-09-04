@@ -74,7 +74,6 @@ public class ApiRequestor {
       return null;
     }
 
-    // TODO: omit empty
     return new JsonHttpContent(JSON_FACTORY, data);
   }
 
