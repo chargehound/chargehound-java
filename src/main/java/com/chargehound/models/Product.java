@@ -18,10 +18,10 @@ public class Product extends GenericJson {
   String sku;
 
   @Key("quantity")
-  int quantity;
+  Integer quantity;
 
   @Key("amount")
-  int amount;
+  Integer amount;
 
   @Key("url")
   String url;

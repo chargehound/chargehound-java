@@ -176,7 +176,6 @@ public class ChargehoundTest {
     assertEquals(JSON_FACTORY.toString(testList), JSON_FACTORY.toString(result));
   }
 
-  // TODO: list params
   @Test public void testDisputesListWithParams() throws IOException, ChargehoundException {
     Chargehound chargehound = new Chargehound("test_123");
     chargehound.setApiProtocol("http://");
@@ -193,11 +192,12 @@ public class ChargehoundTest {
       @Override
       public LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
         assertEquals(method, "GET");
-        assertEquals(url, "http://test.test.com/v1/disputes");
+        assertEquals(url, "http://test.test.com/v1/disputes?limit=1&starting_after=dp_111");
 
         return new MockLowLevelHttpRequest() {
           @Override
           public LowLevelHttpResponse execute() throws IOException {
+
             MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();
             result.setContentType(Json.MEDIA_TYPE);
             result.setContent(JSON_FACTORY.toString(testList));
@@ -209,7 +209,11 @@ public class ChargehoundTest {
 
     chargehound.setHttpTransport(transport);
 
-    DisputesList result = chargehound.Disputes.list();
+    DisputesList.Params params = new DisputesList.Params();
+    params.startingAfter = "dp_111";
+    params.limit = 1;
+
+    DisputesList result = chargehound.Disputes.list(params);
 
     assertEquals(JSON_FACTORY.toString(testList), JSON_FACTORY.toString(result));
   }

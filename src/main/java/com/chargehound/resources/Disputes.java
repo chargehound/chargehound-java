@@ -63,13 +63,13 @@ public class Disputes {
    * Retrieve a list of disputes
    */
   public DisputesList list () throws ChargehoundException {
-    return this.list(Collections.emptyMap());
+    return this.list(new DisputesList.Params());
   }
 
   /**
    * Retrieve a list of disputes
    */
-  public DisputesList list (Map<String, String> params) throws ChargehoundException {
+  public DisputesList list (DisputesList.Params params) throws ChargehoundException {
     if (params == null) {
       return this.list();
     }
@@ -77,7 +77,7 @@ public class Disputes {
     HttpResponse httpResponse = this.client.request(
       "GET",
       "/disputes",
-      params
+      params.asStringMap()
     );
 
     try {
