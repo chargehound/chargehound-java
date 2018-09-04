@@ -110,12 +110,59 @@ public class Disputes {
   /**
    * Update the template and the fields on a dispute.
    */
-  public Dispute update (String id, Dispute.UpdateParams update) {
+  public Dispute update (String id, Dispute.UpdateParams update) throws ChargehoundException {
     HttpResponse response = this.client.request(
       "PUT",
       "/disputes/" + id,
       null,
       update
+    );
+
+    try {
+      Dispute dispute = response.parseAs(Dispute.class);
+      dispute.response = response;
+      return dispute;
+    } catch (IOException e) {
+      throw ERROR_FACTORY.genericChargehoundException(e);
+    }
+  }
+
+  /**
+   * Update and submit the dispute.
+   */
+  public Dispute submit (String id, Dispute.UpdateParams update) throws ChargehoundException {
+    HttpResponse response = this.client.request(
+      "PUT",
+      "/disputes/" + id + "/submit",
+      null,
+      update
+    );
+
+    try {
+      Dispute dispute = response.parseAs(Dispute.class);
+      dispute.response = response;
+      return dispute;
+    } catch (IOException e) {
+      throw ERROR_FACTORY.genericChargehoundException(e);
+    }
+  }
+
+  /**
+   * Submit the dispute.
+   */
+  public Dispute submit (String id) throws ChargehoundException {
+    return this.submit(id, null);
+  }
+
+  /**
+   * Create a dispute.
+   */
+  public Dispute create (String id, Dispute.CreateParams create) throws ChargehoundException {
+    HttpResponse response = this.client.request(
+      "POST",
+      "/disputes",
+      null,
+      create
     );
 
     try {

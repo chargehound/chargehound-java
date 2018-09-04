@@ -39,13 +39,18 @@ public class ChargehoundErrorsTest {
 
     chargehound.setHttpTransport(transport);
 
+    Boolean exceptionThrown = false;
+
     try {
       chargehound.Disputes.retrieve("dp_123");
     } catch (ChargehoundException exception) {
       // TODO: error description
       assertTrue(exception instanceof ChargehoundException.BadRequest);
       assertEquals("400", exception.getMessage());
+      exceptionThrown = true;
     }
+
+    assertTrue(exceptionThrown);
   }
 
   @Test public void testGenericError() throws IOException {
@@ -67,12 +72,17 @@ public class ChargehoundErrorsTest {
 
     chargehound.setHttpTransport(transport);
 
+    Boolean exceptionThrown = false;
+
     try {
       chargehound.Disputes.retrieve("dp_123");
     } catch (ChargehoundException exception) {
       // TODO: error description
       assertTrue(exception instanceof ChargehoundException);
       assertEquals("IOException", exception.getMessage());
+      exceptionThrown = true;
     }
+
+    assertTrue(exceptionThrown);
   }
 }

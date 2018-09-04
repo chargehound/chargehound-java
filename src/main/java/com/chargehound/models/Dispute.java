@@ -3,6 +3,7 @@ package com.chargehound.models;
 import com.chargehound.models.Product;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.json.GenericJson;
+// import com.google.api.client.util.JsonInclude;
 import com.google.api.client.util.Key;
 import java.util.List;
 import java.util.Map;
@@ -120,12 +121,15 @@ public class Dispute extends GenericJson {
   // Custom URL with dispute information.
   @Key("reference_url")
   public String referenceURL;
+  // Is this a livemode dispute.
   @Key("livemode")
   public Boolean livemode;
   // Data about the API response that created dispute.
   public HttpResponse response;
 
   // Params for updating or submitting a dispute. See https://www.chargehound.com/docs/api/index.html#updating-a-dispute.
+  // TODO: builder
+  // @JsonInclude(JsonInclude.Include.NON_NULL)
   public static class UpdateParams extends GenericJson {
     // Set the account id for Connected accounts that are charged directly through Stripe. (optional)
     @Key("user_id")
@@ -153,6 +157,9 @@ public class Dispute extends GenericJson {
     public String referenceUrl;
   }
 
+  // Params for creating a dispute. See https://www.chargehound.com/docs/api/2017-10-30/#creating-a-dispute.
+  // TODO: builder
+  // @JsonInclude(JsonInclude.Include.NON_NULL)
   public static class CreateParams extends GenericJson {
     // The id of the dispute in your payment processor. For Stripe looks like `dp_XXX`.
     @Key("id")

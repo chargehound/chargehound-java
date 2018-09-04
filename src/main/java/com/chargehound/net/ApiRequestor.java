@@ -66,7 +66,7 @@ public class ApiRequestor {
   }
 
   private GenericUrl getUrl (String path) throws ChargehoundException {
-    this.getUrl(path, Collections.emptyMap());
+    return this.getUrl(path, Collections.emptyMap());
   }
 
   private HttpContent getContent (GenericJson data) {
@@ -74,6 +74,7 @@ public class ApiRequestor {
       return null;
     }
 
+    // TODO: omit empty
     return new JsonHttpContent(JSON_FACTORY, data);
   }
 
@@ -118,10 +119,10 @@ public class ApiRequestor {
   }
 
   public HttpResponse request (String method, String path) throws ChargehoundException {
-    return this.request(method, path, Collections.emptyMap(), Collections.emptyMap());
+    return this.request(method, path, Collections.emptyMap(), null);
   }
 
   public HttpResponse request (String method, String path, Map<String, String> params) throws ChargehoundException {
-    return this.request(method, path, params, Collections.emptyMap());
+    return this.request(method, path, params, null);
   }
 }
