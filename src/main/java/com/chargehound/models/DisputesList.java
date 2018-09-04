@@ -27,8 +27,7 @@ public class DisputesList extends GenericJson {
 
   public HttpResponse response;
 
-
-  // TODO: builder
+  // Params for a list disputes request. See https://www.chargehound.com/docs/api/index.html#retrieving-a-list-of-disputes.
   public static class Params extends GenericJson {
     @Key("limit")
     public Integer limit;
@@ -50,6 +49,55 @@ public class DisputesList extends GenericJson {
       }
 
       return paramsMap;
+    }
+
+    public Params () {}
+
+    private Params (
+      final Integer limit,
+      final String startingAfter,
+      final String endingBefore,
+      final String state) {
+      this.limit = limit;
+      this.startingAfter = startingAfter;
+      this.endingBefore = endingBefore;
+      this.state = state;
+    }
+
+    public static class Builder {
+      private Integer limit;
+      private String startingAfter;
+      private String endingBefore;
+      private String state;
+
+      public Builder limit (final Integer limit) {
+        this.limit = limit;
+        return this;
+      }
+
+      public Builder startingAfter (final String startingAfter) {
+        this.startingAfter = startingAfter;
+        return this;
+      }
+
+      public Builder endingBefore (final String endingBefore) {
+        this.endingBefore = endingBefore;
+        return this;
+      }
+
+      public Builder state (final String state) {
+        this.state = state;
+        return this;
+      }
+
+      public Params finish () {
+        return new Params(
+          this.limit,
+          this.startingAfter,
+          this.endingBefore,
+          this.state
+        );
+      }
     }
   }
 }

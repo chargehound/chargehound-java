@@ -209,9 +209,10 @@ public class ChargehoundTest {
 
     chargehound.setHttpTransport(transport);
 
-    DisputesList.Params params = new DisputesList.Params();
-    params.startingAfter = "dp_111";
-    params.limit = 1;
+    DisputesList.Params params = new DisputesList.Params.Builder()
+      .startingAfter("dp_111")
+      .limit(1)
+      .finish();
 
     DisputesList result = chargehound.Disputes.list(params);
 
@@ -268,8 +269,9 @@ public class ChargehoundTest {
     testDispute.id = "dp_123";
     testDispute.kind = "chargeback";
 
-    Dispute.UpdateParams disputeUpdate = new Dispute.UpdateParams();
-    disputeUpdate.template = "template";
+    Dispute.UpdateParams disputeUpdate = new Dispute.UpdateParams.Builder()
+      .template("template")
+      .finish();
 
     MockHttpTransport transport = new MockHttpTransport() {
       @Override
@@ -347,9 +349,10 @@ public class ChargehoundTest {
     testDispute.id = "dp_123";
     testDispute.kind = "chargeback";
 
-    Dispute.CreateParams disputeCreate = new Dispute.CreateParams();
-    disputeCreate.id = "dp_123";
-    disputeCreate.kind = "chargeback";
+    Dispute.CreateParams disputeCreate = new Dispute.CreateParams.Builder()
+      .id("dp_123")
+      .kind("chargeback")
+      .finish();
 
     HttpTransport transport = new MockHttpTransport() {
       @Override
