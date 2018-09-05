@@ -29,7 +29,16 @@ public class ChargehoundErrorsTest {
           public LowLevelHttpResponse execute() throws IOException {
             MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();
             result.setContentType(Json.MEDIA_TYPE);
-            // TODO: error content
+
+            String json = javax.json.Json.createObjectBuilder()
+              .add("url", "/v1/disputes/puppy/submit")
+              .add("livemode", false)
+              .add("error", javax.json.Json.createObjectBuilder()
+                .add("status", 404)
+                .add("message", "A dispute with id 'puppy' was not found"))
+              .build().toString();
+
+            result.setContent(json);
             result.setStatusCode(400);
             return result;
           }
@@ -44,9 +53,9 @@ public class ChargehoundErrorsTest {
     try {
       chargehound.Disputes.retrieve("dp_123");
     } catch (ChargehoundException exception) {
-      // TODO: error description
       assertTrue(exception instanceof ChargehoundException.BadRequest);
-      assertEquals("400", exception.getMessage());
+      assertEquals((Integer) 400, exception.getStatusCode());
+      assertEquals("A dispute with id 'puppy' was not found", exception.getReason());
       exceptionThrown = true;
     }
 
@@ -77,7 +86,6 @@ public class ChargehoundErrorsTest {
     try {
       chargehound.Disputes.retrieve("dp_123");
     } catch (ChargehoundException exception) {
-      // TODO: error description
       assertTrue(exception instanceof ChargehoundException);
       assertEquals("IOException", exception.getMessage());
       exceptionThrown = true;
