@@ -14,6 +14,8 @@ import com.google.api.client.testing.http.MockHttpTransport;
 import com.google.api.client.testing.http.MockLowLevelHttpRequest;
 import com.google.api.client.testing.http.MockLowLevelHttpResponse;
 import java.io.IOException;
+import java.io.FileInputStream;
+import java.util.Properties;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.junit.Test;
@@ -274,6 +276,11 @@ public class ChargehoundTest {
     disputeUpdate.fields = new HashMap();
     disputeUpdate.fields.put("key", "value");
 
+    Properties prop = new Properties();
+    FileInputStream input = new FileInputStream("gradle.properties");
+    prop.load(input);
+    String chargehoundUserAgent = "Chargehound/v1 JavaBindings/" + prop.getProperty("version");
+
     HttpTransport transport = new MockHttpTransport() {
       @Override
       public LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
@@ -283,7 +290,7 @@ public class ChargehoundTest {
         return new MockLowLevelHttpRequest() {
           @Override
           public LowLevelHttpResponse execute() throws IOException {
-            assertEquals("Chargehound/v1 JavaBindings/1.0.0 Google-HTTP-Java-Client/1.23.0 (gzip)", this.getHeaders().get("user-agent").get(0));
+            assertEquals(chargehoundUserAgent, this.getHeaders().get("user-agent").get(0));
             assertEquals("OverrideVersion", this.getHeaders().get("chargehound-version").get(0));
 
             MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();
@@ -297,6 +304,45 @@ public class ChargehoundTest {
 
     chargehound.setHttpTransport(transport);
 
+    Dispute result = chargehound.Disputes.update(testDispute.id, disputeUpdate);
+
+    assertEquals(JSON_FACTORY.toString(testDispute), JSON_FACTORY.toString(result));
+  }
+
+  @Test public void testChargehoundHeadersNoVersion() throws IOException, ChargehoundException {
+    Chargehound chargehound = new Chargehound("test_123");
+    chargehound.setApiProtocol("http://");
+    chargehound.setApiHost("test.test.com");
+
+    Dispute testDispute = new Dispute();
+    testDispute.id = "dp_123";
+    testDispute.kind = "chargeback";
+
+    Dispute.UpdateParams disputeUpdate = new Dispute.UpdateParams();
+    disputeUpdate.fields = new HashMap();
+    disputeUpdate.fields.put("key", "value");
+
+    HttpTransport transport = new MockHttpTransport() {
+      @Override
+      public LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
+        assertEquals(method, "PUT");
+        assertEquals(url, "http://test.test.com/v1/disputes/dp_123");
+
+        return new MockLowLevelHttpRequest() {
+          @Override
+          public LowLevelHttpResponse execute() throws IOException {
+            assertEquals(null, this.getHeaders().get("chargehound-version"));
+
+            MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();
+            result.setContentType(Json.MEDIA_TYPE);
+            result.setContent(JSON_FACTORY.toString(testDispute));
+            return result;
+          }
+        };
+      }
+    };
+
+    chargehound.setHttpTransport(transport);
 
     Dispute result = chargehound.Disputes.update(testDispute.id, disputeUpdate);
 

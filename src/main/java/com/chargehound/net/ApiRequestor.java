@@ -30,10 +30,9 @@ import java.util.Properties;
 public class ApiRequestor {
   private Properties prop = new Properties();
   private InputStream input = null;
+  private static String chargehoundUserAgent;
 
   private Chargehound chargehound;
-
-  static String chargeHoundUserAgent;
 
   static final JsonFactory JSON_FACTORY = new JacksonFactory();
   static final ChargehoundExceptionFactory ERROR_FACTORY = new ChargehoundExceptionFactory();
@@ -42,7 +41,7 @@ public class ApiRequestor {
     try {
       input = new FileInputStream("gradle.properties");
       prop.load(input);
-      chargeHoundUserAgent = "Chargehound/v1 JavaBindings/" + prop.getProperty("version");
+      chargehoundUserAgent = "Chargehound/v1 JavaBindings/" + prop.getProperty("version");
     } catch (IOException ex) {
       ex.printStackTrace();
     }
@@ -103,10 +102,11 @@ public class ApiRequestor {
           public void initialize(HttpRequest request) {
             request.setConnectTimeout(connectTimeout * 1000);
             request.setReadTimeout(readTimeout * 1000);
+            request.setSuppressUserAgentSuffix(true);
 
             HttpHeaders headers = request.getHeaders();
             headers.setContentType("application/json");
-            headers.setUserAgent(chargeHoundUserAgent);
+            headers.setUserAgent(chargehoundUserAgent);
 
             if (apiVersion != null) {
               headers.set("chargehound-version", apiVersion);
