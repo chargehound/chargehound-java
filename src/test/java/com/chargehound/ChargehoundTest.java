@@ -3,7 +3,6 @@ package com.chargehound;
 import com.chargehound.errors.ChargehoundException;
 import com.chargehound.models.Dispute;
 import com.chargehound.models.DisputesList;
-import com.chargehound.models.Response;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.LowLevelHttpRequest;
@@ -77,7 +76,7 @@ public class ChargehoundTest {
     chargehound.setApiProtocol("http://");
     chargehound.setApiHost("test.test.com");
 
-    Response testResponse = new Response();
+    Dispute.Response testResponse = new Dispute.Response();
     testResponse.disputeId = "dp_123";
     testResponse.responseUrl = "http://test.test.com/the/response";
 
@@ -101,7 +100,7 @@ public class ChargehoundTest {
 
     chargehound.setHttpTransport(transport);
 
-    Response result = chargehound.Disputes.response(testResponse.disputeId);
+    Dispute.Response result = chargehound.Disputes.response(testResponse.disputeId);
 
     assertEquals(JSON_FACTORY.toString(testResponse), JSON_FACTORY.toString(result));
   }

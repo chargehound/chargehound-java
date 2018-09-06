@@ -126,6 +126,29 @@ public class Dispute extends GenericJson {
   // Data about the API response that created dispute.
   public HttpResponse response;
 
+  // The type returned by a dispute response request.
+  public static class Response extends GenericJson {
+    @Key("livemode")
+    public Boolean livemode;
+
+    @Key("dispute_id")
+    public String disputeId;
+
+    @Key("external_charge")
+    public String externalCharge;
+
+    @Key("account_id")
+    public String accountId;
+
+    @Key("evidence")
+    public Map<String, String> evidence;
+
+    @Key("response_url")
+    public String responseUrl;
+
+    public HttpResponse response;
+  }
+
   // Params for updating or submitting a dispute. See https://www.chargehound.com/docs/api/index.html#updating-a-dispute.
   public static class UpdateParams extends GenericJson {
     // Set the account id for Connected accounts that are charged directly through Stripe. (optional)

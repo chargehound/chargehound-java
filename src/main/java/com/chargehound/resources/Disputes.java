@@ -5,7 +5,6 @@ import com.chargehound.errors.ChargehoundException;
 import com.chargehound.errors.ChargehoundExceptionFactory;
 import com.chargehound.models.Dispute;
 import com.chargehound.models.DisputesList;
-import com.chargehound.models.Response;
 import com.chargehound.net.ApiRequestor;
 import com.google.api.client.http.HttpResponse;
 import java.io.IOException;
@@ -44,14 +43,14 @@ public class Disputes {
   /**
    * Retrieve a dispute response
    */
-  public Response response (String id) throws ChargehoundException {
+  public Dispute.Response response (String id) throws ChargehoundException {
     HttpResponse httpResponse = this.client.request(
       "GET",
       "/disputes/" + id + "/response"
     );
 
     try {
-      Response disputeResponse = httpResponse.parseAs(Response.class);
+      Dispute.Response disputeResponse = httpResponse.parseAs(Dispute.Response.class);
       disputeResponse.response = httpResponse;
       return disputeResponse;
     } catch (IOException e) {
