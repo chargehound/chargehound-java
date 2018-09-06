@@ -365,7 +365,7 @@ public class ChargehoundTest {
     MockHttpTransport transport = new MockHttpTransport() {
       @Override
       public LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
-        assertEquals(method, "PUT");
+        assertEquals(method, "POST");
         assertEquals(url, "http://test.test.com/v1/disputes/dp_123/submit");
 
         return new MockLowLevelHttpRequest() {
@@ -404,7 +404,7 @@ public class ChargehoundTest {
     HttpTransport transport = new MockHttpTransport() {
       @Override
       public LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
-        assertEquals(method, "PUT");
+        assertEquals(method, "POST");
         assertEquals(url, "http://test.test.com/v1/disputes/dp_123/submit");
 
         return new MockLowLevelHttpRequest() {

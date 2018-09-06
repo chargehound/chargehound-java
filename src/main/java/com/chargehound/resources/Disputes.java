@@ -131,7 +131,7 @@ public class Disputes {
    */
   public Dispute submit (String id, Dispute.UpdateParams update) throws ChargehoundException {
     HttpResponse response = this.client.request(
-      "PUT",
+      "POST",
       "/disputes/" + id + "/submit",
       null,
       update

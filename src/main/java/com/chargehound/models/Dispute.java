@@ -44,10 +44,10 @@ public class Dispute extends GenericJson {
   public String template;
   // Evidence fields attached to the dispute.
   @Key("fields")
-  public Map<String, String> fields;
+  public Map<String, Object> fields;
   // Any fields required by the template that have not yet been provided.
   @Key("missing_fields")
-  public Map<String, String> missingFields;
+  public Map<String, Object> missingFields;
   // (Optional) A list of products in the disputed order. (See [Product data](#product-data) for details.)
   @Key("products")
   public List<Product> products;
@@ -141,7 +141,7 @@ public class Dispute extends GenericJson {
     public String accountId;
 
     @Key("evidence")
-    public Map<String, String> evidence;
+    public Map<String, Object> evidence;
 
     @Key("response_url")
     public String responseUrl;
@@ -168,7 +168,7 @@ public class Dispute extends GenericJson {
     public String template;
     // Evidence fields attached to the dispute.
     @Key("fields")
-    public Map<String, String> fields;
+    public Map<String, Object> fields;
     // A list of products in the disputed order. (See [Product data](#product-data) for details.) (Optional)
     @Key("products")
     public List<Product> products;
@@ -184,7 +184,7 @@ public class Dispute extends GenericJson {
       final Boolean force,
       final Boolean queue,
       final String template,
-      final Map<String, String> fields,
+      final Map<String, Object> fields,
       final List<Product> products,
       final String referenceUrl
       ) {
@@ -204,7 +204,7 @@ public class Dispute extends GenericJson {
       private Boolean force;
       private Boolean queue;
       private String template;
-      private Map<String, String> fields;
+      private Map<String, Object> fields;
       private List<Product> products;
       private String referenceUrl;
 
@@ -233,7 +233,7 @@ public class Dispute extends GenericJson {
          return this;
       }
 
-      public Builder fields (final Map<String, String> fields) {
+      public Builder fields (final Map<String, Object> fields) {
          this.fields = fields;
          return this;
       }
@@ -330,7 +330,7 @@ public class Dispute extends GenericJson {
     public String template;
     // Key value pairs to hydrate the template's evidence fields. (optional)
     @Key("fields")
-    public Map<String, String> fields;
+    public Map<String, Object> fields;
     // List of products the customer purchased. (optional)
     @Key("products")
     public List<Product> products;
@@ -374,7 +374,7 @@ public class Dispute extends GenericJson {
       final String addressZipCheck,
       final String cvcCheck,
       final String template,
-      final Map<String, String> fields,
+      final Map<String, Object> fields,
       final List<Product> products,
       final String userId,
       final String kind,
@@ -434,7 +434,7 @@ public class Dispute extends GenericJson {
       private String addressZipCheck;
       private String cvcCheck;
       private String template;
-      private Map<String, String> fields;
+      private Map<String, Object> fields;
       private List<Product> products;
       private String userId;
       private String kind;
@@ -567,7 +567,7 @@ public class Dispute extends GenericJson {
         return this;
       }
 
-      public Builder fields (final Map<String, String> fields) {
+      public Builder fields (final Map<String, Object> fields) {
         this.fields = fields;
         return this;
       }

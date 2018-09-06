@@ -93,6 +93,7 @@ public class ApiRequestor {
   public HttpResponse request (String method, String path, Map<String, String> params, GenericJson data) throws ChargehoundException {
     HttpTransport transport = this.chargehound.getHttpTransport();
     String apiVersion = this.chargehound.getApiVersion();
+    String apiKey = this.chargehound.getApiKey();
     int connectTimeout = this.chargehound.getHttpConnectTimeout();
     int readTimeout = this.chargehound.getHttpReadTimeout();
 
@@ -107,6 +108,7 @@ public class ApiRequestor {
             HttpHeaders headers = request.getHeaders();
             headers.setContentType("application/json");
             headers.setUserAgent(chargehoundUserAgent);
+            headers.setBasicAuthentication(apiKey, "");
 
             if (apiVersion != null) {
               headers.set("chargehound-version", apiVersion);

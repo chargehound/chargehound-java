@@ -9,6 +9,7 @@ import java.lang.Exception;
 public class ChargehoundExceptionFactory {
   public ChargehoundException httpResponseException(HttpResponseException error) {
     String jsonContent = error.getContent();
+
     javax.json.JsonReader jsonReader = javax.json.Json.createReader(
       new StringReader(jsonContent)
     );
