@@ -36,9 +36,6 @@ public class Dispute extends GenericJson {
   // Number of times the dispute evidence has been submitted.
   @Key("submitted_count")
   public Integer submittedCount;
-  // Location of the generated evidence document.
-  @Key("file_url")
-  public String fileURL;
   // Id of the template attached to the dispute.
   @Key("template")
   public String template;
