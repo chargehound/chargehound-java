@@ -5,6 +5,7 @@ import com.chargehound.models.Dispute;
 import com.chargehound.models.DisputesList;
 import com.chargehound.models.Response;
 import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.LowLevelHttpRequest;
 import com.google.api.client.http.LowLevelHttpResponse;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -381,5 +382,44 @@ public class ChargehoundTest {
     assertEquals(JSON_FACTORY.toString(testDispute), JSON_FACTORY.toString(result));
   }
 
-  // TODO: test response
+  @Test public void testResponseObject() throws IOException, ChargehoundException {
+    Chargehound chargehound = new Chargehound("test_123");
+    chargehound.setApiProtocol("http://");
+    chargehound.setApiHost("test.test.com");
+
+    Dispute testDispute = new Dispute();
+    testDispute.id = "dp_123";
+    testDispute.kind = "chargeback";
+
+    Dispute.UpdateParams disputeUpdate = new Dispute.UpdateParams();
+    disputeUpdate.fields = new HashMap();
+    disputeUpdate.fields.put("key", "value");
+
+    HttpTransport transport = new MockHttpTransport() {
+      @Override
+      public LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
+        assertEquals(method, "PUT");
+        assertEquals(url, "http://test.test.com/v1/disputes/dp_123");
+
+        return new MockLowLevelHttpRequest() {
+          @Override
+          public LowLevelHttpResponse execute() throws IOException {
+            assertEquals("{\"fields\":{\"key\":\"value\"}}", this.getContentAsString());
+
+            MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();
+            result.setContentType(Json.MEDIA_TYPE);
+            result.setContent(JSON_FACTORY.toString(testDispute));
+            return result;
+          }
+        };
+      }
+    };
+
+    chargehound.setHttpTransport(transport);
+
+    Dispute result = chargehound.Disputes.update(testDispute.id, disputeUpdate);
+
+    assertTrue(result.response instanceof HttpResponse);
+    assertEquals((Integer) 200, (Integer) result.response.getStatusCode());
+  }
 }

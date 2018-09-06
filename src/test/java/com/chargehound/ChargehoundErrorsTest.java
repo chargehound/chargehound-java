@@ -16,7 +16,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class ChargehoundErrorsTest {
-  @Test public void testBadRequest() throws IOException {
+  @Test public void testBadRequest() throws IOException, ChargehoundException {
     Chargehound chargehound = new Chargehound("test_123");
     chargehound.setApiProtocol("http://");
     chargehound.setApiHost("test.test.com");
@@ -52,10 +52,56 @@ public class ChargehoundErrorsTest {
 
     try {
       chargehound.Disputes.retrieve("dp_123");
-    } catch (ChargehoundException exception) {
-      assertTrue(exception instanceof ChargehoundException.BadRequest);
+    } catch (ChargehoundException.HttpException exception) {
+      assertTrue(exception instanceof ChargehoundException.HttpException.BadRequest);
       assertEquals((Integer) 400, exception.getStatusCode());
       assertEquals("A dispute with id 'puppy' was not found", exception.getReason());
+      exceptionThrown = true;
+    }
+
+    assertTrue(exceptionThrown);
+  }
+
+  @Test public void testUnexpectedErrorJson() throws IOException, ChargehoundException {
+    Chargehound chargehound = new Chargehound("test_123");
+    chargehound.setApiProtocol("http://");
+    chargehound.setApiHost("test.test.com");
+
+     String json = javax.json.Json.createObjectBuilder()
+        .add("url", "/v1/disputes/puppy/submit")
+        .add("livemode", false)
+        .add("unexpectedkey", javax.json.Json.createObjectBuilder()
+          .add("status", 404)
+          .add("message", "A dispute with id 'puppy' was not found"))
+        .build().toString();
+
+    HttpTransport transport = new MockHttpTransport() {
+      @Override
+      public LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
+        return new MockLowLevelHttpRequest() {
+          @Override
+          public LowLevelHttpResponse execute() throws IOException {
+            MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();
+            result.setContentType(Json.MEDIA_TYPE);
+
+            result.setContent(json);
+            result.setStatusCode(400);
+            return result;
+          }
+        };
+      }
+    };
+
+    chargehound.setHttpTransport(transport);
+
+    Boolean exceptionThrown = false;
+
+    try {
+      chargehound.Disputes.retrieve("dp_123");
+    } catch (ChargehoundException.HttpException exception) {
+      assertTrue(exception instanceof ChargehoundException.HttpException);
+      assertEquals((Integer) 400, exception.getStatusCode());
+      assertEquals("400\n" + json, exception.getReason());
       exceptionThrown = true;
     }
 
