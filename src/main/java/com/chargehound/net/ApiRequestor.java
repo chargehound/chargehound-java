@@ -17,22 +17,36 @@ import com.google.api.client.json.GenericJson;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.JsonObjectParser;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Properties;
+
 
 public class ApiRequestor {
+  private Properties prop = new Properties();
+  private InputStream input = null;
+
   private Chargehound chargehound;
 
-  // TODO: get configured version
-  public static final String CHARGEHOUND_USERAGENT = "Chargehound/v1 JavaBindings/";
+  static String chargeHoundUserAgent;
 
   static final JsonFactory JSON_FACTORY = new JacksonFactory();
   static final ChargehoundExceptionFactory ERROR_FACTORY = new ChargehoundExceptionFactory();
 
   public ApiRequestor (Chargehound chargehound) {
+    try {
+      input = new FileInputStream("gradle.properties");
+      prop.load(input);
+      chargeHoundUserAgent = "Chargehound/v1 JavaBindings/" + prop.getProperty("version");
+    } catch (IOException ex) {
+      ex.printStackTrace();
+    }
+
     this.chargehound = chargehound;
   }
 
@@ -92,7 +106,7 @@ public class ApiRequestor {
 
             HttpHeaders headers = request.getHeaders();
             headers.setContentType("application/json");
-            headers.setUserAgent(CHARGEHOUND_USERAGENT);
+            headers.setUserAgent(chargeHoundUserAgent);
 
             if (apiVersion != null) {
               headers.set("chargehound-version", apiVersion);

@@ -3,6 +3,8 @@ plugins {
   id 'java-library'
 }
 
+version = version
+
 dependencies {
   // Google HTTP library
   compile 'com.google.http-client:google-http-client:1.23.0'
