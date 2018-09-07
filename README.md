@@ -17,7 +17,7 @@ import com.chargehound.models.Dispute;
 
 Chargehound chargehound = new Chargehound("test_123");
 
-HashMap<String, Object> fields = new HashMap<String, Object>() {{
+Map<String, Object> fields = new HashMap<String, Object>() {{
   put("customer_name", "Susie Chargeback");
 }};
 
@@ -57,7 +57,7 @@ The Java library returns adapted objects rather than JSON from API calls.
 
 ## Google AppEngine
 
-If you're using the library in a Google App Engine environment, you can set the Chargehound client to use the [supported HTTP transport] (https://developers.google.com/api-client-library/java/google-http-java-client/app-engine#http_transport).
+If you're using the library in a Google App Engine environment, you can set the Chargehound client to use the [supported HTTP transport](https://developers.google.com/api-client-library/java/google-http-java-client/app-engine#http_transport).
 
 ```java
 import com.chargehound.Chargehound;
