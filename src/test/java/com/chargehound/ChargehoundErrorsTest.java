@@ -52,7 +52,7 @@ public class ChargehoundErrorsTest {
 
     chargehound.setHttpTransport(transport);
 
-    Boolean exceptionThrown = false;
+    boolean exceptionThrown = false;
 
     try {
       chargehound.disputes.retrieve("dp_123");
@@ -98,7 +98,7 @@ public class ChargehoundErrorsTest {
 
     chargehound.setHttpTransport(transport);
 
-    Boolean exceptionThrown = false;
+    boolean exceptionThrown = false;
 
     try {
       chargehound.disputes.retrieve("dp_123");
@@ -131,7 +131,7 @@ public class ChargehoundErrorsTest {
 
     chargehound.setHttpTransport(transport);
 
-    Boolean exceptionThrown = false;
+    boolean exceptionThrown = false;
 
     try {
       chargehound.disputes.retrieve("dp_123");

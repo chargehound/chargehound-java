@@ -39,7 +39,9 @@ public class ApiRequestor {
     this.chargehound = chargehound;
   }
 
-  private static String getParamsString(Map<String, String> params) throws UnsupportedEncodingException {
+  private static String getParamsString(
+      Map<String, String> params
+  ) throws UnsupportedEncodingException {
     StringBuilder result = new StringBuilder();
 
     for (Map.Entry<String, String> entry : params.entrySet()) {
@@ -50,7 +52,11 @@ public class ApiRequestor {
     }
 
     String resultString = result.toString();
-    return resultString.length() > 0 ? resultString.substring(0, resultString.length() - 1) : resultString;
+    if (resultString.length() > 0) {
+      return resultString.substring(0, resultString.length() - 1);
+    } else {
+      return resultString;
+    }
   }
 
   private GenericUrl getUrl(String path, Map<String, String> params) throws ChargehoundException {
@@ -83,7 +89,12 @@ public class ApiRequestor {
   /**
    * Make an Http request.
    */
-  public HttpResponse request(String method, String path, Map<String, String> params, GenericJson data) throws ChargehoundException {
+  public HttpResponse request(
+      String method,
+      String path,
+      Map<String, String> params,
+      GenericJson data
+  ) throws ChargehoundException {
     HttpTransport transport = this.chargehound.getHttpTransport();
     String apiVersion = this.chargehound.getApiVersion();
     String apiKey = this.chargehound.getApiKey();
@@ -130,7 +141,11 @@ public class ApiRequestor {
     return this.request(method, path, Collections.emptyMap(), null);
   }
 
-  public HttpResponse request(String method, String path, Map<String, String> params) throws ChargehoundException {
+  public HttpResponse request(
+      String method,
+      String path,
+      Map<String, String> params
+  ) throws ChargehoundException {
     return this.request(method, path, params, null);
   }
 }
