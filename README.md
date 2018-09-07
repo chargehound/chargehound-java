@@ -5,7 +5,29 @@ Chargehound bindings for Java
 
 ## Installation
 
-TODO: the different methods
+### Maven users
+
+Add this dependency to your project's POM:
+
+```xml
+<dependency>
+  <groupId>com.chargehound</groupId>
+  <artifactId>chargehound-java</artifactId>
+  <version>1.0.0</version>
+</dependency>
+```
+
+### Gradle users
+
+Add this dependency to your project's build file:
+
+```groovy
+compile "com.chargehound:chargehound-java:1.0.0"
+```
+
+### Others
+
+You'll need to manually install the JAR from https://github.com/chargehound/chargehound-java/releases/latest:
 
 ### Requests
 
@@ -17,9 +39,8 @@ import com.chargehound.models.Dispute;
 
 Chargehound chargehound = new Chargehound("test_123");
 
-Map<String, Object> fields = new HashMap<String, Object>() {{
-  put("customer_name", "Susie Chargeback");
-}};
+Map<String, Object> fields = new HashMap<String, Object>();
+fields.put("customer_name", "Susie Chargeback");
 
 Dispute result = chargehound.disputes.submit("dp_123",
   new Dispute.UpdateParams.Builder()
@@ -84,5 +105,6 @@ To deploy a new version of the SDK, perform the following steps:
  1. Update the CHANGELOG to describe what features have been added.
  2. Bump the version number in `gradle.properties`.
  3. Bump the version number in the `Chargehound` class in `Chargehound.java`.
+ 4. Bump the version number in this README.
 
  // TODO: the rest of the steps
