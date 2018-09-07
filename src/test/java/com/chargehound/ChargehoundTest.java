@@ -84,7 +84,7 @@ public class ChargehoundTest {
     chargehound.setApiProtocol("http://");
     chargehound.setApiHost("test.test.com");
 
-    Dispute.Response testResponse = new Dispute.Response();
+    final Dispute.Response testResponse = new Dispute.Response();
     testResponse.disputeId = "dp_123";
     testResponse.responseUrl = "http://test.test.com/the/response";
 
@@ -330,7 +330,7 @@ public class ChargehoundTest {
     disputeUpdate.fields = new HashMap();
     disputeUpdate.fields.put("key", "value");
 
-    String chargehoundUserAgent = "Chargehound/v1 JavaBindings/" + chargehound.version;
+    final String chargehoundUserAgent = "Chargehound/v1 JavaBindings/" + chargehound.version;
 
     HttpTransport transport = new MockHttpTransport() {
       @Override
