@@ -1,19 +1,23 @@
 package com.chargehound;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import com.chargehound.errors.ChargehoundException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.LowLevelHttpRequest;
 import com.google.api.client.http.LowLevelHttpResponse;
-import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.json.Json;
 import com.google.api.client.json.JsonFactory;
+
+import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.testing.http.MockHttpTransport;
 import com.google.api.client.testing.http.MockLowLevelHttpRequest;
 import com.google.api.client.testing.http.MockLowLevelHttpResponse;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 public class ChargehoundErrorsTest {
   @Test public void testBadRequest() throws IOException, ChargehoundException {
@@ -31,12 +35,12 @@ public class ChargehoundErrorsTest {
             result.setContentType(Json.MEDIA_TYPE);
 
             String json = javax.json.Json.createObjectBuilder()
-              .add("url", "/v1/disputes/puppy/submit")
-              .add("livemode", false)
-              .add("error", javax.json.Json.createObjectBuilder()
-                .add("status", 404)
-                .add("message", "A dispute with id 'puppy' was not found"))
-              .build().toString();
+                .add("url", "/v1/disputes/puppy/submit")
+                .add("livemode", false)
+                .add("error", javax.json.Json.createObjectBuilder()
+                    .add("status", 404)
+                    .add("message", "A dispute with id 'puppy' was not found"))
+                .build().toString();
 
             result.setContent(json);
             result.setStatusCode(400);
@@ -51,7 +55,7 @@ public class ChargehoundErrorsTest {
     Boolean exceptionThrown = false;
 
     try {
-      chargehound.Disputes.retrieve("dp_123");
+      chargehound.disputes.retrieve("dp_123");
     } catch (ChargehoundException.HttpException exception) {
       assertTrue(exception instanceof ChargehoundException.HttpException.BadRequest);
       assertEquals((Integer) 400, exception.getStatusCode());
@@ -67,13 +71,13 @@ public class ChargehoundErrorsTest {
     chargehound.setApiProtocol("http://");
     chargehound.setApiHost("test.test.com");
 
-     String json = javax.json.Json.createObjectBuilder()
-        .add("url", "/v1/disputes/puppy/submit")
-        .add("livemode", false)
-        .add("unexpectedkey", javax.json.Json.createObjectBuilder()
-          .add("status", 404)
-          .add("message", "A dispute with id 'puppy' was not found"))
-        .build().toString();
+    String json = javax.json.Json.createObjectBuilder()
+          .add("url", "/v1/disputes/puppy/submit")
+          .add("livemode", false)
+          .add("unexpectedkey", javax.json.Json.createObjectBuilder()
+              .add("status", 404)
+              .add("message", "A dispute with id 'puppy' was not found"))
+          .build().toString();
 
     HttpTransport transport = new MockHttpTransport() {
       @Override
@@ -97,7 +101,7 @@ public class ChargehoundErrorsTest {
     Boolean exceptionThrown = false;
 
     try {
-      chargehound.Disputes.retrieve("dp_123");
+      chargehound.disputes.retrieve("dp_123");
     } catch (ChargehoundException.HttpException exception) {
       assertTrue(exception instanceof ChargehoundException.HttpException);
       assertEquals((Integer) 400, exception.getStatusCode());
@@ -130,7 +134,7 @@ public class ChargehoundErrorsTest {
     Boolean exceptionThrown = false;
 
     try {
-      chargehound.Disputes.retrieve("dp_123");
+      chargehound.disputes.retrieve("dp_123");
     } catch (ChargehoundException exception) {
       assertTrue(exception instanceof ChargehoundException);
       assertEquals("IOException", exception.getMessage());

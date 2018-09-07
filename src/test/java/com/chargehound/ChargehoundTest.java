@@ -1,5 +1,8 @@
 package com.chargehound;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import com.chargehound.Chargehound;
 import com.chargehound.errors.ChargehoundException;
 import com.chargehound.models.Dispute;
@@ -9,19 +12,20 @@ import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.LowLevelHttpRequest;
 import com.google.api.client.http.LowLevelHttpResponse;
-import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.json.Json;
 import com.google.api.client.json.JsonFactory;
+
+import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.testing.http.MockHttpTransport;
 import com.google.api.client.testing.http.MockLowLevelHttpRequest;
 import com.google.api.client.testing.http.MockLowLevelHttpResponse;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Properties;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
 
 public class ChargehoundTest {
   static final JsonFactory JSON_FACTORY = new JacksonFactory();
@@ -70,7 +74,7 @@ public class ChargehoundTest {
 
     chargehound.setHttpTransport(transport);
 
-    Dispute result = chargehound.Disputes.retrieve(testDispute.id);
+    Dispute result = chargehound.disputes.retrieve(testDispute.id);
 
     assertEquals(JSON_FACTORY.toString(testDispute), JSON_FACTORY.toString(result));
   }
@@ -104,7 +108,7 @@ public class ChargehoundTest {
 
     chargehound.setHttpTransport(transport);
 
-    Dispute.Response result = chargehound.Disputes.response(testResponse.disputeId);
+    Dispute.Response result = chargehound.disputes.response(testResponse.disputeId);
 
     assertEquals(JSON_FACTORY.toString(testResponse), JSON_FACTORY.toString(result));
   }
@@ -138,7 +142,7 @@ public class ChargehoundTest {
 
     chargehound.setHttpTransport(transport);
 
-    Dispute result = chargehound.Disputes.accept(testDispute.id);
+    Dispute result = chargehound.disputes.accept(testDispute.id);
 
     assertEquals(JSON_FACTORY.toString(testDispute), JSON_FACTORY.toString(result));
   }
@@ -175,7 +179,7 @@ public class ChargehoundTest {
 
     chargehound.setHttpTransport(transport);
 
-    DisputesList result = chargehound.Disputes.list();
+    DisputesList result = chargehound.disputes.list();
 
     assertEquals(JSON_FACTORY.toString(testList), JSON_FACTORY.toString(result));
   }
@@ -214,11 +218,11 @@ public class ChargehoundTest {
     chargehound.setHttpTransport(transport);
 
     DisputesList.Params params = new DisputesList.Params.Builder()
-      .startingAfter("dp_111")
-      .limit(1)
-      .finish();
+        .startingAfter("dp_111")
+        .limit(1)
+        .finish();
 
-    DisputesList result = chargehound.Disputes.list(params);
+    DisputesList result = chargehound.disputes.list(params);
 
     assertEquals(JSON_FACTORY.toString(testList), JSON_FACTORY.toString(result));
   }
@@ -258,7 +262,7 @@ public class ChargehoundTest {
 
     chargehound.setHttpTransport(transport);
 
-    Dispute result = chargehound.Disputes.update(testDispute.id, disputeUpdate);
+    Dispute result = chargehound.disputes.update(testDispute.id, disputeUpdate);
 
     assertEquals(JSON_FACTORY.toString(testDispute), JSON_FACTORY.toString(result));
   }
@@ -273,16 +277,16 @@ public class ChargehoundTest {
     testDispute.kind = "chargeback";
 
     Product product = new Product.Builder()
-      .name("T-shirt")
-      .amount(100)
-      .finish();
+        .name("T-shirt")
+        .amount(100)
+        .finish();
 
     ArrayList products = new ArrayList();
     products.add(product);
 
     Dispute.UpdateParams disputeUpdate = new Dispute.UpdateParams.Builder()
-      .products(products)
-      .finish();
+        .products(products)
+        .finish();
 
     HttpTransport transport = new MockHttpTransport() {
       @Override
@@ -293,7 +297,8 @@ public class ChargehoundTest {
         return new MockLowLevelHttpRequest() {
           @Override
           public LowLevelHttpResponse execute() throws IOException {
-            assertEquals("{\"products\":[{\"amount\":100,\"name\":\"T-shirt\"}]}", this.getContentAsString());
+            assertEquals("{\"products\":[{\"amount\":100,\"name\":\"T-shirt\"}]}",
+                this.getContentAsString());
 
             MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();
             result.setContentType(Json.MEDIA_TYPE);
@@ -306,7 +311,7 @@ public class ChargehoundTest {
 
     chargehound.setHttpTransport(transport);
 
-    Dispute result = chargehound.Disputes.update(testDispute.id, disputeUpdate);
+    Dispute result = chargehound.disputes.update(testDispute.id, disputeUpdate);
 
     assertEquals(JSON_FACTORY.toString(testDispute), JSON_FACTORY.toString(result));
   }
@@ -325,10 +330,7 @@ public class ChargehoundTest {
     disputeUpdate.fields = new HashMap();
     disputeUpdate.fields.put("key", "value");
 
-    Properties prop = new Properties();
-    FileInputStream input = new FileInputStream("gradle.properties");
-    prop.load(input);
-    String chargehoundUserAgent = "Chargehound/v1 JavaBindings/" + prop.getProperty("version");
+    String chargehoundUserAgent = "Chargehound/v1 JavaBindings/" + chargehound.version;
 
     HttpTransport transport = new MockHttpTransport() {
       @Override
@@ -353,7 +355,7 @@ public class ChargehoundTest {
 
     chargehound.setHttpTransport(transport);
 
-    Dispute result = chargehound.Disputes.update(testDispute.id, disputeUpdate);
+    Dispute result = chargehound.disputes.update(testDispute.id, disputeUpdate);
 
     assertEquals(JSON_FACTORY.toString(testDispute), JSON_FACTORY.toString(result));
   }
@@ -393,7 +395,7 @@ public class ChargehoundTest {
 
     chargehound.setHttpTransport(transport);
 
-    Dispute result = chargehound.Disputes.update(testDispute.id, disputeUpdate);
+    Dispute result = chargehound.disputes.update(testDispute.id, disputeUpdate);
 
     assertEquals(JSON_FACTORY.toString(testDispute), JSON_FACTORY.toString(result));
   }
@@ -408,8 +410,8 @@ public class ChargehoundTest {
     testDispute.kind = "chargeback";
 
     Dispute.UpdateParams disputeUpdate = new Dispute.UpdateParams.Builder()
-      .template("template")
-      .finish();
+        .template("template")
+        .finish();
 
     MockHttpTransport transport = new MockHttpTransport() {
       @Override
@@ -436,7 +438,7 @@ public class ChargehoundTest {
 
     MockLowLevelHttpRequest request = transport.getLowLevelHttpRequest();
 
-    Dispute disputeResult = chargehound.Disputes.submit(testDispute.id, disputeUpdate);
+    Dispute disputeResult = chargehound.disputes.submit(testDispute.id, disputeUpdate);
 
     assertEquals(JSON_FACTORY.toString(testDispute), JSON_FACTORY.toString(disputeResult));
   }
@@ -473,7 +475,7 @@ public class ChargehoundTest {
 
     chargehound.setHttpTransport(transport);
 
-    Dispute result = chargehound.Disputes.submit(testDispute.id);
+    Dispute result = chargehound.disputes.submit(testDispute.id);
 
     assertEquals(JSON_FACTORY.toString(testDispute), JSON_FACTORY.toString(result));
   }
@@ -488,9 +490,9 @@ public class ChargehoundTest {
     testDispute.kind = "chargeback";
 
     Dispute.CreateParams disputeCreate = new Dispute.CreateParams.Builder()
-      .id("dp_123")
-      .kind("chargeback")
-      .finish();
+        .id("dp_123")
+        .kind("chargeback")
+        .finish();
 
     HttpTransport transport = new MockHttpTransport() {
       @Override
@@ -514,7 +516,7 @@ public class ChargehoundTest {
 
     chargehound.setHttpTransport(transport);
 
-    Dispute result = chargehound.Disputes.create(testDispute.id, disputeCreate);
+    Dispute result = chargehound.disputes.create(testDispute.id, disputeCreate);
 
     assertEquals(JSON_FACTORY.toString(testDispute), JSON_FACTORY.toString(result));
   }
@@ -554,7 +556,7 @@ public class ChargehoundTest {
 
     chargehound.setHttpTransport(transport);
 
-    Dispute result = chargehound.Disputes.update(testDispute.id, disputeUpdate);
+    Dispute result = chargehound.disputes.update(testDispute.id, disputeUpdate);
 
     assertTrue(result.response instanceof HttpResponse);
     assertEquals((Integer) 200, (Integer) result.response.getStatusCode());

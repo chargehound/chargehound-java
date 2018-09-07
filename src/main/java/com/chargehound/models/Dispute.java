@@ -12,10 +12,10 @@ public class Dispute extends GenericJson {
   // A unique identifier for the dispute. This id is set by the payment processor of the dispute.
   @Key("id")
   public String id;
-  // State of the dispute. One of `needs_response`,`submitted`, `under_review`, `won`, `lost`, `warning_needs_response`, `warning_under_review`, `warning_closed` , `response_disabled`, `charge_refunded`, `accepted`, `queued`.
+  // State of the dispute.
   @Key("state")
   public String state;
-  // Reason for the dispute. One of `fraudulent`, `unrecognized`, `general`, `duplicate`, `subscription_canceled`, `product_unacceptable`, `product_not_received`, `credit_not_processed`, `incorrect_account_details`, `insufficient_funds`, `bank_cannot_process`, `debit_not_authorized`, `goods_services_returned_or_refused`, `goods_services_cancelled` |
+  // Reason for the dispute.
   @Key("reason")
   public String reason;
   // ISO 8601 timestamp - when the charge was made.
@@ -45,7 +45,8 @@ public class Dispute extends GenericJson {
   // Any fields required by the template that have not yet been provided.
   @Key("missing_fields")
   public Map<String, Object> missingFields;
-  // (Optional) A list of products in the disputed order. (See [Product data](#product-data) for details.)
+  // (Optional) A list of products in the disputed order.
+  // (See [Product data](#product-data) for details.)
   @Key("products")
   public List<Product> products;
   // Id of the disputed charge.
@@ -80,7 +81,7 @@ public class Dispute extends GenericJson {
   public String customerEmail;
   // IP of purchase (if available).
   @Key("customer_purchase_ip")
-  public String customerPurchaseIP;
+  public String customerPurchaseIp;
   // Billing address zip of the charge.
   @Key("address_zip")
   public String addressZip;
@@ -98,7 +99,7 @@ public class Dispute extends GenericJson {
   public String statementDescriptor;
   // The account id for Connected accounts that are charged directly through Stripe (if any)
   @Key("user_id")
-  public String userID;
+  public String userId;
   // The kind for the dispute, 'chargeback', 'retrieval' or 'pre_arbitration'.
   @Key("kind")
   public String kind;
@@ -116,7 +117,7 @@ public class Dispute extends GenericJson {
   public String processor;
   // Custom URL with dispute information.
   @Key("reference_url")
-  public String referenceURL;
+  public String referenceUrl;
   // Is this a livemode dispute.
   @Key("livemode")
   public boolean livemode;
@@ -146,12 +147,15 @@ public class Dispute extends GenericJson {
     public HttpResponse response;
   }
 
-  // Params for updating or submitting a dispute. See https://www.chargehound.com/docs/api/index.html#updating-a-dispute.
+  // Params for updating or submitting a dispute.
+  // See https://www.chargehound.com/docs/api/index.html#updating-a-dispute.
   public static class UpdateParams extends GenericJson {
-    // Set the account id for Connected accounts that are charged directly through Stripe. (optional)
+    // Set the account id for Connected accounts that are charged directly through Stripe.
+    // (optional)
     @Key("user_id")
     public String userId;
-    // Id of the connected account for this dispute (if multiple accounts are connected) (optional)
+    // Id of the connected account for this dispute (if multiple accounts are connected)
+    // (optional)
     @Key("account")
     public String account;
     // Bypass manual review. (optional)
@@ -166,25 +170,26 @@ public class Dispute extends GenericJson {
     // Evidence fields attached to the dispute.
     @Key("fields")
     public Map<String, Object> fields;
-    // A list of products in the disputed order. (See [Product data](#product-data) for details.) (Optional)
+    // A list of products in the disputed order.
+    // (See [Product data](#product-data) for details.) (Optional)
     @Key("products")
     public List<Product> products;
     // Custom URL with dispute information.
     @Key("reference_url")
     public String referenceUrl;
 
-    public UpdateParams () {}
+    public UpdateParams() {}
 
-    private UpdateParams (
-      final String userId,
-      final String account,
-      final Boolean force,
-      final Boolean queue,
-      final String template,
-      final Map<String, Object> fields,
-      final List<Product> products,
-      final String referenceUrl
-      ) {
+    private UpdateParams(
+        final String userId,
+        final String account,
+        final Boolean force,
+        final Boolean queue,
+        final String template,
+        final Map<String, Object> fields,
+        final List<Product> products,
+        final String referenceUrl
+    ) {
       this.userId = userId;
       this.account = account;
       this.force = force;
@@ -205,47 +210,50 @@ public class Dispute extends GenericJson {
       private List<Product> products;
       private String referenceUrl;
 
-      public Builder userId (final String userId) {
+      public Builder userId(final String userId) {
         this.userId = userId;
         return this;
       }
 
-      public Builder account (final String account) {
+      public Builder account(final String account) {
         this.account = account;
         return this;
       }
 
-      public Builder force (final Boolean force) {
+      public Builder force(final Boolean force) {
         this.force = force;
         return this;
       }
 
-      public Builder queue (final Boolean queue) {
+      public Builder queue(final Boolean queue) {
         this.queue = queue;
         return this;
       }
 
-      public Builder template (final String template) {
+      public Builder template(final String template) {
         this.template = template;
         return this;
       }
 
-      public Builder fields (final Map<String, Object> fields) {
+      public Builder fields(final Map<String, Object> fields) {
         this.fields = fields;
         return this;
       }
 
-      public Builder products (final List<Product> products) {
+      public Builder products(final List<Product> products) {
         this.products = products;
         return this;
       }
 
-      public Builder referenceUrl (final String referenceUrl) {
+      public Builder referenceUrl(final String referenceUrl) {
         this.referenceUrl = referenceUrl;
         return this;
       }
 
-      public UpdateParams finish () {
+      /**
+       * Finish the builder.
+       */
+      public UpdateParams finish() {
         return new UpdateParams(
           this.userId,
           this.account,
@@ -260,18 +268,21 @@ public class Dispute extends GenericJson {
     }
   }
 
-  // Params for creating a dispute. See https://www.chargehound.com/docs/api/2017-10-30/#creating-a-dispute.
+  // Params for creating a dispute.
+  // See https://www.chargehound.com/docs/api/2017-10-30/#creating-a-dispute.
   public static class CreateParams extends GenericJson {
     // The id of the dispute in your payment processor. For Stripe looks like `dp_XXX`.
     @Key("id")
     public String id;
-    // The id of the disputed charge in your payment processor. For Stripe looks like `ch_XXX`.
+    // The id of the disputed charge in your payment processor.
+    // For Stripe looks like `ch_XXX`.
     @Key("charge")
     public String charge;
-    // The id of the charged customer in your payment processor. For Stripe looks like `cus_XXX`. (optional)
+    // The id of the charged customer in your payment processor.
+    // For Stripe looks like `cus_XXX`. (optional)
     @Key("customer")
     public String customer;
-    // The bank provided reason for the dispute. One of `general`, `fraudulent`, `duplicate`, `subscription_canceled`, `product_unacceptable`, `product_not_received`, `unrecognized`, `credit_not_processed`, `incorrect_account_details`, `insufficient_funds`, `bank_cannot_process`, `debit_not_authorized`.
+    // The bank provided reason for the dispute.
     @Key("reason")
     public String reason;
     // ISO 8601 timestamp - when the charge was made.
@@ -298,13 +309,16 @@ public class Dispute extends GenericJson {
     // The currency code of the dispute balance withdrawal. e.g. 'USD'. (optional)
     @Key("reversal_currency")
     public String reversalCurrency;
-    // The amount of the dispute fee. Amounts are in cents (or other minor currency unit.) (optional)
+    // The amount of the dispute fee.
+    // Amounts are in cents (or other minor currency unit.) (optional)
     @Key("fee")
     public Integer fee;
-    // The amount of the dispute balance withdrawal (without fee). Amounts are in cents (or other minor currency unit.) (optional)
+    // The amount of the dispute balance withdrawal (without fee).
+    // Amounts are in cents (or other minor currency unit.) (optional)
     @Key("reversal_amount")
     public Integer reversalAmount;
-    // The total amount of the dispute balance withdrawal (with fee). Amounts are in cents (or other minor currency unit.) (optional)
+    // The total amount of the dispute balance withdrawal (with fee).
+    // Amounts are in cents (or other minor currency unit.) (optional)
     @Key("reversal_total")
     public Integer reversalTotal;
     // Is the disputed charge refundable. (optional)
@@ -313,13 +327,13 @@ public class Dispute extends GenericJson {
     // How many times has dispute evidence been submitted. (optional)
     @Key("submitted_count")
     public Integer submittedCount;
-    // State of address check (if available). One of `pass`, `fail`, `unavailable`, `checked`. (optional)
+    // State of address check (if available).
     @Key("address_line1_check")
     public String addressLine1Check;
-    // State of address zip check (if available). One of `pass`, `fail`, `unavailable`, `checked`. (optional)
+    // State of address zip check (if available).
     @Key("address_zip_check")
     public String addressZipCheck;
-    // State of cvc check (if available). One of `pass`, `fail`, `unavailable`, `checked`. (optional)
+    // State of cvc check (if available).
     @Key("cvc_check")
     public String cvcCheck;
     // The id of the template to use. (optional)
@@ -331,10 +345,12 @@ public class Dispute extends GenericJson {
     // List of products the customer purchased. (optional)
     @Key("products")
     public List<Product> products;
-    // Set the account id for Connected accounts that are charged directly through Stripe. (optional)
+    // Set the account id for Connected accounts that are charged directly through Stripe.
+    // (optional)
     @Key("user_id")
     public String userId;
-    // Set the kind for the dispute, 'chargeback', 'retrieval' or 'pre_arbitration'. (optional)
+    // Set the kind for the dispute, 'chargeback', 'retrieval' or 'pre_arbitration'.
+    // (optional)
     @Key("kind")
     public String kind;
     // Submit dispute evidence immediately after creation. (optional)
@@ -347,66 +363,66 @@ public class Dispute extends GenericJson {
     @Key("reference_url")
     public String referenceUrl;
 
-    public CreateParams () {}
+    public CreateParams() {}
 
-    private CreateParams (
-      final String id,
-      final String charge,
-      final String customer,
-      final String reason,
-      final String chargedAt,
-      final String disputedAt,
-      final String dueBy,
-      final String currency,
-      final Integer amount,
-      final String processor,
-      final String state,
-      final String reversalCurrency,
-      final Integer fee,
-      final Integer reversalAmount,
-      final Integer reversalTotal,
-      final Boolean isChargeRefundable,
-      final Integer submittedCount,
-      final String addressLine1Check,
-      final String addressZipCheck,
-      final String cvcCheck,
-      final String template,
-      final Map<String, Object> fields,
-      final List<Product> products,
-      final String userId,
-      final String kind,
-      final Boolean submit,
-      final Boolean queue,
-      final String referenceUrl
-      ) {
-        this.id = id;
-        this.charge = charge;
-        this.customer = customer;
-        this.reason = reason;
-        this.chargedAt = chargedAt;
-        this.disputedAt = disputedAt;
-        this.dueBy = dueBy;
-        this.currency = currency;
-        this.amount = amount;
-        this.processor = processor;
-        this.state = state;
-        this.reversalCurrency = reversalCurrency;
-        this.fee = fee;
-        this.reversalAmount = reversalAmount;
-        this.reversalTotal = reversalTotal;
-        this.isChargeRefundable = isChargeRefundable;
-        this.submittedCount = submittedCount;
-        this.addressLine1Check = addressLine1Check;
-        this.addressZipCheck = addressZipCheck;
-        this.cvcCheck = cvcCheck;
-        this.template = template;
-        this.fields = fields;
-        this.products = products;
-        this.userId = userId;
-        this.kind = kind;
-        this.submit = submit;
-        this.queue = queue;
-        this.referenceUrl = referenceUrl;
+    private CreateParams(
+        final String id,
+        final String charge,
+        final String customer,
+        final String reason,
+        final String chargedAt,
+        final String disputedAt,
+        final String dueBy,
+        final String currency,
+        final Integer amount,
+        final String processor,
+        final String state,
+        final String reversalCurrency,
+        final Integer fee,
+        final Integer reversalAmount,
+        final Integer reversalTotal,
+        final Boolean isChargeRefundable,
+        final Integer submittedCount,
+        final String addressLine1Check,
+        final String addressZipCheck,
+        final String cvcCheck,
+        final String template,
+        final Map<String, Object> fields,
+        final List<Product> products,
+        final String userId,
+        final String kind,
+        final Boolean submit,
+        final Boolean queue,
+        final String referenceUrl
+    ) {
+      this.id = id;
+      this.charge = charge;
+      this.customer = customer;
+      this.reason = reason;
+      this.chargedAt = chargedAt;
+      this.disputedAt = disputedAt;
+      this.dueBy = dueBy;
+      this.currency = currency;
+      this.amount = amount;
+      this.processor = processor;
+      this.state = state;
+      this.reversalCurrency = reversalCurrency;
+      this.fee = fee;
+      this.reversalAmount = reversalAmount;
+      this.reversalTotal = reversalTotal;
+      this.isChargeRefundable = isChargeRefundable;
+      this.submittedCount = submittedCount;
+      this.addressLine1Check = addressLine1Check;
+      this.addressZipCheck = addressZipCheck;
+      this.cvcCheck = cvcCheck;
+      this.template = template;
+      this.fields = fields;
+      this.products = products;
+      this.userId = userId;
+      this.kind = kind;
+      this.submit = submit;
+      this.queue = queue;
+      this.referenceUrl = referenceUrl;
     }
 
     public static class Builder {
@@ -439,147 +455,150 @@ public class Dispute extends GenericJson {
       private Boolean queue;
       private String referenceUrl;
 
-      public Builder id (final String id) {
+      public Builder id(final String id) {
         this.id = id;
         return this;
       }
 
-      public Builder charge (final String charge) {
+      public Builder charge(final String charge) {
         this.charge = charge;
         return this;
       }
 
-      public Builder customer (final String customer) {
+      public Builder customer(final String customer) {
         this.customer = customer;
         return this;
       }
 
-      public Builder reason (final String reason) {
+      public Builder reason(final String reason) {
         this.reason = reason;
         return this;
       }
 
-      public Builder chargedAt (final String chargedAt) {
+      public Builder chargedAt(final String chargedAt) {
         this.chargedAt = chargedAt;
         return this;
       }
 
-      public Builder disputedAt (final String disputedAt) {
+      public Builder disputedAt(final String disputedAt) {
         this.disputedAt = disputedAt;
         return this;
       }
 
-      public Builder dueBy (final String dueBy) {
+      public Builder dueBy(final String dueBy) {
         this.dueBy = dueBy;
         return this;
       }
 
-      public Builder currency (final String currency) {
+      public Builder currency(final String currency) {
         this.currency = currency;
         return this;
       }
 
-      public Builder amount (final Integer amount) {
+      public Builder amount(final Integer amount) {
         this.amount = amount;
         return this;
       }
 
-      public Builder processor (final String processor) {
+      public Builder processor(final String processor) {
         this.processor = processor;
         return this;
       }
 
-      public Builder state (final String state) {
+      public Builder state(final String state) {
         this.state = state;
         return this;
       }
 
-      public Builder reversalCurrency (final String reversalCurrency) {
+      public Builder reversalCurrency(final String reversalCurrency) {
         this.reversalCurrency = reversalCurrency;
         return this;
       }
 
-      public Builder fee (final Integer fee) {
+      public Builder fee(final Integer fee) {
         this.fee = fee;
         return this;
       }
 
-      public Builder reversalAmount (final Integer reversalAmount) {
+      public Builder reversalAmount(final Integer reversalAmount) {
         this.reversalAmount = reversalAmount;
         return this;
       }
 
-      public Builder reversalTotal (final Integer reversalTotal) {
+      public Builder reversalTotal(final Integer reversalTotal) {
         this.reversalTotal = reversalTotal;
         return this;
       }
 
-      public Builder isChargeRefundable (final Boolean isChargeRefundable) {
+      public Builder isChargeRefundable(final Boolean isChargeRefundable) {
         this.isChargeRefundable = isChargeRefundable;
         return this;
       }
 
-      public Builder submittedCount (final Integer submittedCount) {
+      public Builder submittedCount(final Integer submittedCount) {
         this.submittedCount = submittedCount;
         return this;
       }
 
-      public Builder addressLine1Check (final String addressLine1Check) {
+      public Builder addressLine1Check(final String addressLine1Check) {
         this.addressLine1Check = addressLine1Check;
         return this;
       }
 
-      public Builder addressZipCheck (final String addressZipCheck) {
+      public Builder addressZipCheck(final String addressZipCheck) {
         this.addressZipCheck = addressZipCheck;
         return this;
       }
 
-      public Builder cvcCheck (final String cvcCheck) {
+      public Builder cvcCheck(final String cvcCheck) {
         this.cvcCheck = cvcCheck;
         return this;
       }
 
-      public Builder userId (final String userId) {
+      public Builder userId(final String userId) {
         this.userId = userId;
         return this;
       }
 
-      public Builder kind (final String kind) {
+      public Builder kind(final String kind) {
         this.kind = kind;
         return this;
       }
 
-      public Builder submit (final Boolean submit) {
+      public Builder submit(final Boolean submit) {
         this.submit = submit;
         return this;
       }
 
-      public Builder queue (final Boolean queue) {
+      public Builder queue(final Boolean queue) {
         this.queue = queue;
         return this;
       }
 
-      public Builder template (final String template) {
+      public Builder template(final String template) {
         this.template = template;
         return this;
       }
 
-      public Builder fields (final Map<String, Object> fields) {
+      public Builder fields(final Map<String, Object> fields) {
         this.fields = fields;
         return this;
       }
 
-      public Builder products (final List<Product> products) {
+      public Builder products(final List<Product> products) {
         this.products = products;
         return this;
       }
 
-      public Builder referenceUrl (final String referenceUrl) {
+      public Builder referenceUrl(final String referenceUrl) {
         this.referenceUrl = referenceUrl;
         return this;
       }
 
-      public CreateParams finish () {
+      /**
+       * Finish the builder.
+       */
+      public CreateParams finish() {
         return new CreateParams(
           this.id,
           this.charge,

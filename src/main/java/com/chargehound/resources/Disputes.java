@@ -14,7 +14,8 @@ import java.util.Map;
 public class Disputes {
   private ApiRequestor client;
 
-  static final ChargehoundExceptionFactory ERROR_FACTORY = new ChargehoundExceptionFactory();
+  private static final ChargehoundExceptionFactory
+      ERROR_FACTORY = new ChargehoundExceptionFactory();
 
   // Creates a new disputes resource
   public Disputes(Chargehound chargehound) {
@@ -22,13 +23,13 @@ public class Disputes {
   }
 
   /**
-   * Retrieve a dispute
+   * Retrieve a dispute.
    * This endpoint will return a single dispute.
    */
   public Dispute retrieve(String id) throws ChargehoundException {
     HttpResponse response = this.client.request(
-      "GET",
-      "/disputes/" + id
+        "GET",
+        "/disputes/" + id
     );
 
     try {
@@ -41,12 +42,12 @@ public class Disputes {
   }
 
   /**
-   * Retrieve a dispute response
+   * Retrieve a dispute response.
    */
-  public Dispute.Response response (String id) throws ChargehoundException {
+  public Dispute.Response response(String id) throws ChargehoundException {
     HttpResponse httpResponse = this.client.request(
-      "GET",
-      "/disputes/" + id + "/response"
+        "GET",
+        "/disputes/" + id + "/response"
     );
 
     try {
@@ -59,24 +60,24 @@ public class Disputes {
   }
 
   /**
-   * Retrieve a list of disputes
+   * Retrieve a list of disputes.
    */
-  public DisputesList list () throws ChargehoundException {
+  public DisputesList list() throws ChargehoundException {
     return this.list(new DisputesList.Params());
   }
 
   /**
-   * Retrieve a list of disputes
+   * Retrieve a list of disputes.
    */
-  public DisputesList list (DisputesList.Params params) throws ChargehoundException {
+  public DisputesList list(DisputesList.Params params) throws ChargehoundException {
     if (params == null) {
       return this.list();
     }
 
     HttpResponse httpResponse = this.client.request(
-      "GET",
-      "/disputes",
-      params.asStringMap()
+        "GET",
+        "/disputes",
+        params.asStringMap()
     );
 
     try {
@@ -89,12 +90,12 @@ public class Disputes {
   }
 
   /**
-   * Accept a dispute if you do not want to submit a response
+   * Accept a dispute if you do not want to submit a response.
    */
-  public Dispute accept (String id) throws ChargehoundException {
+  public Dispute accept(String id) throws ChargehoundException {
     HttpResponse response = this.client.request(
-      "POST",
-      "/disputes/" + id + "/accept"
+        "POST",
+        "/disputes/" + id + "/accept"
     );
 
     try {
@@ -109,12 +110,12 @@ public class Disputes {
   /**
    * Update the template and the fields on a dispute.
    */
-  public Dispute update (String id, Dispute.UpdateParams update) throws ChargehoundException {
+  public Dispute update(String id, Dispute.UpdateParams update) throws ChargehoundException {
     HttpResponse response = this.client.request(
-      "PUT",
-      "/disputes/" + id,
-      null,
-      update
+        "PUT",
+        "/disputes/" + id,
+        null,
+        update
     );
 
     try {
@@ -129,12 +130,12 @@ public class Disputes {
   /**
    * Update and submit the dispute.
    */
-  public Dispute submit (String id, Dispute.UpdateParams update) throws ChargehoundException {
+  public Dispute submit(String id, Dispute.UpdateParams update) throws ChargehoundException {
     HttpResponse response = this.client.request(
-      "POST",
-      "/disputes/" + id + "/submit",
-      null,
-      update
+        "POST",
+        "/disputes/" + id + "/submit",
+        null,
+        update
     );
 
     try {
@@ -149,19 +150,19 @@ public class Disputes {
   /**
    * Submit the dispute.
    */
-  public Dispute submit (String id) throws ChargehoundException {
+  public Dispute submit(String id) throws ChargehoundException {
     return this.submit(id, null);
   }
 
   /**
    * Create a dispute.
    */
-  public Dispute create (String id, Dispute.CreateParams create) throws ChargehoundException {
+  public Dispute create(String id, Dispute.CreateParams create) throws ChargehoundException {
     HttpResponse response = this.client.request(
-      "POST",
-      "/disputes",
-      null,
-      create
+        "POST",
+        "/disputes",
+        null,
+        create
     );
 
     try {

@@ -12,11 +12,11 @@ public class ChargehoundException extends Exception {
     private Integer status;
     private String reason;
 
-    public Integer getStatusCode () {
+    public Integer getStatusCode() {
       return this.status;
     }
 
-    public String getReason () {
+    public String getReason() {
       return this.reason;
     }
 

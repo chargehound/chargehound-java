@@ -21,7 +21,7 @@ Map<String, Object> fields = new HashMap<String, Object>() {{
   put("customer_name", "Susie Chargeback");
 }};
 
-Dispute result = chargehound.Disputes.submit("dp_123",
+Dispute result = chargehound.disputes.submit("dp_123",
   new Dispute.UpdateParams.Builder()
   .template("unrecognized")
   .fields(fields)
@@ -39,7 +39,7 @@ Responses also include the HTTP status code on the response object.
 import com.chargehound.Chargehound;
 import com.chargehound.models.Dispute;
 
-Dispute result = chargehound.Disputes.retrieve("dp_123");
+Dispute result = chargehound.disputes.retrieve("dp_123");
 
 System.out.println(result.state);
 // "needs_response"
@@ -83,5 +83,6 @@ To deploy a new version of the SDK, perform the following steps:
 
  1. Update the CHANGELOG to describe what features have been added.
  2. Bump the version number in `gradle.properties`.
+ 3. Bump the version number in the `Chargehound` class in `Chargehound.java`.
 
  // TODO: the rest of the steps

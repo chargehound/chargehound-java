@@ -1,6 +1,8 @@
 plugins {
   // Apply the java-library plugin to add support for Java Library
   id 'java-library'
+
+  id 'checkstyle'
 }
 
 version = version
@@ -20,4 +22,8 @@ dependencies {
 
 repositories {
   jcenter()
+}
+
+checkstyle {
+  toolVersion = '8.12'
 }

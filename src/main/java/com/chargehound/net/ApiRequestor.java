@@ -14,42 +14,32 @@ import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.json.JsonHttpContent;
 import com.google.api.client.json.GenericJson;
-import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.JsonObjectParser;
+
+import com.google.api.client.json.jackson2.JacksonFactory;
+
 import java.io.FileInputStream;
-import java.io.InputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Collections;
 import java.util.Map;
-import java.util.Properties;
-
 
 public class ApiRequestor {
-  private Properties prop = new Properties();
-  private InputStream input = null;
-  private static String chargehoundUserAgent;
-
   private Chargehound chargehound;
 
-  static final JsonFactory JSON_FACTORY = new JacksonFactory();
-  static final ChargehoundExceptionFactory ERROR_FACTORY = new ChargehoundExceptionFactory();
+  private static final JsonFactory JSON_FACTORY = new JacksonFactory();
+  private static final ChargehoundExceptionFactory
+      ERROR_FACTORY = new ChargehoundExceptionFactory();
+  private static final String
+      CHARGEHOUND_USER_AGENT = "Chargehound/v1 JavaBindings/" + Chargehound.version;
 
-  public ApiRequestor (Chargehound chargehound) {
-    try {
-      input = new FileInputStream("gradle.properties");
-      prop.load(input);
-      chargehoundUserAgent = "Chargehound/v1 JavaBindings/" + prop.getProperty("version");
-    } catch (IOException ex) {
-      ex.printStackTrace();
-    }
-
+  public ApiRequestor(Chargehound chargehound) {
     this.chargehound = chargehound;
   }
 
-  public static String getParamsString(Map<String, String> params) throws UnsupportedEncodingException {
+  private static String getParamsString(Map<String, String> params) throws UnsupportedEncodingException {
     StringBuilder result = new StringBuilder();
 
     for (Map.Entry<String, String> entry : params.entrySet()) {
@@ -63,7 +53,7 @@ public class ApiRequestor {
     return resultString.length() > 0 ? resultString.substring(0, resultString.length() - 1) : resultString;
   }
 
-  private GenericUrl getUrl (String path, Map<String, String> params) throws ChargehoundException {
+  private GenericUrl getUrl(String path, Map<String, String> params) throws ChargehoundException {
     if (params == null) {
       return this.getUrl(path);
     }
@@ -78,11 +68,11 @@ public class ApiRequestor {
     }
   }
 
-  private GenericUrl getUrl (String path) throws ChargehoundException {
+  private GenericUrl getUrl(String path) throws ChargehoundException {
     return this.getUrl(path, Collections.emptyMap());
   }
 
-  private HttpContent getContent (GenericJson data) {
+  private HttpContent getContent(GenericJson data) {
     if (data == null) {
       return null;
     }
@@ -90,7 +80,10 @@ public class ApiRequestor {
     return new JsonHttpContent(JSON_FACTORY, data);
   }
 
-  public HttpResponse request (String method, String path, Map<String, String> params, GenericJson data) throws ChargehoundException {
+  /**
+   * Make an Http request.
+   */
+  public HttpResponse request(String method, String path, Map<String, String> params, GenericJson data) throws ChargehoundException {
     HttpTransport transport = this.chargehound.getHttpTransport();
     String apiVersion = this.chargehound.getApiVersion();
     String apiKey = this.chargehound.getApiKey();
@@ -107,7 +100,7 @@ public class ApiRequestor {
 
             HttpHeaders headers = request.getHeaders();
             headers.setContentType("application/json");
-            headers.setUserAgent(chargehoundUserAgent);
+            headers.setUserAgent(CHARGEHOUND_USER_AGENT);
             headers.setBasicAuthentication(apiKey, "");
 
             if (apiVersion != null) {
@@ -133,11 +126,11 @@ public class ApiRequestor {
     }
   }
 
-  public HttpResponse request (String method, String path) throws ChargehoundException {
+  public HttpResponse request(String method, String path) throws ChargehoundException {
     return this.request(method, path, Collections.emptyMap(), null);
   }
 
-  public HttpResponse request (String method, String path, Map<String, String> params) throws ChargehoundException {
+  public HttpResponse request(String method, String path, Map<String, String> params) throws ChargehoundException {
     return this.request(method, path, params, null);
   }
 }

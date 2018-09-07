@@ -17,12 +17,13 @@ public class Chargehound {
   private String key;
   private String protocol = "https://";
 
-  public Disputes Disputes;
+  public static final String version = "1.0.0";
+  public Disputes disputes;
 
   // Creates a new chargehound client with the specified api key and the default configuration.
   public Chargehound(String key) {
     this.key = key;
-    this.Disputes = new Disputes(this);
+    this.disputes = new Disputes(this);
   }
 
   // Override the host protocol, for testing

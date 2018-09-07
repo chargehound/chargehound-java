@@ -41,6 +41,9 @@ public class DisputesList extends GenericJson {
     @Key("state")
     public String state;
 
+    /**
+     * Return the params as a map with string keys and values.
+     */
     public Map<String,String> asStringMap() {
       Map<String,String> paramsMap = new HashMap<String,String>();
 
@@ -51,13 +54,14 @@ public class DisputesList extends GenericJson {
       return paramsMap;
     }
 
-    public Params () {}
+    public Params() {}
 
-    private Params (
-      final Integer limit,
-      final String startingAfter,
-      final String endingBefore,
-      final String state) {
+    private Params(
+        final Integer limit,
+        final String startingAfter,
+        final String endingBefore,
+        final String state
+    ) {
       this.limit = limit;
       this.startingAfter = startingAfter;
       this.endingBefore = endingBefore;
@@ -70,27 +74,30 @@ public class DisputesList extends GenericJson {
       private String endingBefore;
       private String state;
 
-      public Builder limit (final Integer limit) {
+      public Builder limit(final Integer limit) {
         this.limit = limit;
         return this;
       }
 
-      public Builder startingAfter (final String startingAfter) {
+      public Builder startingAfter(final String startingAfter) {
         this.startingAfter = startingAfter;
         return this;
       }
 
-      public Builder endingBefore (final String endingBefore) {
+      public Builder endingBefore(final String endingBefore) {
         this.endingBefore = endingBefore;
         return this;
       }
 
-      public Builder state (final String state) {
+      public Builder state(final String state) {
         this.state = state;
         return this;
       }
 
-      public Params finish () {
+      /**
+       * Finish the builder.
+       */
+      public Params finish() {
         return new Params(
           this.limit,
           this.startingAfter,

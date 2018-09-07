@@ -7,12 +7,16 @@ import java.io.StringReader;
 import java.lang.Exception;
 
 public class ChargehoundExceptionFactory {
+
+  /**
+   * Create a Chargehound exception from an Http exception.
+   */
   public ChargehoundException httpResponseException(HttpResponseException error) {
     String jsonContent = error.getContent();
 
-    javax.json.JsonReader jsonReader = javax.json.Json.createReader(
-      new StringReader(jsonContent)
-    );
+    StringReader reader = new StringReader(jsonContent);
+
+    javax.json.JsonReader jsonReader = javax.json.Json.createReader(reader);
 
     javax.json.JsonObject json = jsonReader.readObject();
     jsonReader.close();
@@ -24,24 +28,41 @@ public class ChargehoundExceptionFactory {
       String errorMessage = errorDetails.getString("message");
       switch (statusCode) {
         case 400:
-          return new ChargehoundException.HttpException.BadRequest(error.getMessage(), error.getCause(), statusCode, errorMessage);
+          return new ChargehoundException.HttpException.BadRequest(
+            error.getMessage(), error.getCause(), statusCode, errorMessage
+          );
         case 401:
-          return new ChargehoundException.HttpException.Unauthorized(error.getMessage(), error.getCause(), statusCode, errorMessage);
+          return new ChargehoundException.HttpException.Unauthorized(
+            error.getMessage(), error.getCause(), statusCode, errorMessage
+          );
         case 403:
-          return new ChargehoundException.HttpException.Forbidden(error.getMessage(), error.getCause(), statusCode, errorMessage);
+          return new ChargehoundException.HttpException.Forbidden(
+            error.getMessage(), error.getCause(), statusCode, errorMessage
+          );
         case 404:
-          return new ChargehoundException.HttpException.NotFound(error.getMessage(), error.getCause(), statusCode, errorMessage);
+          return new ChargehoundException.HttpException.NotFound(
+            error.getMessage(), error.getCause(), statusCode, errorMessage
+          );
         case 500:
-          return new ChargehoundException.HttpException.InternalServerError(error.getMessage(), error.getCause(), statusCode, errorMessage);
+          return new ChargehoundException.HttpException.InternalServerError(
+            error.getMessage(), error.getCause(), statusCode, errorMessage
+          );
         default:
-          return new ChargehoundException.HttpException(error.getMessage(), error.getCause(), statusCode, errorMessage);
+          return new ChargehoundException.HttpException(
+            error.getMessage(), error.getCause(), statusCode, errorMessage
+          );
       }
     } catch (Exception unexpectedError) {
-      return new ChargehoundException.HttpException(error.getMessage(), error.getCause(), statusCode, error.getMessage());
+      return new ChargehoundException.HttpException(
+        error.getMessage(), error.getCause(), statusCode, error.getMessage()
+      );
     }
   }
 
-  public ChargehoundException genericChargehoundException (Exception error) {
+  /**
+   * Create a Chargehound exception from a generic exception.
+   */
+  public ChargehoundException genericChargehoundException(Exception error) {
     return new ChargehoundException(error.getMessage(), error.getCause());
   }
 }
