@@ -75,7 +75,8 @@ public class ApiRequestor {
   }
 
   private GenericUrl getUrl(String path) throws ChargehoundException {
-    return this.getUrl(path, Collections.emptyMap());
+    Map<String,String> emptyMap = Collections.emptyMap();
+    return this.getUrl(path, emptyMap);
   }
 
   private HttpContent getContent(GenericJson data) {
@@ -96,10 +97,10 @@ public class ApiRequestor {
       GenericJson data
   ) throws ChargehoundException {
     HttpTransport transport = this.chargehound.getHttpTransport();
-    String apiVersion = this.chargehound.getApiVersion();
-    String apiKey = this.chargehound.getApiKey();
-    int connectTimeout = this.chargehound.getHttpConnectTimeout();
-    int readTimeout = this.chargehound.getHttpReadTimeout();
+    final String apiVersion = this.chargehound.getApiVersion();
+    final String apiKey = this.chargehound.getApiKey();
+    final int connectTimeout = this.chargehound.getHttpConnectTimeout();
+    final int readTimeout = this.chargehound.getHttpReadTimeout();
 
     HttpRequestFactory requestFactory =
         transport.createRequestFactory(new HttpRequestInitializer() {
@@ -138,7 +139,8 @@ public class ApiRequestor {
   }
 
   public HttpResponse request(String method, String path) throws ChargehoundException {
-    return this.request(method, path, Collections.emptyMap(), null);
+    Map<String,String> emptyMap = Collections.emptyMap();
+    return this.request(method, path, emptyMap, null);
   }
 
   public HttpResponse request(
