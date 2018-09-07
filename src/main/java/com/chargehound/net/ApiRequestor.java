@@ -33,7 +33,7 @@ public class ApiRequestor {
   private static final ChargehoundExceptionFactory
       ERROR_FACTORY = new ChargehoundExceptionFactory();
   private static final String
-      CHARGEHOUND_USER_AGENT = "Chargehound/v1 JavaBindings/" + Chargehound.version;
+      CHARGEHOUND_USER_AGENT = "Chargehound/v1 JavaBindings/" + Chargehound.VERSION;
 
   public ApiRequestor(Chargehound chargehound) {
     this.chargehound = chargehound;

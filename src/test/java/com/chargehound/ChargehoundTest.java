@@ -330,7 +330,7 @@ public class ChargehoundTest {
     disputeUpdate.fields = new HashMap();
     disputeUpdate.fields.put("key", "value");
 
-    final String chargehoundUserAgent = "Chargehound/v1 JavaBindings/" + chargehound.version;
+    final String chargehoundUserAgent = "Chargehound/v1 JavaBindings/" + chargehound.VERSION;
 
     HttpTransport transport = new MockHttpTransport() {
       @Override
