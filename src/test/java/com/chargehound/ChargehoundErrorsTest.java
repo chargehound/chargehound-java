@@ -71,7 +71,7 @@ public class ChargehoundErrorsTest {
     chargehound.setApiProtocol("http://");
     chargehound.setApiHost("test.test.com");
 
-    String json = javax.json.Json.createObjectBuilder()
+    final String json = javax.json.Json.createObjectBuilder()
           .add("url", "/v1/disputes/puppy/submit")
           .add("livemode", false)
           .add("unexpectedkey", javax.json.Json.createObjectBuilder()

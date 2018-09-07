@@ -50,7 +50,7 @@ public class ChargehoundTest {
     chargehound.setApiProtocol("http://");
     chargehound.setApiHost("test.test.com");
 
-    Dispute testDispute = new Dispute();
+    final Dispute testDispute = new Dispute();
     testDispute.id = "dp_123";
     testDispute.kind = "chargeback";
 
@@ -118,7 +118,7 @@ public class ChargehoundTest {
     chargehound.setApiProtocol("http://");
     chargehound.setApiHost("test.test.com");
 
-    Dispute testDispute = new Dispute();
+    final Dispute testDispute = new Dispute();
     testDispute.id = "dp_123";
     testDispute.kind = "chargeback";
 
@@ -152,7 +152,7 @@ public class ChargehoundTest {
     chargehound.setApiProtocol("http://");
     chargehound.setApiHost("test.test.com");
 
-    DisputesList testList = new DisputesList();
+    final DisputesList testList = new DisputesList();
     Dispute testDispute = new Dispute();
     testDispute.id = "dp_123";
     testDispute.kind = "chargeback";
@@ -189,7 +189,7 @@ public class ChargehoundTest {
     chargehound.setApiProtocol("http://");
     chargehound.setApiHost("test.test.com");
 
-    DisputesList testList = new DisputesList();
+    final DisputesList testList = new DisputesList();
     Dispute testDispute = new Dispute();
     testDispute.id = "dp_123";
     testDispute.kind = "chargeback";
@@ -232,7 +232,7 @@ public class ChargehoundTest {
     chargehound.setApiProtocol("http://");
     chargehound.setApiHost("test.test.com");
 
-    Dispute testDispute = new Dispute();
+    final Dispute testDispute = new Dispute();
     testDispute.id = "dp_123";
     testDispute.kind = "chargeback";
 
@@ -272,7 +272,7 @@ public class ChargehoundTest {
     chargehound.setApiProtocol("http://");
     chargehound.setApiHost("test.test.com");
 
-    Dispute testDispute = new Dispute();
+    final Dispute testDispute = new Dispute();
     testDispute.id = "dp_123";
     testDispute.kind = "chargeback";
 
@@ -322,7 +322,7 @@ public class ChargehoundTest {
     chargehound.setApiHost("test.test.com");
     chargehound.setApiVersion("OverrideVersion");
 
-    Dispute testDispute = new Dispute();
+    final Dispute testDispute = new Dispute();
     testDispute.id = "dp_123";
     testDispute.kind = "chargeback";
 
@@ -365,7 +365,7 @@ public class ChargehoundTest {
     chargehound.setApiProtocol("http://");
     chargehound.setApiHost("test.test.com");
 
-    Dispute testDispute = new Dispute();
+    final Dispute testDispute = new Dispute();
     testDispute.id = "dp_123";
     testDispute.kind = "chargeback";
 
@@ -405,7 +405,7 @@ public class ChargehoundTest {
     chargehound.setApiProtocol("http://");
     chargehound.setApiHost("test.test.com");
 
-    Dispute testDispute = new Dispute();
+    final Dispute testDispute = new Dispute();
     testDispute.id = "dp_123";
     testDispute.kind = "chargeback";
 
@@ -448,7 +448,7 @@ public class ChargehoundTest {
     chargehound.setApiProtocol("http://");
     chargehound.setApiHost("test.test.com");
 
-    Dispute testDispute = new Dispute();
+    final Dispute testDispute = new Dispute();
     testDispute.id = "dp_123";
     testDispute.kind = "chargeback";
 
@@ -485,7 +485,7 @@ public class ChargehoundTest {
     chargehound.setApiProtocol("http://");
     chargehound.setApiHost("test.test.com");
 
-    Dispute testDispute = new Dispute();
+    final Dispute testDispute = new Dispute();
     testDispute.id = "dp_123";
     testDispute.kind = "chargeback";
 
@@ -526,7 +526,7 @@ public class ChargehoundTest {
     chargehound.setApiProtocol("http://");
     chargehound.setApiHost("test.test.com");
 
-    Dispute testDispute = new Dispute();
+    final Dispute testDispute = new Dispute();
     testDispute.id = "dp_123";
     testDispute.kind = "chargeback";
 
