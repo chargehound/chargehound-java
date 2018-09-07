@@ -206,47 +206,47 @@ public class Dispute extends GenericJson {
       private String referenceUrl;
 
       public Builder userId (final String userId) {
-         this.userId = userId;
-         return this;
+        this.userId = userId;
+        return this;
       }
 
       public Builder account (final String account) {
-         this.account = account;
-         return this;
+        this.account = account;
+        return this;
       }
 
       public Builder force (final Boolean force) {
-         this.force = force;
-         return this;
+        this.force = force;
+        return this;
       }
 
       public Builder queue (final Boolean queue) {
-         this.queue = queue;
-         return this;
+        this.queue = queue;
+        return this;
       }
 
       public Builder template (final String template) {
-         this.template = template;
-         return this;
+        this.template = template;
+        return this;
       }
 
       public Builder fields (final Map<String, Object> fields) {
-         this.fields = fields;
-         return this;
+        this.fields = fields;
+        return this;
       }
 
       public Builder products (final List<Product> products) {
-         this.products = products;
-         return this;
+        this.products = products;
+        return this;
       }
 
       public Builder referenceUrl (final String referenceUrl) {
-         this.referenceUrl = referenceUrl;
-         return this;
+        this.referenceUrl = referenceUrl;
+        return this;
       }
 
       public UpdateParams finish () {
-         return new UpdateParams(
+        return new UpdateParams(
           this.userId,
           this.account,
           this.force,

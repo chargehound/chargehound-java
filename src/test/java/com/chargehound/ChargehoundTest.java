@@ -4,8 +4,9 @@ import com.chargehound.Chargehound;
 import com.chargehound.errors.ChargehoundException;
 import com.chargehound.models.Dispute;
 import com.chargehound.models.DisputesList;
-import com.google.api.client.http.HttpTransport;
+import com.chargehound.models.Product;
 import com.google.api.client.http.HttpResponse;
+import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.LowLevelHttpRequest;
 import com.google.api.client.http.LowLevelHttpResponse;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -14,11 +15,11 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.testing.http.MockHttpTransport;
 import com.google.api.client.testing.http.MockLowLevelHttpRequest;
 import com.google.api.client.testing.http.MockLowLevelHttpResponse;
-import java.io.IOException;
 import java.io.FileInputStream;
-import java.util.Properties;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Properties;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -257,6 +258,53 @@ public class ChargehoundTest {
 
     chargehound.setHttpTransport(transport);
 
+    Dispute result = chargehound.Disputes.update(testDispute.id, disputeUpdate);
+
+    assertEquals(JSON_FACTORY.toString(testDispute), JSON_FACTORY.toString(result));
+  }
+
+  @Test public void testDisputeUpdateProduct() throws IOException, ChargehoundException {
+    Chargehound chargehound = new Chargehound("test_123");
+    chargehound.setApiProtocol("http://");
+    chargehound.setApiHost("test.test.com");
+
+    Dispute testDispute = new Dispute();
+    testDispute.id = "dp_123";
+    testDispute.kind = "chargeback";
+
+    Product product = new Product.Builder()
+      .name("T-shirt")
+      .amount(100)
+      .finish();
+
+    ArrayList products = new ArrayList();
+    products.add(product);
+
+    Dispute.UpdateParams disputeUpdate = new Dispute.UpdateParams.Builder()
+      .products(products)
+      .finish();
+
+    HttpTransport transport = new MockHttpTransport() {
+      @Override
+      public LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
+        assertEquals(method, "PUT");
+        assertEquals(url, "http://test.test.com/v1/disputes/dp_123");
+
+        return new MockLowLevelHttpRequest() {
+          @Override
+          public LowLevelHttpResponse execute() throws IOException {
+            assertEquals("{\"products\":[{\"amount\":100,\"name\":\"T-shirt\"}]}", this.getContentAsString());
+
+            MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();
+            result.setContentType(Json.MEDIA_TYPE);
+            result.setContent(JSON_FACTORY.toString(testDispute));
+            return result;
+          }
+        };
+      }
+    };
+
+    chargehound.setHttpTransport(transport);
 
     Dispute result = chargehound.Disputes.update(testDispute.id, disputeUpdate);
 
