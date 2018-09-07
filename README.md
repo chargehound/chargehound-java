@@ -5,14 +5,17 @@ Chargehound bindings for Java
 
 ## Installation
 
-TODO: the different methods =
+TODO: the different methods
 
 ### Requests
 
 Java requests use defined structs to represent parameters.
 
 ```java
+import com.chargehound.Chargehound;
 import com.chargehound.models.Dispute;
+
+Chargehound chargehound = new Chargehound("test_123");
 
 HashMap<String, Object> fields = new HashMap<String, Object>() {{
   put("customer_name", "Susie Chargeback");
@@ -33,6 +36,7 @@ Responses from the API are automatically parsed from JSON and returned as Java o
 Responses also include the HTTP status code on the response object.
 
 ```java
+import com.chargehound.Chargehound;
 import com.chargehound.models.Dispute;
 
 Dispute result = chargehound.Disputes.retrieve("dp_123");
@@ -53,9 +57,16 @@ The Java library returns adapted objects rather than JSON from API calls.
 
 ## Google AppEngine
 
-If you're using the library in a Google App Engine environment, you can pass a custom http client along with each request. `OptHTTPClient` is defined on all param structs.
+If you're using the library in a Google App Engine environment, you can set the Chargehound client to use the [supported HTTP transport] (https://developers.google.com/api-client-library/java/google-http-java-client/app-engine#http_transport).
 
-TODO: example override transport
+```java
+import com.chargehound.Chargehound;
+import com.google.api.client.extensions.appengine.http.UrlFetchTransport
+
+Chargehound chargehound = new Chargehound("test_123");
+
+chargehound.setHttpTransport(new UrlFetchTransport());
+```
 
 ## Development
 

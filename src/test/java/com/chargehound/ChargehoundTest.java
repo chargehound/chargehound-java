@@ -1,5 +1,6 @@
 package com.chargehound;
 
+import com.chargehound.Chargehound;
 import com.chargehound.errors.ChargehoundException;
 import com.chargehound.models.Dispute;
 import com.chargehound.models.DisputesList;
