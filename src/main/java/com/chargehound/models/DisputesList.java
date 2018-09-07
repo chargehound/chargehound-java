@@ -14,10 +14,10 @@ public class DisputesList extends GenericJson {
   public List<Dispute> data;
 
   @Key("has_more")
-  public Boolean hasMore;
+  public boolean hasMore;
 
   @Key("livemode")
-  public Boolean livemode;
+  public boolean livemode;
 
   @Key("object")
   public String object;

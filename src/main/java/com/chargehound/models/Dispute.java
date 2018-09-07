@@ -35,7 +35,7 @@ public class Dispute extends GenericJson {
   public String closedAt;
   // Number of times the dispute evidence has been submitted.
   @Key("submitted_count")
-  public Integer submittedCount;
+  public int submittedCount;
   // Id of the template attached to the dispute.
   @Key("template")
   public String template;
@@ -53,19 +53,19 @@ public class Dispute extends GenericJson {
   public String charge;
   // Can the charge be refunded.
   @Key("is_charge_refundable")
-  public Boolean isChargeRefundable;
+  public boolean isChargeRefundable;
   // Amount of the disputed charge. Amounts are in cents (or other minor currency unit.)
   @Key("amount")
-  public Integer amount;
+  public int amount;
   // Currency code of the disputed charge. e.g. 'USD'.
   @Key("currency")
   public String currency;
   // Dispute fee.
   @Key("fee")
-  public Integer fee;
+  public int fee;
   // The amount deducted due to the chargeback. Amounts are in cents (or other minor currency unit.)
   @Key("reversal_amount")
-  public Integer reversalAmount;
+  public int reversalAmount;
   // Currency code of the deduction amount. e.g. 'USD'.
   @Key("reversal_currency")
   public String reversalCurrency;
@@ -119,7 +119,7 @@ public class Dispute extends GenericJson {
   public String referenceURL;
   // Is this a livemode dispute.
   @Key("livemode")
-  public Boolean livemode;
+  public boolean livemode;
   // Data about the API response that created dispute.
   public HttpResponse response;
 
