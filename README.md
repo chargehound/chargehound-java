@@ -61,7 +61,7 @@ If you're using the library in a Google App Engine environment, you can set the 
 
 ```java
 import com.chargehound.Chargehound;
-import com.google.api.client.extensions.appengine.http.UrlFetchTransport
+import com.google.api.client.extensions.appengine.http.UrlFetchTransport;
 
 Chargehound chargehound = new Chargehound("test_123");
 
