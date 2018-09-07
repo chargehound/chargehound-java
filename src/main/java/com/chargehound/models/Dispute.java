@@ -45,8 +45,8 @@ public class Dispute extends GenericJson {
   // Any fields required by the template that have not yet been provided.
   @Key("missing_fields")
   public Map<String, Object> missingFields;
-  // (Optional) A list of products in the disputed order.
-  // (See [Product data](#product-data) for details.)
+  //  A list of products in the disputed order.
+  // (See [Product data](#product-data) for details.) (optional)
   @Key("products")
   public List<Product> products;
   // Id of the disputed charge.
