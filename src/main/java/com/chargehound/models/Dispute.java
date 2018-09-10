@@ -124,7 +124,10 @@ public class Dispute extends GenericJson {
   // Data about the API response that created dispute.
   public HttpResponse response;
 
-  // The type returned by a dispute response request.
+  /**
+   * The type returned by a dispute response request.
+   * See https://www.chargehound.com/docs/api/2017-10-30/#retrieving-a-dispute-response
+   */
   public static class Response extends GenericJson {
     @Key("livemode")
     public Boolean livemode;
