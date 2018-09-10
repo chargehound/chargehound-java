@@ -14,7 +14,7 @@ before_install:
 script:
   - ./gradlew --version
   - ./gradlew clean
-  - if [ "$TRAVIS_JDK_VERSION" == "oraclejdk9" ]; then ./gradlew check; fi
+  - if [ "$TRAVIS_JDK_VERSION" == "oraclejdk8" ]; then ./gradlew check; fi
   - ./gradlew test
 
 matrix:
