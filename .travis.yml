@@ -1,6 +1,8 @@
 language: java
 
 before_install:
+  # Install script for missing JDKs
+  - wget https://github.com/sormuras/bach/raw/master/install-jdk.sh
   # Work around missing crypto in openjdk7
   - |
     if [ "$TRAVIS_JDK_VERSION" == "openjdk7" ]; then
@@ -29,7 +31,7 @@ matrix:
     - env: JDK='Oracle JDK 9'
       jdk: oraclejdk9
     - env: JDK='OpenJDK 9'
-      install: openjdk9
+      install: . ./install-jdk.sh -F 9 -L GPL
 # 10
     - env: JDK='Oracle JDK 10'
       jdk: oraclejdk10
