@@ -9,12 +9,12 @@ version = version
 
 dependencies {
   // Google HTTP library
-  compile 'com.google.http-client:google-http-client:1.23.0'
-  compile 'com.google.http-client:google-http-client-jackson2:1.23.0'
+  compile 'com.google.http-client:google-http-client:1.25.0'
+  compile 'com.google.http-client:google-http-client-jackson2:1.25.0'
 
   // Javax JSON util
-  compile 'javax.json:javax.json-api:1.0'
-  compile 'org.glassfish:javax.json:1.0'
+  testImplementation 'javax.json:javax.json-api:1.0'
+  testImplementation 'org.glassfish:javax.json:1.0'
 
   // JUnit test framework
   testImplementation 'junit:junit:4.12'

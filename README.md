@@ -27,7 +27,10 @@ compile "com.chargehound:chargehound-java:1.0.0"
 
 ### Others
 
-You'll need to manually install the JAR from https://github.com/chargehound/chargehound-java/releases/latest:
+You'll need to manually install the following JARs:
+
+* The Chargehound JAR from https://github.com/chargehound/chargehound-java/releases/latest
+* [Google HTTP client](https://developers.google.com/api-client-library/java/google-http-java-client/) from <https://developers.google.com/api-client-library/java/google-http-java-client/download>.
 
 ### Requests
 

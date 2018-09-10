@@ -2,30 +2,54 @@ package com.chargehound.errors;
 
 import com.chargehound.errors.ChargehoundException;
 import com.google.api.client.http.HttpResponseException;
+import com.google.api.client.json.GenericJson;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.JsonParser;
+
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.Key;
+
 import java.io.IOException;
 import java.io.StringReader;
 import java.lang.Exception;
 
 public class ChargehoundExceptionFactory {
 
+  private static final JsonFactory JSON_FACTORY = new JacksonFactory();
+
+  /**
+   * Define a class to parse the error message.
+   */
+  public static class ChargehoundErrorDetails extends GenericJson {
+    @Key("message")
+    public String message;
+  }
+
+  /**
+   * Define a class to parse the error Json.
+   */
+  public static class ChargehoundErrorJson extends GenericJson {
+    @Key("error")
+    public ChargehoundErrorDetails error;
+
+    public boolean livemode;
+
+    public String url;
+  }
+
   /**
    * Create a Chargehound exception from an Http exception.
    */
   public ChargehoundException httpResponseException(HttpResponseException error) {
     String jsonContent = error.getContent();
+    Integer statusCode = error.getStatusCode();
 
     StringReader reader = new StringReader(jsonContent);
 
-    javax.json.JsonReader jsonReader = javax.json.Json.createReader(reader);
-
-    javax.json.JsonObject json = jsonReader.readObject();
-    jsonReader.close();
-
-    Integer statusCode = error.getStatusCode();
-
     try {
-      javax.json.JsonObject errorDetails = json.getJsonObject("error");
-      String errorMessage = errorDetails.getString("message");
+      JsonParser parser = JSON_FACTORY.createJsonParser(reader);
+      ChargehoundErrorJson errorDetails = parser.parseAndClose(ChargehoundErrorJson.class);
+      String errorMessage = errorDetails.error.message;
       switch (statusCode) {
         case 400:
           return new ChargehoundException.HttpException.BadRequest(
