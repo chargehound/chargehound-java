@@ -2,13 +2,14 @@ plugins {
   // Apply the java-library plugin to add support for Java Library
   id 'java-library'
 
+  // Lint the code
   id 'checkstyle'
 }
 
 version = version
 
 dependencies {
-  // Google HTTP library
+  // Google HTTP library + jackson2 for JSON parsing
   compile 'com.google.http-client:google-http-client:1.25.0'
   compile 'com.google.http-client:google-http-client-jackson2:1.25.0'
 
