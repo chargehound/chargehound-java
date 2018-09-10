@@ -64,7 +64,7 @@ public class ApiRequestor {
       return this.getUrl(path);
     }
     try {
-      String query = this.getParamsString(params);
+      String query = ApiRequestor.getParamsString(params);
       if (query.length() > 0) {
         query = "?" + query;
       }

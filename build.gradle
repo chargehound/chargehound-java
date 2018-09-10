@@ -6,7 +6,8 @@ plugins {
   id 'checkstyle'
 }
 
-version = version
+group = GROUP
+version = VERSION_NAME
 
 dependencies {
   // Google HTTP library + jackson2 for JSON parsing
@@ -27,4 +28,12 @@ repositories {
 
 checkstyle {
   toolVersion = '8.12'
+}
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+tasks.withType(JavaCompile) {
+  options.compilerArgs << "-Xlint:all" << "-Xlint:-options" << "-Xlint:-processing" << "-Xlint:-serial"
+  options.encoding = 'UTF-8'
 }

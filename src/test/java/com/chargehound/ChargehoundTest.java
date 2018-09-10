@@ -156,7 +156,7 @@ public class ChargehoundTest {
     Dispute testDispute = new Dispute();
     testDispute.id = "dp_123";
     testDispute.kind = "chargeback";
-    testList.data = new ArrayList();
+    testList.data = new ArrayList<Dispute>();
     testList.data.add(testDispute);
 
     HttpTransport transport = new MockHttpTransport() {
@@ -193,7 +193,7 @@ public class ChargehoundTest {
     Dispute testDispute = new Dispute();
     testDispute.id = "dp_123";
     testDispute.kind = "chargeback";
-    testList.data = new ArrayList();
+    testList.data = new ArrayList<Dispute>();
     testList.data.add(testDispute);
 
     HttpTransport transport = new MockHttpTransport() {
@@ -237,7 +237,7 @@ public class ChargehoundTest {
     testDispute.kind = "chargeback";
 
     Dispute.UpdateParams disputeUpdate = new Dispute.UpdateParams();
-    disputeUpdate.fields = new HashMap();
+    disputeUpdate.fields = new HashMap<String, Object>();
     disputeUpdate.fields.put("key", "value");
 
     HttpTransport transport = new MockHttpTransport() {
@@ -281,7 +281,7 @@ public class ChargehoundTest {
         .amount(100)
         .finish();
 
-    ArrayList products = new ArrayList();
+    ArrayList<Product> products = new ArrayList<Product>();
     products.add(product);
 
     Dispute.UpdateParams disputeUpdate = new Dispute.UpdateParams.Builder()
@@ -327,10 +327,10 @@ public class ChargehoundTest {
     testDispute.kind = "chargeback";
 
     Dispute.UpdateParams disputeUpdate = new Dispute.UpdateParams();
-    disputeUpdate.fields = new HashMap();
+    disputeUpdate.fields = new HashMap<String, Object>();
     disputeUpdate.fields.put("key", "value");
 
-    final String chargehoundUserAgent = "Chargehound/v1 JavaBindings/" + chargehound.VERSION;
+    final String chargehoundUserAgent = "Chargehound/v1 JavaBindings/" + Chargehound.VERSION;
 
     HttpTransport transport = new MockHttpTransport() {
       @Override
@@ -370,7 +370,7 @@ public class ChargehoundTest {
     testDispute.kind = "chargeback";
 
     Dispute.UpdateParams disputeUpdate = new Dispute.UpdateParams();
-    disputeUpdate.fields = new HashMap();
+    disputeUpdate.fields = new HashMap<String, Object>();
     disputeUpdate.fields.put("key", "value");
 
     HttpTransport transport = new MockHttpTransport() {
@@ -531,7 +531,7 @@ public class ChargehoundTest {
     testDispute.kind = "chargeback";
 
     Dispute.UpdateParams disputeUpdate = new Dispute.UpdateParams();
-    disputeUpdate.fields = new HashMap();
+    disputeUpdate.fields = new HashMap<String, Object>();
     disputeUpdate.fields.put("key", "value");
 
     HttpTransport transport = new MockHttpTransport() {
