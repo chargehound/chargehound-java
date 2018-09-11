@@ -45,7 +45,7 @@ public class Disputes {
   }
 
   /**
-   * Retrieve the response for a dispute once it is available
+   * Retrieve the response for a dispute once it is available.
    * @param id A dispute id
    * @return Dispute
    * @throws ChargehoundException Exception on failed API request
@@ -104,8 +104,8 @@ public class Disputes {
   }
 
   /**
-   * Accepting a dispute
-   * Accept a dispute if you do not want to submit a response
+   * Accepting a dispute.
+   * Accept a dispute if you do not want to submit a response.
    * @param id A dispute id
    * @return Dispute
    * @throws ChargehoundException Exception on failed API request
@@ -152,9 +152,12 @@ public class Disputes {
 
   /**
    * Submitting a dispute
-   * You will want to submit the dispute through Chargehound after you recieve a webhook notification of a new dispute.
-   * With one `POST` request you can update a dispute with the evidence fields and submit the response.
-   * The response will have a `201` status if the submit was successful. The dispute will also be in the submitted state.
+   * You will want to submit the dispute through Chargehound after you recieve
+   * a webhook notification of a new dispute.
+   * With one `POST` request you can update a dispute with the evidence fields
+   * and submit the response.
+   * The response will have a `201` status if the submit was successful.
+   * The dispute will also be in the submitted state.
    * @param id A dispute id
    * @param update A dispute update object
    * @return Dispute
@@ -180,9 +183,12 @@ public class Disputes {
 
   /**
    * Submitting a dispute
-   * You will want to submit the dispute through Chargehound after you recieve a webhook notification of a new dispute.
-   * With one `POST` request you can update a dispute with the evidence fields and submit the response.
-   * The response will have a `201` status if the submit was successful. The dispute will also be in the submitted state.
+   * You will want to submit the dispute through Chargehound after
+   * you recieve a webhook notification of a new dispute.
+   * With one `POST` request you can update a dispute with the evidence fields
+   * and submit the response.
+   * The response will have a `201` status if the submit was successful.
+   * The dispute will also be in the submitted state.
    * @param id A dispute id
    * @return Dispute
    * @throws ChargehoundException Exception on failed API request

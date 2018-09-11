@@ -88,6 +88,7 @@ public class ApiRequestor {
   }
 
   /**
+   * Make an http request to the Chargehound API.
    * @param method the http method
    * @param path the URL path
    * @param params the query parameters
@@ -144,6 +145,7 @@ public class ApiRequestor {
   }
 
   /**
+   * Make an http request to the Chargehound API.
    * @param method the http method
    * @param path the URL path
    * @return HttpResponse
@@ -155,6 +157,7 @@ public class ApiRequestor {
   }
 
   /**
+   * Make an http request to the Chargehound API.
    * @param method the http method
    * @param path the URL path
    * @param params the query parameters
