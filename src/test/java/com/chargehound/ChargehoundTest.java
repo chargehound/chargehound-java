@@ -516,7 +516,7 @@ public class ChargehoundTest {
 
     chargehound.setHttpTransport(transport);
 
-    Dispute result = chargehound.disputes.create(testDispute.id, disputeCreate);
+    Dispute result = chargehound.disputes.create(disputeCreate);
 
     assertEquals(JSON_FACTORY.toString(testDispute), JSON_FACTORY.toString(result));
   }
