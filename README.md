@@ -109,5 +109,6 @@ To deploy a new version of the SDK, perform the following steps:
  2. Bump the version number in `gradle.properties`.
  3. Bump the version number in the `Chargehound` class in `Chargehound.java`.
  4. Bump the version number in this README.
+ 5. Deploy the Jar to the Maven central repository with `gradle clean build uploadArchives`
 
  // TODO: the rest of the steps

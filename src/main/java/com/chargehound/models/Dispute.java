@@ -255,6 +255,7 @@ public class Dispute extends GenericJson {
 
       /**
        * Finish the builder.
+       * @return UpdateParams
        */
       public UpdateParams finish() {
         return new UpdateParams(
@@ -600,6 +601,7 @@ public class Dispute extends GenericJson {
 
       /**
        * Finish the builder.
+       * @return CreateParams
        */
       public CreateParams finish() {
         return new CreateParams(

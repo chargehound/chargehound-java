@@ -39,6 +39,8 @@ public class ChargehoundExceptionFactory {
 
   /**
    * Create a Chargehound exception from an Http exception.
+   * @param error an HTTP exception
+   * @return ChargehoundException
    */
   public ChargehoundException httpResponseException(HttpResponseException error) {
     String jsonContent = error.getContent();
@@ -85,6 +87,8 @@ public class ChargehoundExceptionFactory {
 
   /**
    * Create a Chargehound exception from a generic exception.
+   * @param error any exception exception
+   * @return ChargehoundException
    */
   public ChargehoundException genericChargehoundException(Exception error) {
     return new ChargehoundException(error.getMessage(), error.getCause());

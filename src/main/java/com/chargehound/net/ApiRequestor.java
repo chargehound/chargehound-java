@@ -88,7 +88,12 @@ public class ApiRequestor {
   }
 
   /**
-   * Make an Http request.
+   * @param method the http method
+   * @param path the URL path
+   * @param params the query parameters
+   * @param data the request body data
+   * @return HttpResponse
+   * @throws ChargehoundException Exception on failed API request
    */
   public HttpResponse request(
       String method,
@@ -138,11 +143,24 @@ public class ApiRequestor {
     }
   }
 
+  /**
+   * @param method the http method
+   * @param path the URL path
+   * @return HttpResponse
+   * @throws ChargehoundException Exception on failed API request
+   */
   public HttpResponse request(String method, String path) throws ChargehoundException {
     Map<String,String> emptyMap = Collections.emptyMap();
     return this.request(method, path, emptyMap, null);
   }
 
+  /**
+   * @param method the http method
+   * @param path the URL path
+   * @param params the query parameters
+   * @return HttpResponse
+   * @throws ChargehoundException Exception on failed API request
+   */
   public HttpResponse request(
       String method,
       String path,

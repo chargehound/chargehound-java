@@ -25,6 +25,9 @@ public class Disputes {
   /**
    * Retrieve a dispute.
    * This endpoint will return a single dispute.
+   * @param id A dispute id
+   * @return Dispute
+   * @throws ChargehoundException Exception on failed API request
    */
   public Dispute retrieve(String id) throws ChargehoundException {
     HttpResponse response = this.client.request(
@@ -42,7 +45,10 @@ public class Disputes {
   }
 
   /**
-   * Retrieve a dispute response.
+   * Retrieve the response for a dispute once it is available
+   * @param id A dispute id
+   * @return Dispute
+   * @throws ChargehoundException Exception on failed API request
    */
   public Dispute.Response response(String id) throws ChargehoundException {
     HttpResponse httpResponse = this.client.request(
@@ -61,6 +67,8 @@ public class Disputes {
 
   /**
    * Retrieve a list of disputes.
+   * @return DisputesList
+   * @throws ChargehoundException Exception on failed API request
    */
   public DisputesList list() throws ChargehoundException {
     return this.list(new DisputesList.Params());
@@ -68,6 +76,12 @@ public class Disputes {
 
   /**
    * Retrieve a list of disputes.
+   * This endpoint will list all the disputes that we have synced.
+   * By default the disputes will be ordered by `created` with the most recent dispute first.
+   * `has_more` will be `true` if more results are available.
+   * @param params Query parameters for the list of disputes.
+   * @return DisputesList
+   * @throws ChargehoundException Exception on failed API request
    */
   public DisputesList list(DisputesList.Params params) throws ChargehoundException {
     if (params == null) {
@@ -90,7 +104,11 @@ public class Disputes {
   }
 
   /**
-   * Accept a dispute if you do not want to submit a response.
+   * Accepting a dispute
+   * Accept a dispute if you do not want to submit a response
+   * @param id A dispute id
+   * @return Dispute
+   * @throws ChargehoundException Exception on failed API request
    */
   public Dispute accept(String id) throws ChargehoundException {
     HttpResponse response = this.client.request(
@@ -108,7 +126,12 @@ public class Disputes {
   }
 
   /**
-   * Update the template and the fields on a dispute.
+   * Updating a dispute
+   * You can update the template and the fields on a dispute.
+   * @param id A dispute id
+   * @param update  dispute update object
+   * @return Dispute
+   * @throws ChargehoundException Exception on failed API request
    */
   public Dispute update(String id, Dispute.UpdateParams update) throws ChargehoundException {
     HttpResponse response = this.client.request(
@@ -128,8 +151,16 @@ public class Disputes {
   }
 
   /**
-   * Update and submit the dispute.
+   * Submitting a dispute
+   * You will want to submit the dispute through Chargehound after you recieve a webhook notification of a new dispute.
+   * With one `POST` request you can update a dispute with the evidence fields and submit the response.
+   * The response will have a `201` status if the submit was successful. The dispute will also be in the submitted state.
+   * @param id A dispute id
+   * @param update A dispute update object
+   * @return Dispute
+   * @throws ChargehoundException Exception on failed API request
    */
+
   public Dispute submit(String id, Dispute.UpdateParams update) throws ChargehoundException {
     HttpResponse response = this.client.request(
         "POST",
@@ -148,16 +179,26 @@ public class Disputes {
   }
 
   /**
-   * Submit the dispute.
+   * Submitting a dispute
+   * You will want to submit the dispute through Chargehound after you recieve a webhook notification of a new dispute.
+   * With one `POST` request you can update a dispute with the evidence fields and submit the response.
+   * The response will have a `201` status if the submit was successful. The dispute will also be in the submitted state.
+   * @param id A dispute id
+   * @return Dispute
+   * @throws ChargehoundException Exception on failed API request
    */
   public Dispute submit(String id) throws ChargehoundException {
     return this.submit(id, null);
   }
 
   /**
-   * Create a dispute.
+   * Create a dispute
+   * This endpoint will return a single dispute.
+   * @param create A dispute create object
+   * @return Dispute
+   * @throws ChargehoundException Exception on failed API request
    */
-  public Dispute create(String id, Dispute.CreateParams create) throws ChargehoundException {
+  public Dispute create(Dispute.CreateParams create) throws ChargehoundException {
     HttpResponse response = this.client.request(
         "POST",
         "/disputes",

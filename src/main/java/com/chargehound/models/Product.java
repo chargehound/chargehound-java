@@ -92,6 +92,7 @@ public class Product extends GenericJson {
 
     /**
      * Finish the builder.
+     * @return Product
      */
     public Product finish() {
       return new Product(

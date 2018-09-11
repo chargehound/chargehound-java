@@ -37,3 +37,24 @@ tasks.withType(JavaCompile) {
   options.compilerArgs << "-Xlint:all" << "-Xlint:-options" << "-Xlint:-processing" << "-Xlint:-serial"
   options.encoding = 'UTF-8'
 }
+
+task sourcesJar(type: Jar) {
+  from sourceSets.main.allJava
+  classifier = 'sources'
+}
+
+task javadocJar(type: Jar) {
+  from javadoc
+  classifier = 'javadoc'
+}
+
+javadoc {
+  if(JavaVersion.current().isJava9Compatible()) {
+    options.addBooleanOption('html4', true)
+  }
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+

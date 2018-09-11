@@ -43,6 +43,7 @@ public class DisputesList extends GenericJson {
 
     /**
      * Return the params as a map with string keys and values.
+     * @return Map
      */
     public Map<String,String> asStringMap() {
       Map<String,String> paramsMap = new HashMap<String,String>();
@@ -96,6 +97,7 @@ public class DisputesList extends GenericJson {
 
       /**
        * Finish the builder.
+       * @return Params
        */
       public Params finish() {
         return new Params(
