@@ -98,8 +98,8 @@ public class Dispute extends GenericJson {
   @Key("statement_descriptor")
   public String statementDescriptor;
   // The account id for Connected accounts that are charged directly through Stripe (if any)
-  @Key("user_id")
-  public String userId;
+  @Key("account_id")
+  public String accountId;
   // The kind for the dispute, 'chargeback', 'retrieval' or 'pre_arbitration'.
   @Key("kind")
   public String kind;
@@ -155,8 +155,8 @@ public class Dispute extends GenericJson {
   public static class UpdateParams extends GenericJson {
     // Set the account id for Connected accounts that are charged directly through Stripe.
     // (optional)
-    @Key("user_id")
-    public String userId;
+    @Key("account_id")
+    public String accountId;
     // Id of the connected account for this dispute (if multiple accounts are connected)
     // (optional)
     @Key("account")
@@ -184,7 +184,7 @@ public class Dispute extends GenericJson {
     public UpdateParams() {}
 
     private UpdateParams(
-        final String userId,
+        final String accountId,
         final String account,
         final Boolean force,
         final Boolean queue,
@@ -193,7 +193,7 @@ public class Dispute extends GenericJson {
         final List<Product> products,
         final String referenceUrl
     ) {
-      this.userId = userId;
+      this.accountId = accountId;
       this.account = account;
       this.force = force;
       this.queue = queue;
@@ -204,7 +204,7 @@ public class Dispute extends GenericJson {
     }
 
     public static class Builder {
-      private String userId;
+      private String accountId;
       private String account;
       private Boolean force;
       private Boolean queue;
@@ -213,8 +213,8 @@ public class Dispute extends GenericJson {
       private List<Product> products;
       private String referenceUrl;
 
-      public Builder userId(final String userId) {
-        this.userId = userId;
+      public Builder accountId(final String accountId) {
+        this.accountId = accountId;
         return this;
       }
 
@@ -259,7 +259,7 @@ public class Dispute extends GenericJson {
        */
       public UpdateParams finish() {
         return new UpdateParams(
-          this.userId,
+          this.accountId,
           this.account,
           this.force,
           this.queue,
@@ -351,8 +351,8 @@ public class Dispute extends GenericJson {
     public List<Product> products;
     // Set the account id for Connected accounts that are charged directly through Stripe.
     // (optional)
-    @Key("user_id")
-    public String userId;
+    @Key("account_id")
+    public String accountId;
     // Set the kind for the dispute, 'chargeback', 'retrieval' or 'pre_arbitration'.
     // (optional)
     @Key("kind")
@@ -393,7 +393,7 @@ public class Dispute extends GenericJson {
         final String template,
         final Map<String, Object> fields,
         final List<Product> products,
-        final String userId,
+        final String accountId,
         final String kind,
         final Boolean submit,
         final Boolean queue,
@@ -422,7 +422,7 @@ public class Dispute extends GenericJson {
       this.template = template;
       this.fields = fields;
       this.products = products;
-      this.userId = userId;
+      this.accountId = accountId;
       this.kind = kind;
       this.submit = submit;
       this.queue = queue;
@@ -453,7 +453,7 @@ public class Dispute extends GenericJson {
       private String template;
       private Map<String, Object> fields;
       private List<Product> products;
-      private String userId;
+      private String accountId;
       private String kind;
       private Boolean submit;
       private Boolean queue;
@@ -559,8 +559,8 @@ public class Dispute extends GenericJson {
         return this;
       }
 
-      public Builder userId(final String userId) {
-        this.userId = userId;
+      public Builder accountId(final String accountId) {
+        this.accountId = accountId;
         return this;
       }
 
@@ -628,7 +628,7 @@ public class Dispute extends GenericJson {
           this.template,
           this.fields,
           this.products,
-          this.userId,
+          this.accountId,
           this.kind,
           this.submit,
           this.queue,
