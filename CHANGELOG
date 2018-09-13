@@ -1,2 +1,5 @@
 1.0.0 September, 2018
   - Initial release with disputes API
+
+1.1.0 September, 2018
+  - The `account_id` param should be used instead of the `user_id` param
