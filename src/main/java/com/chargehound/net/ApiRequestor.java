@@ -25,6 +25,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Collections;
 import java.util.Map;
+import java.util.List;
 
 public class ApiRequestor {
   private Chargehound chargehound;
@@ -40,15 +41,24 @@ public class ApiRequestor {
   }
 
   private static String getParamsString(
-      Map<String, String> params
+      Map<String, Object> params
   ) throws UnsupportedEncodingException {
     StringBuilder result = new StringBuilder();
 
-    for (Map.Entry<String, String> entry : params.entrySet()) {
-      result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
-      result.append("=");
-      result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
-      result.append("&");
+    for (Map.Entry<String, Object> entry : params.entrySet()) {
+      if (entry.getValue() instanceof List) {
+        for (Object value: (List) entry.getValue()) {
+          result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
+          result.append("=");
+          result.append(URLEncoder.encode(value.toString(), "UTF-8"));
+          result.append("&");
+        }
+      } else {
+        result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
+        result.append("=");
+        result.append(URLEncoder.encode(entry.getValue().toString(), "UTF-8"));
+        result.append("&");
+      }
     }
 
     String resultString = result.toString();
@@ -59,7 +69,7 @@ public class ApiRequestor {
     }
   }
 
-  private GenericUrl getUrl(String path, Map<String, String> params) throws ChargehoundException {
+  private GenericUrl getUrl(String path, Map<String, Object> params) throws ChargehoundException {
     if (params == null) {
       return this.getUrl(path);
     }
@@ -75,7 +85,7 @@ public class ApiRequestor {
   }
 
   private GenericUrl getUrl(String path) throws ChargehoundException {
-    Map<String,String> emptyMap = Collections.emptyMap();
+    Map<String, Object> emptyMap = Collections.emptyMap();
     return this.getUrl(path, emptyMap);
   }
 
@@ -99,7 +109,7 @@ public class ApiRequestor {
   public HttpResponse request(
       String method,
       String path,
-      Map<String, String> params,
+      Map<String, Object> params,
       GenericJson data
   ) throws ChargehoundException {
     HttpTransport transport = this.chargehound.getHttpTransport();
@@ -152,7 +162,7 @@ public class ApiRequestor {
    * @throws ChargehoundException Exception on failed API request
    */
   public HttpResponse request(String method, String path) throws ChargehoundException {
-    Map<String,String> emptyMap = Collections.emptyMap();
+    Map<String, Object> emptyMap = Collections.emptyMap();
     return this.request(method, path, emptyMap, null);
   }
 
@@ -167,7 +177,7 @@ public class ApiRequestor {
   public HttpResponse request(
       String method,
       String path,
-      Map<String, String> params
+      Map<String, Object> params
   ) throws ChargehoundException {
     return this.request(method, path, params, null);
   }

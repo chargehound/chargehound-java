@@ -199,8 +199,8 @@ public class ChargehoundTest {
     HttpTransport transport = new MockHttpTransport() {
       @Override
       public LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
-        assertEquals(method, "GET");
-        assertEquals(url, "http://test.test.com/v1/disputes?limit=1&starting_after=dp_111");
+        assertEquals("GET", method);
+        assertEquals("http://test.test.com/v1/disputes?limit=1&starting_after=dp_111", url);
 
         return new MockLowLevelHttpRequest() {
           @Override
@@ -220,6 +220,88 @@ public class ChargehoundTest {
     DisputesList.Params params = new DisputesList.Params.Builder()
         .startingAfter("dp_111")
         .limit(1)
+        .finish();
+
+    DisputesList result = chargehound.disputes.list(params);
+
+    assertEquals(JSON_FACTORY.toString(testList), JSON_FACTORY.toString(result));
+  }
+
+  @Test public void testDisputesListState() throws IOException, ChargehoundException {
+    Chargehound chargehound = new Chargehound("test_123");
+    chargehound.setApiProtocol("http://");
+    chargehound.setApiHost("test.test.com");
+
+    final DisputesList testList = new DisputesList();
+    Dispute testDispute = new Dispute();
+    testDispute.id = "dp_123";
+    testDispute.kind = "chargeback";
+    testList.data = new ArrayList<Dispute>();
+    testList.data.add(testDispute);
+
+    HttpTransport transport = new MockHttpTransport() {
+      @Override
+      public LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
+        assertEquals(method, "GET");
+        assertEquals(url, "http://test.test.com/v1/disputes?state=needs_response");
+
+        return new MockLowLevelHttpRequest() {
+          @Override
+          public LowLevelHttpResponse execute() throws IOException {
+            MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();
+            result.setContentType(Json.MEDIA_TYPE);
+            result.setContent(JSON_FACTORY.toString(testList));
+            return result;
+          }
+        };
+      }
+    };
+
+    chargehound.setHttpTransport(transport);
+
+    DisputesList.Params params = new DisputesList.Params.Builder()
+        .state("needs_response")
+        .finish();
+
+    DisputesList result = chargehound.disputes.list(params);
+
+    assertEquals(JSON_FACTORY.toString(testList), JSON_FACTORY.toString(result));
+  }
+
+  @Test public void testDisputesListMultipleStates() throws IOException, ChargehoundException {
+    Chargehound chargehound = new Chargehound("test_123");
+    chargehound.setApiProtocol("http://");
+    chargehound.setApiHost("test.test.com");
+
+    final DisputesList testList = new DisputesList();
+    Dispute testDispute = new Dispute();
+    testDispute.id = "dp_123";
+    testDispute.kind = "chargeback";
+    testList.data = new ArrayList<Dispute>();
+    testList.data.add(testDispute);
+
+    HttpTransport transport = new MockHttpTransport() {
+      @Override
+      public LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
+        assertEquals(method, "GET");
+        assertEquals(url, "http://test.test.com/v1/disputes?state=needs_response&state=warning_needs_response");
+
+        return new MockLowLevelHttpRequest() {
+          @Override
+          public LowLevelHttpResponse execute() throws IOException {
+            MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();
+            result.setContentType(Json.MEDIA_TYPE);
+            result.setContent(JSON_FACTORY.toString(testList));
+            return result;
+          }
+        };
+      }
+    };
+
+    chargehound.setHttpTransport(transport);
+
+    DisputesList.Params params = new DisputesList.Params.Builder()
+        .state("needs_response", "warning_needs_response")
         .finish();
 
     DisputesList result = chargehound.disputes.list(params);

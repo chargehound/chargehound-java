@@ -91,7 +91,7 @@ public class Disputes {
     HttpResponse httpResponse = this.client.request(
         "GET",
         "/disputes",
-        params.asStringMap()
+        params
     );
 
     try {
