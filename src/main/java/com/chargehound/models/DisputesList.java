@@ -7,6 +7,7 @@ import com.google.api.client.util.Key;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Arrays;
 
 // The type returned by a list disputes request. See https://www.chargehound.com/docs/api/index.html#retrieving-a-list-of-disputes.
 public class DisputesList extends GenericJson {
@@ -39,21 +40,7 @@ public class DisputesList extends GenericJson {
     public String endingBefore;
 
     @Key("state")
-    public String state;
-
-    /**
-     * Return the params as a map with string keys and values.
-     * @return Map
-     */
-    public Map<String,String> asStringMap() {
-      Map<String,String> paramsMap = new HashMap<String,String>();
-
-      for (Map.Entry<String, Object> entry : this.entrySet()) {
-        paramsMap.put(entry.getKey(), entry.getValue().toString());
-      }
-
-      return paramsMap;
-    }
+    public List<String> state;
 
     public Params() {}
 
@@ -61,7 +48,7 @@ public class DisputesList extends GenericJson {
         final Integer limit,
         final String startingAfter,
         final String endingBefore,
-        final String state
+        final List<String> state
     ) {
       this.limit = limit;
       this.startingAfter = startingAfter;
@@ -73,7 +60,7 @@ public class DisputesList extends GenericJson {
       private Integer limit;
       private String startingAfter;
       private String endingBefore;
-      private String state;
+      public List<String> state;
 
       public Builder limit(final Integer limit) {
         this.limit = limit;
@@ -90,8 +77,8 @@ public class DisputesList extends GenericJson {
         return this;
       }
 
-      public Builder state(final String state) {
-        this.state = state;
+      public Builder state(final String... state) {
+        this.state = Arrays.asList(state);
         return this;
       }
 
