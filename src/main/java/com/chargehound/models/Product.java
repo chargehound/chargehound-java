@@ -26,6 +26,12 @@ public class Product extends GenericJson {
   @Key("url")
   String url;
 
+  @Key("shipping_carrier")
+  String shippingCarrier;
+
+  @Key("shipping_tracking_number")
+  String shippingTrackingNumber;
+
   public Product() {}
 
   private Product(
@@ -35,7 +41,9 @@ public class Product extends GenericJson {
       final String sku,
       final Integer quantity,
       final Integer amount,
-      final String url
+      final String url,
+      final String shippingCarrier,
+      final String shippingTrackingNumber
   ) {
     this.name = name;
     this.description = description;
@@ -44,6 +52,8 @@ public class Product extends GenericJson {
     this.quantity = quantity;
     this.amount = amount;
     this.url = url;
+    this.shippingCarrier = shippingCarrier;
+    this.shippingTrackingNumber = shippingTrackingNumber;
   }
 
   public static class Builder {
@@ -54,6 +64,8 @@ public class Product extends GenericJson {
     private Integer quantity;
     private Integer amount;
     private String url;
+    private String shippingCarrier;
+    private String shippingTrackingNumber;
 
     public Builder name(final String name) {
       this.name = name;
@@ -90,6 +102,16 @@ public class Product extends GenericJson {
       return this;
     }
 
+    public Builder shippingCarrier(final String shippingCarrier) {
+      this.shippingCarrier = shippingCarrier;
+      return this;
+    }
+
+    public Builder shippingTrackingNumber(final String shippingTrackingNumber) {
+      this.shippingTrackingNumber = shippingTrackingNumber;
+      return this;
+    }
+
     /**
      * Finish the builder.
      * @return Product
@@ -102,7 +124,9 @@ public class Product extends GenericJson {
         this.sku,
         this.quantity,
         this.amount,
-        this.url
+        this.url,
+        this.shippingCarrier,
+        this.shippingTrackingNumber
       );
     }
   }

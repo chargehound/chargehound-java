@@ -398,6 +398,57 @@ public class ChargehoundTest {
     assertEquals(JSON_FACTORY.toString(testDispute), JSON_FACTORY.toString(result));
   }
 
+  @Test public void testDisputeUpdateProductWithShipment() throws IOException, ChargehoundException {
+    Chargehound chargehound = new Chargehound("test_123");
+    chargehound.setApiProtocol("http://");
+    chargehound.setApiHost("test.test.com");
+
+    final Dispute testDispute = new Dispute();
+    testDispute.id = "dp_123";
+    testDispute.kind = "chargeback";
+
+    Product product = new Product.Builder()
+        .name("T-shirt")
+        .amount(100)
+        .shippingCarrier("fedex")
+        .shippingTrackingNumber("12345678")
+        .finish();
+
+    ArrayList<Product> products = new ArrayList<Product>();
+    products.add(product);
+
+    Dispute.UpdateParams disputeUpdate = new Dispute.UpdateParams.Builder()
+        .products(products)
+        .finish();
+
+    HttpTransport transport = new MockHttpTransport() {
+      @Override
+      public LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
+        assertEquals(method, "PUT");
+        assertEquals(url, "http://test.test.com/v1/disputes/dp_123");
+
+        return new MockLowLevelHttpRequest() {
+          @Override
+          public LowLevelHttpResponse execute() throws IOException {
+            assertEquals("{\"products\":[{\"amount\":100,\"name\":\"T-shirt\",\"shipping_carrier\":\"fedex\",\"shipping_tracking_number\":\"12345678\"}]}",
+                this.getContentAsString());
+
+            MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();
+            result.setContentType(Json.MEDIA_TYPE);
+            result.setContent(JSON_FACTORY.toString(testDispute));
+            return result;
+          }
+        };
+      }
+    };
+
+    chargehound.setHttpTransport(transport);
+
+    Dispute result = chargehound.disputes.update(testDispute.id, disputeUpdate);
+
+    assertEquals(JSON_FACTORY.toString(testDispute), JSON_FACTORY.toString(result));
+  }
+
   @Test public void testChargehoundHeaders() throws IOException, ChargehoundException {
     Chargehound chargehound = new Chargehound("test_123");
     chargehound.setApiProtocol("http://");
