@@ -1,5 +1,6 @@
 package com.chargehound.models;
 
+import com.chargehound.models.Email;
 import com.chargehound.models.Product;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.json.GenericJson;
@@ -49,6 +50,9 @@ public class Dispute extends GenericJson {
   // (See [Product data](#product-data) for details.) (optional)
   @Key("products")
   public List<Product> products;
+  //  A list of emails with the customer. (optional)
+  @Key("correspondence")
+  public List<Email> correspondence;
   // Id of the disputed charge.
   @Key("charge")
   public String charge;
@@ -177,6 +181,9 @@ public class Dispute extends GenericJson {
     // (See [Product data](#product-data) for details.) (Optional)
     @Key("products")
     public List<Product> products;
+    //  A list of emails with the customer. (optional)
+    @Key("correspondence")
+    public List<Email> correspondence;
     // Custom URL with dispute information.
     @Key("reference_url")
     public String referenceUrl;
@@ -191,6 +198,7 @@ public class Dispute extends GenericJson {
         final String template,
         final Map<String, Object> fields,
         final List<Product> products,
+        final List<Email> correspondence,
         final String referenceUrl
     ) {
       this.accountId = accountId;
@@ -200,6 +208,7 @@ public class Dispute extends GenericJson {
       this.template = template;
       this.fields = fields;
       this.products = products;
+      this.correspondence = correspondence;
       this.referenceUrl = referenceUrl;
     }
 
@@ -211,6 +220,7 @@ public class Dispute extends GenericJson {
       private String template;
       private Map<String, Object> fields;
       private List<Product> products;
+      private List<Email> correspondence;
       private String referenceUrl;
 
       public Builder accountId(final String accountId) {
@@ -248,6 +258,11 @@ public class Dispute extends GenericJson {
         return this;
       }
 
+      public Builder correspondence(final List<Email> correspondence) {
+        this.correspondence = correspondence;
+        return this;
+      }
+
       public Builder referenceUrl(final String referenceUrl) {
         this.referenceUrl = referenceUrl;
         return this;
@@ -266,6 +281,7 @@ public class Dispute extends GenericJson {
           this.template,
           this.fields,
           this.products,
+          this.correspondence,
           this.referenceUrl
         );
       }
