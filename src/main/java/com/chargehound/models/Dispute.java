@@ -1,6 +1,6 @@
 package com.chargehound.models;
 
-import com.chargehound.models.Email;
+import com.chargehound.models.CorrespondenceItem;
 import com.chargehound.models.Product;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.json.GenericJson;
@@ -52,7 +52,7 @@ public class Dispute extends GenericJson {
   public List<Product> products;
   //  A list of emails with the customer. (optional)
   @Key("correspondence")
-  public List<Email> correspondence;
+  public List<CorrespondenceItem> correspondence;
   // Id of the disputed charge.
   @Key("charge")
   public String charge;
@@ -183,7 +183,7 @@ public class Dispute extends GenericJson {
     public List<Product> products;
     //  A list of emails with the customer. (optional)
     @Key("correspondence")
-    public List<Email> correspondence;
+    public List<CorrespondenceItem> correspondence;
     // Custom URL with dispute information.
     @Key("reference_url")
     public String referenceUrl;
@@ -198,7 +198,7 @@ public class Dispute extends GenericJson {
         final String template,
         final Map<String, Object> fields,
         final List<Product> products,
-        final List<Email> correspondence,
+        final List<CorrespondenceItem> correspondence,
         final String referenceUrl
     ) {
       this.accountId = accountId;

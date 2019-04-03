@@ -1,10 +1,10 @@
 package com.chargehound.models;
 
-import com.google.api.client.json.GenericJson;
+import com.chargehound.models.CorrespondenceItem;
 import com.google.api.client.util.Key;
 
 // Dispute correspondence data See https://www.chargehound.com/docs/api/index.html#correspondence-data.
-public class Email extends GenericJson {
+public class Email extends CorrespondenceItem {
   @Key("to")
   String to;
 
