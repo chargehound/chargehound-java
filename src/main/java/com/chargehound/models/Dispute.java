@@ -47,12 +47,13 @@ public class Dispute extends GenericJson {
   @Key("missing_fields")
   public Map<String, Object> missingFields;
   //  A list of products in the disputed order.
-  // (See [Product data](#product-data) for details.) (optional)
+  // (See [Product data](https://www.chargehound.com/docs/api/index.html##product-data) for details.) (optional)
   @Key("products")
   public List<Product> products;
-  //  A list of emails with the customer. (optional)
+  //  A list of emails with the customer.
+  // (See [Customer correspondence](https://www.chargehound.com/docs/api/index.html#customer-correspondence) for details.) (optional)
   @Key("correspondence")
-  public List<CorrespondenceItem> correspondence;
+  public List<? extends CorrespondenceItem> correspondence;
   // Id of the disputed charge.
   @Key("charge")
   public String charge;
@@ -178,12 +179,13 @@ public class Dispute extends GenericJson {
     @Key("fields")
     public Map<String, Object> fields;
     // A list of products in the disputed order.
-    // (See [Product data](#product-data) for details.) (Optional)
+    // (See [Product data](https://www.chargehound.com/docs/api/index.html##product-data) for details.) (optional)
     @Key("products")
     public List<Product> products;
-    //  A list of emails with the customer. (optional)
+    //  A list of emails with the customer.
+    // (See [Customer correspondence](https://www.chargehound.com/docs/api/index.html#customer-correspondence) for details.) (optional)
     @Key("correspondence")
-    public List<CorrespondenceItem> correspondence;
+    public List<? extends CorrespondenceItem> correspondence;
     // Custom URL with dispute information.
     @Key("reference_url")
     public String referenceUrl;
@@ -198,7 +200,7 @@ public class Dispute extends GenericJson {
         final String template,
         final Map<String, Object> fields,
         final List<Product> products,
-        final List<CorrespondenceItem> correspondence,
+        final List<? extends CorrespondenceItem> correspondence,
         final String referenceUrl
     ) {
       this.accountId = accountId;
@@ -220,7 +222,7 @@ public class Dispute extends GenericJson {
       private String template;
       private Map<String, Object> fields;
       private List<Product> products;
-      private List<Email> correspondence;
+      private List<? extends CorrespondenceItem> correspondence;
       private String referenceUrl;
 
       public Builder accountId(final String accountId) {
@@ -258,7 +260,7 @@ public class Dispute extends GenericJson {
         return this;
       }
 
-      public Builder correspondence(final List<Email> correspondence) {
+      public Builder correspondence(final List<? extends CorrespondenceItem> correspondence) {
         this.correspondence = correspondence;
         return this;
       }

@@ -3,7 +3,7 @@ package com.chargehound.models;
 import com.chargehound.models.CorrespondenceItem;
 import com.google.api.client.util.Key;
 
-// Dispute correspondence data See https://www.chargehound.com/docs/api/index.html#correspondence-data.
+// Dispute correspondence data See https://www.chargehound.com/docs/api/index.html#customer-correspondence.
 public class Email extends CorrespondenceItem {
   @Key("to")
   String to;
