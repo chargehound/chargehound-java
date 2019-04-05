@@ -1,5 +1,6 @@
 package com.chargehound.models;
 
+import com.chargehound.models.CorrespondenceItem;
 import com.chargehound.models.Product;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.json.GenericJson;
@@ -7,7 +8,7 @@ import com.google.api.client.util.Key;
 import java.util.List;
 import java.util.Map;
 
-// A dispute. See https://www.chargehound.com/docs/api/index.html#disputes.
+// A dispute. See https://www.chargehound.com/docs/api/2017-10-30/#disputes.
 public class Dispute extends GenericJson {
   // A unique identifier for the dispute. This id is set by the payment processor of the dispute.
   @Key("id")
@@ -46,9 +47,13 @@ public class Dispute extends GenericJson {
   @Key("missing_fields")
   public Map<String, Object> missingFields;
   //  A list of products in the disputed order.
-  // (See [Product data](#product-data) for details.) (optional)
+  // (See [Product data](https://www.chargehound.com/docs/api/2017-10-30/#product-data) for details.) (optional)
   @Key("products")
   public List<Product> products;
+  //  A list of emails with the customer.
+  // (See [Customer correspondence](https://www.chargehound.com/docs/api/2017-10-30/#customer-correspondence) for details.) (optional)
+  @Key("correspondence")
+  public List<? extends CorrespondenceItem> correspondence;
   // Id of the disputed charge.
   @Key("charge")
   public String charge;
@@ -151,7 +156,7 @@ public class Dispute extends GenericJson {
   }
 
   // Params for updating or submitting a dispute.
-  // See https://www.chargehound.com/docs/api/index.html#updating-a-dispute.
+  // See https://www.chargehound.com/docs/api/2017-10-30/#updating-a-dispute.
   public static class UpdateParams extends GenericJson {
     // Set the account id for Connected accounts that are charged directly through Stripe.
     // (optional)
@@ -174,9 +179,13 @@ public class Dispute extends GenericJson {
     @Key("fields")
     public Map<String, Object> fields;
     // A list of products in the disputed order.
-    // (See [Product data](#product-data) for details.) (Optional)
+    // (See [Product data](https://www.chargehound.com/docs/api/2017-10-30/#product-data) for details.) (optional)
     @Key("products")
     public List<Product> products;
+    //  A list of emails with the customer.
+    // (See [Customer correspondence](https://www.chargehound.com/docs/api/2017-10-30/#customer-correspondence) for details.) (optional)
+    @Key("correspondence")
+    public List<? extends CorrespondenceItem> correspondence;
     // Custom URL with dispute information.
     @Key("reference_url")
     public String referenceUrl;
@@ -191,6 +200,7 @@ public class Dispute extends GenericJson {
         final String template,
         final Map<String, Object> fields,
         final List<Product> products,
+        final List<? extends CorrespondenceItem> correspondence,
         final String referenceUrl
     ) {
       this.accountId = accountId;
@@ -200,6 +210,7 @@ public class Dispute extends GenericJson {
       this.template = template;
       this.fields = fields;
       this.products = products;
+      this.correspondence = correspondence;
       this.referenceUrl = referenceUrl;
     }
 
@@ -211,6 +222,7 @@ public class Dispute extends GenericJson {
       private String template;
       private Map<String, Object> fields;
       private List<Product> products;
+      private List<? extends CorrespondenceItem> correspondence;
       private String referenceUrl;
 
       public Builder accountId(final String accountId) {
@@ -248,6 +260,11 @@ public class Dispute extends GenericJson {
         return this;
       }
 
+      public Builder correspondence(final List<? extends CorrespondenceItem> correspondence) {
+        this.correspondence = correspondence;
+        return this;
+      }
+
       public Builder referenceUrl(final String referenceUrl) {
         this.referenceUrl = referenceUrl;
         return this;
@@ -266,6 +283,7 @@ public class Dispute extends GenericJson {
           this.template,
           this.fields,
           this.products,
+          this.correspondence,
           this.referenceUrl
         );
       }

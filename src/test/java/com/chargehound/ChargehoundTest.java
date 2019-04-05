@@ -7,6 +7,7 @@ import com.chargehound.Chargehound;
 import com.chargehound.errors.ChargehoundException;
 import com.chargehound.models.Dispute;
 import com.chargehound.models.DisputesList;
+import com.chargehound.models.Email;
 import com.chargehound.models.Product;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpTransport;
@@ -380,6 +381,57 @@ public class ChargehoundTest {
           @Override
           public LowLevelHttpResponse execute() throws IOException {
             assertEquals("{\"products\":[{\"amount\":100,\"name\":\"T-shirt\"}]}",
+                this.getContentAsString());
+
+            MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();
+            result.setContentType(Json.MEDIA_TYPE);
+            result.setContent(JSON_FACTORY.toString(testDispute));
+            return result;
+          }
+        };
+      }
+    };
+
+    chargehound.setHttpTransport(transport);
+
+    Dispute result = chargehound.disputes.update(testDispute.id, disputeUpdate);
+
+    assertEquals(JSON_FACTORY.toString(testDispute), JSON_FACTORY.toString(result));
+  }
+
+
+  @Test public void testDisputeUpdateCorrespondence() throws IOException, ChargehoundException {
+    Chargehound chargehound = new Chargehound("test_123");
+    chargehound.setApiProtocol("http://");
+    chargehound.setApiHost("test.test.com");
+
+    final Dispute testDispute = new Dispute();
+    testDispute.id = "dp_123";
+    testDispute.kind = "chargeback";
+
+    Email email = new Email.Builder()
+        .to("customer@example.com")
+        .from("noreply@example.com")
+        .body("Your order was received.")
+        .finish();
+
+    ArrayList<Email> emails = new ArrayList<Email>();
+    emails.add(email);
+
+    Dispute.UpdateParams disputeUpdate = new Dispute.UpdateParams.Builder()
+        .correspondence(emails)
+        .finish();
+
+    HttpTransport transport = new MockHttpTransport() {
+      @Override
+      public LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
+        assertEquals(method, "PUT");
+        assertEquals(url, "http://test.test.com/v1/disputes/dp_123");
+
+        return new MockLowLevelHttpRequest() {
+          @Override
+          public LowLevelHttpResponse execute() throws IOException {
+            assertEquals("{\"correspondence\":[{\"body\":\"Your order was received.\",\"from\":\"noreply@example.com\",\"to\":\"customer@example.com\"}]}",
                 this.getContentAsString());
 
             MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();
