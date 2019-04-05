@@ -8,7 +8,7 @@ import com.google.api.client.util.Key;
 import java.util.List;
 import java.util.Map;
 
-// A dispute. See https://www.chargehound.com/docs/api/index.html#disputes.
+// A dispute. See https://www.chargehound.com/docs/api/2017-10-30/#disputes.
 public class Dispute extends GenericJson {
   // A unique identifier for the dispute. This id is set by the payment processor of the dispute.
   @Key("id")
@@ -47,11 +47,11 @@ public class Dispute extends GenericJson {
   @Key("missing_fields")
   public Map<String, Object> missingFields;
   //  A list of products in the disputed order.
-  // (See [Product data](https://www.chargehound.com/docs/api/index.html#product-data) for details.) (optional)
+  // (See [Product data](https://www.chargehound.com/docs/api/2017-10-30/#product-data) for details.) (optional)
   @Key("products")
   public List<Product> products;
   //  A list of emails with the customer.
-  // (See [Customer correspondence](https://www.chargehound.com/docs/api/index.html#customer-correspondence) for details.) (optional)
+  // (See [Customer correspondence](https://www.chargehound.com/docs/api/2017-10-30/#customer-correspondence) for details.) (optional)
   @Key("correspondence")
   public List<? extends CorrespondenceItem> correspondence;
   // Id of the disputed charge.
@@ -156,7 +156,7 @@ public class Dispute extends GenericJson {
   }
 
   // Params for updating or submitting a dispute.
-  // See https://www.chargehound.com/docs/api/index.html#updating-a-dispute.
+  // See https://www.chargehound.com/docs/api/2017-10-30/#updating-a-dispute.
   public static class UpdateParams extends GenericJson {
     // Set the account id for Connected accounts that are charged directly through Stripe.
     // (optional)
@@ -179,11 +179,11 @@ public class Dispute extends GenericJson {
     @Key("fields")
     public Map<String, Object> fields;
     // A list of products in the disputed order.
-    // (See [Product data](https://www.chargehound.com/docs/api/index.html#product-data) for details.) (optional)
+    // (See [Product data](https://www.chargehound.com/docs/api/2017-10-30/#product-data) for details.) (optional)
     @Key("products")
     public List<Product> products;
     //  A list of emails with the customer.
-    // (See [Customer correspondence](https://www.chargehound.com/docs/api/index.html#customer-correspondence) for details.) (optional)
+    // (See [Customer correspondence](https://www.chargehound.com/docs/api/2017-10-30/#customer-correspondence) for details.) (optional)
     @Key("correspondence")
     public List<? extends CorrespondenceItem> correspondence;
     // Custom URL with dispute information.
