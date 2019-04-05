@@ -47,7 +47,7 @@ public class Dispute extends GenericJson {
   @Key("missing_fields")
   public Map<String, Object> missingFields;
   //  A list of products in the disputed order.
-  // (See [Product data](https://www.chargehound.com/docs/api/index.html##product-data) for details.) (optional)
+  // (See [Product data](https://www.chargehound.com/docs/api/index.html#product-data) for details.) (optional)
   @Key("products")
   public List<Product> products;
   //  A list of emails with the customer.
@@ -179,7 +179,7 @@ public class Dispute extends GenericJson {
     @Key("fields")
     public Map<String, Object> fields;
     // A list of products in the disputed order.
-    // (See [Product data](https://www.chargehound.com/docs/api/index.html##product-data) for details.) (optional)
+    // (See [Product data](https://www.chargehound.com/docs/api/index.html#product-data) for details.) (optional)
     @Key("products")
     public List<Product> products;
     //  A list of emails with the customer.
