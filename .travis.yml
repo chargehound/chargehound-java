@@ -7,7 +7,6 @@ script:
   - ./gradlew test
 
 jdk:
-  - oraclejdk8
   - oraclejdk9
   - oraclejdk11
   - openjdk8
