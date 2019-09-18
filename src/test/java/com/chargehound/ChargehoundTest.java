@@ -9,6 +9,7 @@ import com.chargehound.models.Dispute;
 import com.chargehound.models.DisputesList;
 import com.chargehound.models.Email;
 import com.chargehound.models.Product;
+import com.chargehound.models.PastPayment;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.LowLevelHttpRequest;
@@ -399,7 +400,6 @@ public class ChargehoundTest {
     assertEquals(JSON_FACTORY.toString(testDispute), JSON_FACTORY.toString(result));
   }
 
-
   @Test public void testDisputeUpdateCorrespondence() throws IOException, ChargehoundException {
     Chargehound chargehound = new Chargehound("test_123");
     chargehound.setApiProtocol("http://");
@@ -483,6 +483,108 @@ public class ChargehoundTest {
           @Override
           public LowLevelHttpResponse execute() throws IOException {
             assertEquals("{\"products\":[{\"amount\":100,\"name\":\"T-shirt\",\"shipping_carrier\":\"fedex\",\"shipping_tracking_number\":\"12345678\"}]}",
+                this.getContentAsString());
+
+            MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();
+            result.setContentType(Json.MEDIA_TYPE);
+            result.setContent(JSON_FACTORY.toString(testDispute));
+            return result;
+          }
+        };
+      }
+    };
+
+    chargehound.setHttpTransport(transport);
+
+    Dispute result = chargehound.disputes.update(testDispute.id, disputeUpdate);
+
+    assertEquals(JSON_FACTORY.toString(testDispute), JSON_FACTORY.toString(result));
+  }
+
+  @Test public void testDisputeUpdatePastPayments() throws IOException, ChargehoundException {
+    Chargehound chargehound = new Chargehound("test_123");
+    chargehound.setApiProtocol("http://");
+    chargehound.setApiHost("test.test.com");
+
+    final Dispute testDispute = new Dispute();
+    testDispute.id = "dp_123";
+    testDispute.kind = "chargeback";
+
+    PastPayment pastPayment = new PastPayment.Builder()
+        .id("ch_1")
+        .amount(100)
+        .currency("usd")
+        .chargedAt("2019-09-03 11:09:41PM UTC")
+        .finish();
+
+    ArrayList<PastPayment> pastPayments = new ArrayList<PastPayment>();
+    pastPayments.add(pastPayment);
+
+    Dispute.UpdateParams disputeUpdate = new Dispute.UpdateParams.Builder()
+        .pastPayments(pastPayments)
+        .finish();
+
+    HttpTransport transport = new MockHttpTransport() {
+      @Override
+      public LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
+        assertEquals(method, "PUT");
+        assertEquals(url, "http://test.test.com/v1/disputes/dp_123");
+
+        return new MockLowLevelHttpRequest() {
+          @Override
+          public LowLevelHttpResponse execute() throws IOException {
+            assertEquals("{\"past_payments\":[{\"amount\":100,\"charged_at\":\"2019-09-03 11:09:41PM UTC\",\"currency\":\"usd\",\"id\":\"ch_1\"}]}",
+                this.getContentAsString());
+
+            MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();
+            result.setContentType(Json.MEDIA_TYPE);
+            result.setContent(JSON_FACTORY.toString(testDispute));
+            return result;
+          }
+        };
+      }
+    };
+
+    chargehound.setHttpTransport(transport);
+
+    Dispute result = chargehound.disputes.update(testDispute.id, disputeUpdate);
+
+    assertEquals(JSON_FACTORY.toString(testDispute), JSON_FACTORY.toString(result));
+  }
+
+  @Test public void testDisputeUpdatePastPaymentsUnix() throws IOException, ChargehoundException {
+    Chargehound chargehound = new Chargehound("test_123");
+    chargehound.setApiProtocol("http://");
+    chargehound.setApiHost("test.test.com");
+
+    final Dispute testDispute = new Dispute();
+    testDispute.id = "dp_123";
+    testDispute.kind = "chargeback";
+
+    PastPayment pastPayment = new PastPayment.Builder()
+        .id("ch_1")
+        .amount(100)
+        .currency("usd")
+        .chargedAt(1568831857)
+        .finish();
+
+    ArrayList<PastPayment> pastPayments = new ArrayList<PastPayment>();
+    pastPayments.add(pastPayment);
+
+    Dispute.UpdateParams disputeUpdate = new Dispute.UpdateParams.Builder()
+        .pastPayments(pastPayments)
+        .finish();
+
+    HttpTransport transport = new MockHttpTransport() {
+      @Override
+      public LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
+        assertEquals(method, "PUT");
+        assertEquals(url, "http://test.test.com/v1/disputes/dp_123");
+
+        return new MockLowLevelHttpRequest() {
+          @Override
+          public LowLevelHttpResponse execute() throws IOException {
+            assertEquals("{\"past_payments\":[{\"amount\":100,\"charged_at\":1568831857,\"currency\":\"usd\",\"id\":\"ch_1\"}]}",
                 this.getContentAsString());
 
             MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();

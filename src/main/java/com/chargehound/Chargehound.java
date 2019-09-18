@@ -17,7 +17,7 @@ public class Chargehound {
   private String key;
   private String protocol = "https://";
 
-  public static final String VERSION = "1.4.0";
+  public static final String VERSION = "1.5.0";
   public Disputes disputes;
 
   // Creates a new chargehound client with the specified api key and the default configuration.

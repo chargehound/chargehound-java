@@ -12,3 +12,6 @@
 
 1.4.0 April, 2019
   - `Email` model and `correspondence` param.
+
+1.5.0 Sept, 2019
+  - Add `Pastpayment` model.
