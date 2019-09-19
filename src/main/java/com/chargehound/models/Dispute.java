@@ -2,6 +2,7 @@ package com.chargehound.models;
 
 import com.chargehound.models.CorrespondenceItem;
 import com.chargehound.models.Product;
+import com.chargehound.models.PastPayment;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.json.GenericJson;
 import com.google.api.client.util.Key;
@@ -54,6 +55,10 @@ public class Dispute extends GenericJson {
   // (See [Customer correspondence](https://www.chargehound.com/docs/api/2017-10-30/#customer-correspondence) for details.) (optional)
   @Key("correspondence")
   public List<? extends CorrespondenceItem> correspondence;
+  //  Customer's history of past payments.
+  // (See [Past payments](https://www.chargehound.com/docs/api/2017-10-30/#past-payments) for details.) (optional)
+  @Key("past_payments")
+  public List<PastPayment> pastPayments;
   // Id of the disputed charge.
   @Key("charge")
   public String charge;
@@ -186,6 +191,10 @@ public class Dispute extends GenericJson {
     // (See [Customer correspondence](https://www.chargehound.com/docs/api/2017-10-30/#customer-correspondence) for details.) (optional)
     @Key("correspondence")
     public List<? extends CorrespondenceItem> correspondence;
+    // Customer's history of past payments.
+    // (See [Past payments](https://www.chargehound.com/docs/api/2017-10-30/#past-payments) for details.) (optional)
+    @Key("past_payments")
+    public List<PastPayment> pastPayments;
     // Custom URL with dispute information.
     @Key("reference_url")
     public String referenceUrl;
@@ -201,6 +210,7 @@ public class Dispute extends GenericJson {
         final Map<String, Object> fields,
         final List<Product> products,
         final List<? extends CorrespondenceItem> correspondence,
+        final List<PastPayment> pastPayments,
         final String referenceUrl
     ) {
       this.accountId = accountId;
@@ -211,6 +221,7 @@ public class Dispute extends GenericJson {
       this.fields = fields;
       this.products = products;
       this.correspondence = correspondence;
+      this.pastPayments = pastPayments;
       this.referenceUrl = referenceUrl;
     }
 
@@ -223,6 +234,7 @@ public class Dispute extends GenericJson {
       private Map<String, Object> fields;
       private List<Product> products;
       private List<? extends CorrespondenceItem> correspondence;
+      private List<PastPayment> pastPayments;
       private String referenceUrl;
 
       public Builder accountId(final String accountId) {
@@ -265,6 +277,11 @@ public class Dispute extends GenericJson {
         return this;
       }
 
+      public Builder pastPayments(final List<PastPayment> pastPayments) {
+        this.pastPayments = pastPayments;
+        return this;
+      }
+
       public Builder referenceUrl(final String referenceUrl) {
         this.referenceUrl = referenceUrl;
         return this;
@@ -284,6 +301,7 @@ public class Dispute extends GenericJson {
           this.fields,
           this.products,
           this.correspondence,
+          this.pastPayments,
           this.referenceUrl
         );
       }
@@ -367,6 +385,12 @@ public class Dispute extends GenericJson {
     // List of products the customer purchased. (optional)
     @Key("products")
     public List<Product> products;
+    // Correspondence with the customer. (optional)
+    @Key("correspondence")
+    public List<? extends CorrespondenceItem> correspondence;
+    // Customer's history of past payments. (optional)
+    @Key("past_payments")
+    public List<PastPayment> pastPayments;
     // Set the account id for Connected accounts that are charged directly through Stripe.
     // (optional)
     @Key("account_id")
@@ -411,6 +435,8 @@ public class Dispute extends GenericJson {
         final String template,
         final Map<String, Object> fields,
         final List<Product> products,
+        final List<? extends CorrespondenceItem> correspondence,
+        final List<PastPayment> pastPayments,
         final String accountId,
         final String kind,
         final Boolean submit,
@@ -440,6 +466,8 @@ public class Dispute extends GenericJson {
       this.template = template;
       this.fields = fields;
       this.products = products;
+      this.correspondence = correspondence;
+      this.pastPayments = pastPayments;
       this.accountId = accountId;
       this.kind = kind;
       this.submit = submit;
@@ -471,6 +499,8 @@ public class Dispute extends GenericJson {
       private String template;
       private Map<String, Object> fields;
       private List<Product> products;
+      private List<? extends CorrespondenceItem> correspondence;
+      private List<PastPayment> pastPayments;
       private String accountId;
       private String kind;
       private Boolean submit;
@@ -612,6 +642,16 @@ public class Dispute extends GenericJson {
         return this;
       }
 
+      public Builder correspondence(final List<? extends CorrespondenceItem> correspondence) {
+        this.correspondence = correspondence;
+        return this;
+      }
+
+      public Builder pastPayments(final List<PastPayment> pastPayments) {
+        this.pastPayments = pastPayments;
+        return this;
+      }
+
       public Builder referenceUrl(final String referenceUrl) {
         this.referenceUrl = referenceUrl;
         return this;
@@ -646,6 +686,8 @@ public class Dispute extends GenericJson {
           this.template,
           this.fields,
           this.products,
+          this.correspondence,
+          this.pastPayments,
           this.accountId,
           this.kind,
           this.submit,
