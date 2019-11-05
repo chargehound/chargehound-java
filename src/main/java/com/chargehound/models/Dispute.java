@@ -177,6 +177,9 @@ public class Dispute extends GenericJson {
     // Queue dispute for submission. (optional)
     @Key("queue")
     public Boolean queue;
+    // Submit dispute evidence immediately after update. (optional)
+    @Key("submit")
+    public Boolean submit;
     // The id of the template to use. (optional)
     @Key("template")
     public String template;
@@ -206,6 +209,7 @@ public class Dispute extends GenericJson {
         final String account,
         final Boolean force,
         final Boolean queue,
+        final Boolean submit,
         final String template,
         final Map<String, Object> fields,
         final List<Product> products,
@@ -217,6 +221,7 @@ public class Dispute extends GenericJson {
       this.account = account;
       this.force = force;
       this.queue = queue;
+      this.submit = submit;
       this.template = template;
       this.fields = fields;
       this.products = products;
@@ -230,6 +235,7 @@ public class Dispute extends GenericJson {
       private String account;
       private Boolean force;
       private Boolean queue;
+      private Boolean submit;
       private String template;
       private Map<String, Object> fields;
       private List<Product> products;
@@ -254,6 +260,11 @@ public class Dispute extends GenericJson {
 
       public Builder queue(final Boolean queue) {
         this.queue = queue;
+        return this;
+      }
+
+      public Builder submit(final Boolean submit) {
+        this.submit = submit;
         return this;
       }
 
@@ -297,6 +308,7 @@ public class Dispute extends GenericJson {
           this.account,
           this.force,
           this.queue,
+          this.submit,
           this.template,
           this.fields,
           this.products,
