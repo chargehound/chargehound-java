@@ -351,6 +351,45 @@ public class ChargehoundTest {
     assertEquals(JSON_FACTORY.toString(testDispute), JSON_FACTORY.toString(result));
   }
 
+  @Test public void testDisputeUpdateWithSubmit() throws IOException, ChargehoundException {
+    Chargehound chargehound = new Chargehound("test_123");
+    chargehound.setApiProtocol("http://");
+    chargehound.setApiHost("test.test.com");
+
+    final Dispute testDispute = new Dispute();
+    testDispute.id = "dp_123";
+    testDispute.kind = "chargeback";
+
+    Dispute.UpdateParams disputeUpdate = new Dispute.UpdateParams.Builder().submit(true).finish();
+
+    HttpTransport transport = new MockHttpTransport() {
+      @Override
+      public LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
+        assertEquals(method, "PUT");
+        assertEquals(url, "http://test.test.com/v1/disputes/dp_123");
+
+        return new MockLowLevelHttpRequest() {
+          @Override
+          public LowLevelHttpResponse execute() throws IOException {
+            assertEquals("{\"submit\":true}", this.getContentAsString());
+
+            MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();
+            result.setContentType(Json.MEDIA_TYPE);
+            result.setContent(JSON_FACTORY.toString(testDispute));
+            return result;
+          }
+        };
+      }
+    };
+
+    chargehound.setHttpTransport(transport);
+
+    Dispute result = chargehound.disputes.update(testDispute.id, disputeUpdate);
+
+    assertEquals(JSON_FACTORY.toString(testDispute), JSON_FACTORY.toString(result));
+  }
+
+
   @Test public void testDisputeUpdateProduct() throws IOException, ChargehoundException {
     Chargehound chargehound = new Chargehound("test_123");
     chargehound.setApiProtocol("http://");

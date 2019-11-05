@@ -15,3 +15,6 @@
 
 1.5.0 Sept, 2019
   - Add `Pastpayment` model.
+
+1.5.1 Sept, 2019
+  - Add missing `submit` param for dispute update.
