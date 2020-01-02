@@ -81,6 +81,66 @@ public class ChargehoundTest {
     assertEquals(JSON_FACTORY.toString(testDispute), JSON_FACTORY.toString(result));
   }
 
+  @Test public void testDisputeRetrieveWithProductsQuantity() throws IOException, ChargehoundException {
+    Chargehound chargehound = new Chargehound("test_123");
+    chargehound.setApiProtocol("http://");
+    chargehound.setApiHost("test.test.com");
+
+    HttpTransport transport = new MockHttpTransport() {
+      @Override
+      public LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
+        assertEquals(method, "GET");
+        assertEquals(url, "http://test.test.com/v1/disputes/dp_123");
+
+        return new MockLowLevelHttpRequest() {
+          @Override
+          public LowLevelHttpResponse execute() throws IOException {
+            MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();
+            result.setContentType(Json.MEDIA_TYPE);
+            result.setContent("{\"id\":\"dp_123\",\"kind\":\"chargeback\",\"products\":[{\"quantity\":10}]}");
+            return result;
+          }
+        };
+      }
+    };
+
+    chargehound.setHttpTransport(transport);
+
+    Dispute result = chargehound.disputes.retrieve("dp_123");
+
+    assertEquals("{\"amount\":0,\"fee\":0,\"id\":\"dp_123\",\"is_charge_refundable\":false,\"kind\":\"chargeback\",\"livemode\":false,\"products\":[{\"quantity\":10}],\"reversal_amount\":0,\"submitted_count\":0}", JSON_FACTORY.toString(result));
+  }
+
+  @Test public void testDisputeRetrieveWithProductsQuantityString() throws IOException, ChargehoundException {
+    Chargehound chargehound = new Chargehound("test_123");
+    chargehound.setApiProtocol("http://");
+    chargehound.setApiHost("test.test.com");
+
+    HttpTransport transport = new MockHttpTransport() {
+      @Override
+      public LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
+        assertEquals(method, "GET");
+        assertEquals(url, "http://test.test.com/v1/disputes/dp_123");
+
+        return new MockLowLevelHttpRequest() {
+          @Override
+          public LowLevelHttpResponse execute() throws IOException {
+            MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();
+            result.setContentType(Json.MEDIA_TYPE);
+            result.setContent("{\"id\":\"dp_123\",\"kind\":\"chargeback\",\"products\":[{\"quantity\":\"10\"}]}");
+            return result;
+          }
+        };
+      }
+    };
+
+    chargehound.setHttpTransport(transport);
+
+    Dispute result = chargehound.disputes.retrieve("dp_123");
+
+    assertEquals("{\"amount\":0,\"fee\":0,\"id\":\"dp_123\",\"is_charge_refundable\":false,\"kind\":\"chargeback\",\"livemode\":false,\"products\":[{\"quantity\":\"10\"}],\"reversal_amount\":0,\"submitted_count\":0}", JSON_FACTORY.toString(result));
+  }
+
   @Test public void testDisputeResponse() throws IOException, ChargehoundException {
     Chargehound chargehound = new Chargehound("test_123");
     chargehound.setApiProtocol("http://");
@@ -470,7 +530,7 @@ public class ChargehoundTest {
         return new MockLowLevelHttpRequest() {
           @Override
           public LowLevelHttpResponse execute() throws IOException {
-            assertEquals("{\"products\":[{\"amount\":100,\"name\":\"T-shirt\",\"quantity\":\"5\"}]}",
+            assertEquals("{\"products\":[{\"amount\":100,\"name\":\"T-shirt\",\"quantity\":5}]}",
                 this.getContentAsString());
 
             MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();

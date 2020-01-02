@@ -6,22 +6,22 @@ import com.google.api.client.util.Key;
 // Dispute correspondence data See https://www.chargehound.com/docs/api/index.html#customer-correspondence.
 public class Email extends CorrespondenceItem {
   @Key("to")
-  String to;
+  public String to;
 
   @Key("from")
-  String from;
+  public String from;
 
   @Key("sent")
-  String sent;
+  public String sent;
 
   @Key("subject")
-  String subject;
+  public String subject;
 
   @Key("body")
-  String body;
+  public String body;
 
   @Key("caption")
-  String caption;
+  public String caption;
 
   public Email() {}
 
