@@ -13,7 +13,7 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>com.chargehound</groupId>
   <artifactId>chargehound-java</artifactId>
-  <version>1.5.2</version>
+  <version>1.5.3</version>
 </dependency>
 ```
 
@@ -22,7 +22,7 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "com.chargehound:chargehound-java:1.5.2"
+compile "com.chargehound:chargehound-java:1.5.3"
 ```
 
 ### Others
