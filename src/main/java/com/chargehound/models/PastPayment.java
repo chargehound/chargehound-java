@@ -52,7 +52,12 @@ public class PastPayment extends GenericJson {
       return this;
     }
 
-    public Builder chargedAt(final Object chargedAt) {
+    public Builder chargedAt(final String chargedAt) {
+      this.chargedAt = chargedAt;
+      return this;
+    }
+
+    public Builder chargedAt(final Integer chargedAt) {
       this.chargedAt = chargedAt;
       return this;
     }
