@@ -6,16 +6,16 @@ import com.google.api.client.util.Key;
 // Customer past payment history See https://www.chargehound.com/docs/api/index.html#past-payments.
 public class PastPayment extends GenericJson {
   @Key("id")
-  String id;
+  public String id;
 
   @Key("amount")
-  Integer amount;
+  public Integer amount;
 
   @Key("currency")
-  String currency;
+  public String currency;
 
   @Key("charged_at")
-  Object chargedAt;
+  public Object chargedAt;
 
   public PastPayment() {}
 
@@ -52,7 +52,12 @@ public class PastPayment extends GenericJson {
       return this;
     }
 
-    public Builder chargedAt(final Object chargedAt) {
+    public Builder chargedAt(final String chargedAt) {
+      this.chargedAt = chargedAt;
+      return this;
+    }
+
+    public Builder chargedAt(final Integer chargedAt) {
       this.chargedAt = chargedAt;
       return this;
     }

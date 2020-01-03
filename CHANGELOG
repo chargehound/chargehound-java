@@ -21,3 +21,6 @@
 
 1.5.2 Dec, 2019
   - Support string quantities.
+
+1.5.3 Dec, 2019
+  - Support string or integer quantities.

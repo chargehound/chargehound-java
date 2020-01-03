@@ -6,31 +6,31 @@ import com.google.api.client.util.Key;
 // Dispute product data See https://www.chargehound.com/docs/api/index.html#product-data.
 public class Product extends GenericJson {
   @Key("name")
-  String name;
+  public String name;
 
   @Key("description")
-  String description;
+  public String description;
 
   @Key("image")
-  String image;
+  public String image;
 
   @Key("sku")
-  String sku;
+  public String sku;
 
   @Key("quantity")
-  String quantity;
+  public Object quantity;
 
   @Key("amount")
-  Integer amount;
+  public Integer amount;
 
   @Key("url")
-  String url;
+  public String url;
 
   @Key("shipping_carrier")
-  String shippingCarrier;
+  public String shippingCarrier;
 
   @Key("shipping_tracking_number")
-  String shippingTrackingNumber;
+  public String shippingTrackingNumber;
 
   public Product() {}
 
@@ -39,7 +39,7 @@ public class Product extends GenericJson {
       final String description,
       final String image,
       final String sku,
-      final String quantity,
+      final Object quantity,
       final Integer amount,
       final String url,
       final String shippingCarrier,
@@ -61,7 +61,7 @@ public class Product extends GenericJson {
     private String description;
     private String image;
     private String sku;
-    private String quantity;
+    private Object quantity;
     private Integer amount;
     private String url;
     private String shippingCarrier;
@@ -88,7 +88,7 @@ public class Product extends GenericJson {
     }
 
     public Builder quantity(final Integer quantity) {
-      this.quantity = quantity.toString();
+      this.quantity = quantity;
       return this;
     }
 
