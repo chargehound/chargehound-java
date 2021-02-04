@@ -18,11 +18,15 @@ public class ChargehoundExceptionFactory {
   private static final JsonFactory JSON_FACTORY = new JacksonFactory();
 
   /**
-   * Define a class to parse the error message.
+   * Define a class to parse the error message, status, and type.
    */
   public static class ChargehoundErrorDetails extends GenericJson {
     @Key("message")
     public String message;
+    @Key("status")
+    public Integer status;
+    @Key("type")
+    public String type;
   }
 
   /**
@@ -52,35 +56,36 @@ public class ChargehoundExceptionFactory {
       JsonParser parser = JSON_FACTORY.createJsonParser(reader);
       ChargehoundErrorJson errorDetails = parser.parseAndClose(ChargehoundErrorJson.class);
       String errorMessage = errorDetails.error.message;
+      String errorType = errorDetails.error.type;
       switch (statusCode) {
         case 400:
           return new ChargehoundException.HttpException.BadRequest(
-            error.getMessage(), error.getCause(), statusCode, errorMessage
+            error.getMessage(), error.getCause(), statusCode, errorMessage, errorType
           );
         case 401:
           return new ChargehoundException.HttpException.Unauthorized(
-            error.getMessage(), error.getCause(), statusCode, errorMessage
+            error.getMessage(), error.getCause(), statusCode, errorMessage, errorType
           );
         case 403:
           return new ChargehoundException.HttpException.Forbidden(
-            error.getMessage(), error.getCause(), statusCode, errorMessage
+            error.getMessage(), error.getCause(), statusCode, errorMessage, errorType
           );
         case 404:
           return new ChargehoundException.HttpException.NotFound(
-            error.getMessage(), error.getCause(), statusCode, errorMessage
+            error.getMessage(), error.getCause(), statusCode, errorMessage, errorType
           );
         case 500:
           return new ChargehoundException.HttpException.InternalServerError(
-            error.getMessage(), error.getCause(), statusCode, errorMessage
+            error.getMessage(), error.getCause(), statusCode, errorMessage, errorType
           );
         default:
           return new ChargehoundException.HttpException(
-            error.getMessage(), error.getCause(), statusCode, errorMessage
+            error.getMessage(), error.getCause(), statusCode, errorMessage, errorType
           );
       }
     } catch (Exception unexpectedError) {
       return new ChargehoundException.HttpException(
-        error.getMessage(), error.getCause(), statusCode, error.getMessage()
+        error.getMessage(), error.getCause(), statusCode, error.getMessage(), "unexpected"
       );
     }
   }

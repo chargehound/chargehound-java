@@ -60,6 +60,7 @@ public class ChargehoundErrorsTest {
       assertTrue(exception instanceof ChargehoundException.HttpException.BadRequest);
       assertEquals((Integer) 400, exception.getStatusCode());
       assertEquals("A dispute with id 'puppy' was not found", exception.getReason());
+      assertEquals(null, exception.getType()); // A type wasn't set
       exceptionThrown = true;
     }
 
@@ -138,6 +139,54 @@ public class ChargehoundErrorsTest {
     } catch (ChargehoundException exception) {
       assertTrue(exception instanceof ChargehoundException);
       assertEquals("IOException", exception.getMessage());
+      exceptionThrown = true;
+    }
+
+    assertTrue(exceptionThrown);
+  }
+
+  @Test public void testTypedError() throws IOException, ChargehoundException {
+    Chargehound chargehound = new Chargehound("test_123");
+    chargehound.setApiProtocol("http://");
+    chargehound.setApiHost("test.test.com");
+
+    HttpTransport transport = new MockHttpTransport() {
+      @Override
+      public LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
+        return new MockLowLevelHttpRequest() {
+          @Override
+          public LowLevelHttpResponse execute() throws IOException {
+            MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();
+            result.setContentType(Json.MEDIA_TYPE);
+
+            String json = javax.json.Json.createObjectBuilder()
+                .add("url", "/v1/disputes/puppy/submit")
+                .add("livemode", false)
+                .add("error", javax.json.Json.createObjectBuilder()
+                    .add("status", 404)
+                    .add("message", "A dispute with id 'puppy' was not found")
+                    .add("type", "dispute_not_found"))
+                .build().toString();
+
+            result.setContent(json);
+            result.setStatusCode(400);
+            return result;
+          }
+        };
+      }
+    };
+
+    chargehound.setHttpTransport(transport);
+
+    boolean exceptionThrown = false;
+
+    try {
+      chargehound.disputes.retrieve("dp_123");
+    } catch (ChargehoundException.HttpException exception) {
+      assertTrue(exception instanceof ChargehoundException.HttpException.BadRequest);
+      assertEquals((Integer) 400, exception.getStatusCode());
+      assertEquals("A dispute with id 'puppy' was not found", exception.getReason());
+      assertEquals("dispute_not_found", exception.getType());
       exceptionThrown = true;
     }
 
