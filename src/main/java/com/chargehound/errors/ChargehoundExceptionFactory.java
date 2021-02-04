@@ -85,7 +85,7 @@ public class ChargehoundExceptionFactory {
       }
     } catch (Exception unexpectedError) {
       return new ChargehoundException.HttpException(
-        error.getMessage(), error.getCause(), statusCode, error.getMessage(), "unexpected"
+        error.getMessage(), error.getCause(), statusCode, error.getMessage(), null
       );
     }
   }
