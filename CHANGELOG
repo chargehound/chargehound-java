@@ -24,3 +24,6 @@
 
 1.5.3 Dec, 2019
   - Support string or integer quantities.
+
+1.6.0 Feb, 2021
+  - Add error types.
