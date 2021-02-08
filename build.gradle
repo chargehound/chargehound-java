@@ -52,12 +52,6 @@ task javadocJar(type: Jar) {
   classifier = 'javadoc'
 }
 
-javadoc {
-  if(JavaVersion.current().isJava9Compatible()) {
-    options.addBooleanOption('html4', true)
-  }
-}
-
 artifacts {
   archives javadocJar, sourcesJar
 }
