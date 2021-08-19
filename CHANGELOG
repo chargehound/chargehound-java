@@ -27,3 +27,6 @@
 
 1.6.0 Feb, 2021
   - Add error types.
+
+1.7.0 Feb, 2021
+  - Add account property.

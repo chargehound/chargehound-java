@@ -110,6 +110,9 @@ public class Dispute extends GenericJson {
   // The account id for Connected accounts that are charged directly through Stripe (if any)
   @Key("account_id")
   public String accountId;
+  // Id of the connected account for this dispute (if multiple accounts are connected)
+  @Key("account")
+  public String account;
   // The kind for the dispute, 'chargeback', 'retrieval' or 'pre_arbitration'.
   @Key("kind")
   public String kind;
