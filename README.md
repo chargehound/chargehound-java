@@ -1,7 +1,7 @@
 # Chargehound Java bindings 
 Chargehound bindings for Java
 
-[![Build Status](https://travis-ci.org/chargehound/chargehound-java.svg?branch=master)](https://travis-ci.org/chargehound/chargehound-java)
+[![Build Status](https://github.com/chargehound/chargehound-java/actions/workflows/test-java.yaml/badge.svg)](https://github.com/chargehound/chargehound-java/actions/workflows/test-java.yaml)
 
 ## Installation
 
