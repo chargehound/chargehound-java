@@ -21,7 +21,7 @@ public class Product extends GenericJson {
   public Object quantity;
 
   @Key("amount")
-  public Integer amount;
+  public Long amount;
 
   @Key("url")
   public String url;
@@ -40,7 +40,7 @@ public class Product extends GenericJson {
       final String image,
       final String sku,
       final Object quantity,
-      final Integer amount,
+      final Long amount,
       final String url,
       final String shippingCarrier,
       final String shippingTrackingNumber
@@ -62,7 +62,7 @@ public class Product extends GenericJson {
     private String image;
     private String sku;
     private Object quantity;
-    private Integer amount;
+    private Long amount;
     private String url;
     private String shippingCarrier;
     private String shippingTrackingNumber;
@@ -97,7 +97,7 @@ public class Product extends GenericJson {
       return this;
     }
 
-    public Builder amount(final Integer amount) {
+    public Builder amount(final Long amount) {
       this.amount = amount;
       return this;
     }

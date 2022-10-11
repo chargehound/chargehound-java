@@ -9,7 +9,7 @@ public class PastPayment extends GenericJson {
   public String id;
 
   @Key("amount")
-  public Integer amount;
+  public Long amount;
 
   @Key("currency")
   public String currency;
@@ -21,7 +21,7 @@ public class PastPayment extends GenericJson {
 
   private PastPayment(
       final String id,
-      final Integer amount,
+      final Long amount,
       final String currency,
       final Object chargedAt
   ) {
@@ -33,7 +33,7 @@ public class PastPayment extends GenericJson {
 
   public static class Builder {
     private String id;
-    private Integer amount;
+    private Long amount;
     private String currency;
     private Object chargedAt;
 
@@ -42,7 +42,7 @@ public class PastPayment extends GenericJson {
       return this;
     }
 
-    public Builder amount(final Integer amount) {
+    public Builder amount(final Long amount) {
       this.amount = amount;
       return this;
     }

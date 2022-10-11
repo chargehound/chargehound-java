@@ -67,16 +67,16 @@ public class Dispute extends GenericJson {
   public boolean isChargeRefundable;
   // Amount of the disputed charge. Amounts are in cents (or other minor currency unit.)
   @Key("amount")
-  public int amount;
+  public long amount;
   // Currency code of the disputed charge. e.g. 'USD'.
   @Key("currency")
   public String currency;
   // Dispute fee.
   @Key("fee")
-  public int fee;
+  public long fee;
   // The amount deducted due to the chargeback. Amounts are in cents (or other minor currency unit.)
   @Key("reversal_amount")
-  public int reversalAmount;
+  public long reversalAmount;
   // Currency code of the deduction amount. e.g. 'USD'.
   @Key("reversal_currency")
   public String reversalCurrency;
