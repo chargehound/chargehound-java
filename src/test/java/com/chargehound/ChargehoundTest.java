@@ -146,6 +146,38 @@ public class ChargehoundTest {
     assertEquals("{\"amount\":0,\"fee\":0,\"id\":\"dp_123\",\"is_charge_refundable\":false,\"kind\":\"chargeback\",\"livemode\":false,\"products\":[{\"quantity\":10}],\"reversal_amount\":0,\"submitted_count\":0}", JSON_FACTORY.toString(result));
   }
 
+  @Test public void testDisputeRetrieveWithLongAmount() throws IOException, ChargehoundException {
+    Chargehound chargehound = new Chargehound("test_123");
+    chargehound.setApiProtocol("http://");
+    chargehound.setApiHost("test.test.com");
+
+    HttpTransport transport = new MockHttpTransport() {
+      @Override
+      public LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
+        assertEquals(method, "GET");
+        assertEquals(url, "http://test.test.com/v1/disputes/dp_123");
+
+        return new MockLowLevelHttpRequest() {
+          @Override
+          public LowLevelHttpResponse execute() throws IOException {
+            MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();
+            result.setContentType(Json.MEDIA_TYPE);
+            result.setContent("{\"id\":\"dp_123\",\"kind\":\"chargeback\",\"amount\":9999900000}");
+            return result;
+          }
+        };
+      }
+    };
+
+    chargehound.setHttpTransport(transport);
+
+    Dispute result = chargehound.disputes.retrieve("dp_123");
+
+    System.out.println(result);
+
+    assertEquals("{\"amount\":9999900000,\"fee\":0,\"id\":\"dp_123\",\"is_charge_refundable\":false,\"kind\":\"chargeback\",\"livemode\":false,\"reversal_amount\":0,\"submitted_count\":0}", JSON_FACTORY.toString(result));
+  }
+
   @Test public void testDisputeRetrieveWithProductsQuantityString() throws IOException, ChargehoundException {
     Chargehound chargehound = new Chargehound("test_123");
     chargehound.setApiProtocol("http://");
@@ -496,7 +528,7 @@ public class ChargehoundTest {
 
     Product product = new Product.Builder()
         .name("T-shirt")
-        .amount(100)
+        .amount(100L)
         .finish();
 
     ArrayList<Product> products = new ArrayList<Product>();
@@ -545,7 +577,7 @@ public class ChargehoundTest {
 
     Product product = new Product.Builder()
         .name("T-shirt")
-        .amount(100)
+        .amount(100L)
         .quantity(5)
         .finish();
 
@@ -595,7 +627,7 @@ public class ChargehoundTest {
 
     Product product = new Product.Builder()
         .name("T-shirt")
-        .amount(100)
+        .amount(100L)
         .quantity("5oz")
         .finish();
 
@@ -695,7 +727,7 @@ public class ChargehoundTest {
 
     Product product = new Product.Builder()
         .name("T-shirt")
-        .amount(100)
+        .amount(100L)
         .shippingCarrier("fedex")
         .shippingTrackingNumber("12345678")
         .finish();
@@ -746,7 +778,7 @@ public class ChargehoundTest {
 
     PastPayment pastPayment = new PastPayment.Builder()
         .id("ch_1")
-        .amount(100)
+        .amount(100L)
         .currency("usd")
         .chargedAt("2019-09-03 11:09:41PM UTC")
         .finish();
@@ -797,7 +829,7 @@ public class ChargehoundTest {
 
     PastPayment pastPayment = new PastPayment.Builder()
         .id("ch_1")
-        .amount(100)
+        .amount(100L)
         .currency("usd")
         .chargedAt(1568831857)
         .finish();

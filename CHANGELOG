@@ -30,3 +30,6 @@
 
 1.7.0 Feb, 2021
   - Add account property.
+
+2.0.0 Oct, 2022
+  - Amounts need to be Longs.

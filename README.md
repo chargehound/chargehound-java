@@ -13,7 +13,7 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>com.chargehound</groupId>
   <artifactId>chargehound-java</artifactId>
-  <version>1.7.0</version>
+  <version>2.0.0</version>
 </dependency>
 ```
 
@@ -22,7 +22,7 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "com.chargehound:chargehound-java:1.7.0"
+compile "com.chargehound:chargehound-java:2.0.0"
 ```
 
 ### Others
@@ -117,3 +117,11 @@ To deploy a new version of the SDK, perform the following steps:
  You will need the Sonatype login. Set the `OSSRH_USERNAME`/`OSSRH_PASSWORD` in your local `~/.gradle/gradle.properties` file.
 
  You will also need to setup a PGP key. Follow the instructions here: https://docs.gradle.org/current/userguide/signing_plugin.html#sec:signatory_credentials
+
+ Set the key info in your `~/.gradle/gradle.properties` file. Example:
+
+ ```
+signing.keyId=24875D73
+signing.password=secret
+signing.secretKeyRingFile=/Users/me/.gnupg/secring.gpg
+```
