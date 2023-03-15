@@ -33,3 +33,6 @@
 
 2.0.0 Oct, 2022
   - Amounts need to be Longs.
+
+2.1.0 Mar, 2023
+  - Added additional fields to `PastPayment` model

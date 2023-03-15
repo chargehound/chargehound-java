@@ -347,9 +347,9 @@ public class ChargehoundTest {
     chargehound.setHttpTransport(transport);
 
     DisputesList.Params params = new DisputesList.Params.Builder()
-        .startingAfter("dp_111")
-        .limit(1)
-        .finish();
+            .startingAfter("dp_111")
+            .limit(1)
+            .finish();
 
     DisputesList result = chargehound.disputes.list(params);
 
@@ -389,8 +389,8 @@ public class ChargehoundTest {
     chargehound.setHttpTransport(transport);
 
     DisputesList.Params params = new DisputesList.Params.Builder()
-        .state("needs_response")
-        .finish();
+            .state("needs_response")
+            .finish();
 
     DisputesList result = chargehound.disputes.list(params);
 
@@ -430,8 +430,8 @@ public class ChargehoundTest {
     chargehound.setHttpTransport(transport);
 
     DisputesList.Params params = new DisputesList.Params.Builder()
-        .state("needs_response", "warning_needs_response")
-        .finish();
+            .state("needs_response", "warning_needs_response")
+            .finish();
 
     DisputesList result = chargehound.disputes.list(params);
 
@@ -527,16 +527,16 @@ public class ChargehoundTest {
     testDispute.kind = "chargeback";
 
     Product product = new Product.Builder()
-        .name("T-shirt")
-        .amount(100L)
-        .finish();
+            .name("T-shirt")
+            .amount(100L)
+            .finish();
 
     ArrayList<Product> products = new ArrayList<Product>();
     products.add(product);
 
     Dispute.UpdateParams disputeUpdate = new Dispute.UpdateParams.Builder()
-        .products(products)
-        .finish();
+            .products(products)
+            .finish();
 
     HttpTransport transport = new MockHttpTransport() {
       @Override
@@ -548,7 +548,7 @@ public class ChargehoundTest {
           @Override
           public LowLevelHttpResponse execute() throws IOException {
             assertEquals("{\"products\":[{\"amount\":100,\"name\":\"T-shirt\"}]}",
-                this.getContentAsString());
+                    this.getContentAsString());
 
             MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();
             result.setContentType(Json.MEDIA_TYPE);
@@ -576,17 +576,17 @@ public class ChargehoundTest {
     testDispute.kind = "chargeback";
 
     Product product = new Product.Builder()
-        .name("T-shirt")
-        .amount(100L)
-        .quantity(5)
-        .finish();
+            .name("T-shirt")
+            .amount(100L)
+            .quantity(5)
+            .finish();
 
     ArrayList<Product> products = new ArrayList<Product>();
     products.add(product);
 
     Dispute.UpdateParams disputeUpdate = new Dispute.UpdateParams.Builder()
-        .products(products)
-        .finish();
+            .products(products)
+            .finish();
 
     HttpTransport transport = new MockHttpTransport() {
       @Override
@@ -598,7 +598,7 @@ public class ChargehoundTest {
           @Override
           public LowLevelHttpResponse execute() throws IOException {
             assertEquals("{\"products\":[{\"amount\":100,\"name\":\"T-shirt\",\"quantity\":5}]}",
-                this.getContentAsString());
+                    this.getContentAsString());
 
             MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();
             result.setContentType(Json.MEDIA_TYPE);
@@ -626,17 +626,17 @@ public class ChargehoundTest {
     testDispute.kind = "chargeback";
 
     Product product = new Product.Builder()
-        .name("T-shirt")
-        .amount(100L)
-        .quantity("5oz")
-        .finish();
+            .name("T-shirt")
+            .amount(100L)
+            .quantity("5oz")
+            .finish();
 
     ArrayList<Product> products = new ArrayList<Product>();
     products.add(product);
 
     Dispute.UpdateParams disputeUpdate = new Dispute.UpdateParams.Builder()
-        .products(products)
-        .finish();
+            .products(products)
+            .finish();
 
     HttpTransport transport = new MockHttpTransport() {
       @Override
@@ -648,7 +648,7 @@ public class ChargehoundTest {
           @Override
           public LowLevelHttpResponse execute() throws IOException {
             assertEquals("{\"products\":[{\"amount\":100,\"name\":\"T-shirt\",\"quantity\":\"5oz\"}]}",
-                this.getContentAsString());
+                    this.getContentAsString());
 
             MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();
             result.setContentType(Json.MEDIA_TYPE);
@@ -676,17 +676,17 @@ public class ChargehoundTest {
     testDispute.kind = "chargeback";
 
     Email email = new Email.Builder()
-        .to("customer@example.com")
-        .from("noreply@example.com")
-        .body("Your order was received.")
-        .finish();
+            .to("customer@example.com")
+            .from("noreply@example.com")
+            .body("Your order was received.")
+            .finish();
 
     ArrayList<Email> emails = new ArrayList<Email>();
     emails.add(email);
 
     Dispute.UpdateParams disputeUpdate = new Dispute.UpdateParams.Builder()
-        .correspondence(emails)
-        .finish();
+            .correspondence(emails)
+            .finish();
 
     HttpTransport transport = new MockHttpTransport() {
       @Override
@@ -698,7 +698,7 @@ public class ChargehoundTest {
           @Override
           public LowLevelHttpResponse execute() throws IOException {
             assertEquals("{\"correspondence\":[{\"body\":\"Your order was received.\",\"from\":\"noreply@example.com\",\"to\":\"customer@example.com\"}]}",
-                this.getContentAsString());
+                    this.getContentAsString());
 
             MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();
             result.setContentType(Json.MEDIA_TYPE);
@@ -726,18 +726,18 @@ public class ChargehoundTest {
     testDispute.kind = "chargeback";
 
     Product product = new Product.Builder()
-        .name("T-shirt")
-        .amount(100L)
-        .shippingCarrier("fedex")
-        .shippingTrackingNumber("12345678")
-        .finish();
+            .name("T-shirt")
+            .amount(100L)
+            .shippingCarrier("fedex")
+            .shippingTrackingNumber("12345678")
+            .finish();
 
     ArrayList<Product> products = new ArrayList<Product>();
     products.add(product);
 
     Dispute.UpdateParams disputeUpdate = new Dispute.UpdateParams.Builder()
-        .products(products)
-        .finish();
+            .products(products)
+            .finish();
 
     HttpTransport transport = new MockHttpTransport() {
       @Override
@@ -749,7 +749,7 @@ public class ChargehoundTest {
           @Override
           public LowLevelHttpResponse execute() throws IOException {
             assertEquals("{\"products\":[{\"amount\":100,\"name\":\"T-shirt\",\"shipping_carrier\":\"fedex\",\"shipping_tracking_number\":\"12345678\"}]}",
-                this.getContentAsString());
+                    this.getContentAsString());
 
             MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();
             result.setContentType(Json.MEDIA_TYPE);
@@ -777,18 +777,18 @@ public class ChargehoundTest {
     testDispute.kind = "chargeback";
 
     PastPayment pastPayment = new PastPayment.Builder()
-        .id("ch_1")
-        .amount(100L)
-        .currency("usd")
-        .chargedAt("2019-09-03 11:09:41PM UTC")
-        .finish();
+            .id("ch_1")
+            .amount(100L)
+            .currency("usd")
+            .chargedAt("2019-09-03 11:09:41PM UTC")
+            .finish();
 
     ArrayList<PastPayment> pastPayments = new ArrayList<PastPayment>();
     pastPayments.add(pastPayment);
 
     Dispute.UpdateParams disputeUpdate = new Dispute.UpdateParams.Builder()
-        .pastPayments(pastPayments)
-        .finish();
+            .pastPayments(pastPayments)
+            .finish();
 
     HttpTransport transport = new MockHttpTransport() {
       @Override
@@ -800,7 +800,7 @@ public class ChargehoundTest {
           @Override
           public LowLevelHttpResponse execute() throws IOException {
             assertEquals("{\"past_payments\":[{\"amount\":100,\"charged_at\":\"2019-09-03 11:09:41PM UTC\",\"currency\":\"usd\",\"id\":\"ch_1\"}]}",
-                this.getContentAsString());
+                    this.getContentAsString());
 
             MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();
             result.setContentType(Json.MEDIA_TYPE);
@@ -827,19 +827,24 @@ public class ChargehoundTest {
     testDispute.id = "dp_123";
     testDispute.kind = "chargeback";
 
+    // Adding additional fields
     PastPayment pastPayment = new PastPayment.Builder()
-        .id("ch_1")
-        .amount(100L)
-        .currency("usd")
-        .chargedAt(1568831857)
-        .finish();
+            .id("ch_1")
+            .amount(100L)
+            .currency("usd")
+            .chargedAt(1568831857)
+            .userId("test123@gmail.com")
+            .ipAddress("127.1.2.3")
+            .shippingAddress("194 Orchad Avenue")
+            .deviceId("1234-4567-2324-35-45")
+            .finish();
 
     ArrayList<PastPayment> pastPayments = new ArrayList<PastPayment>();
     pastPayments.add(pastPayment);
 
     Dispute.UpdateParams disputeUpdate = new Dispute.UpdateParams.Builder()
-        .pastPayments(pastPayments)
-        .finish();
+            .pastPayments(pastPayments)
+            .finish();
 
     HttpTransport transport = new MockHttpTransport() {
       @Override
@@ -850,8 +855,11 @@ public class ChargehoundTest {
         return new MockLowLevelHttpRequest() {
           @Override
           public LowLevelHttpResponse execute() throws IOException {
-            assertEquals("{\"past_payments\":[{\"amount\":100,\"charged_at\":1568831857,\"currency\":\"usd\",\"id\":\"ch_1\"}]}",
-                this.getContentAsString());
+            assertEquals("{\"past_payments\":[{\"amount\":100,\"charged_at\":1568831857," +
+                            "\"currency\":\"usd\",\"device_id\":\"1234-4567-2324-35-45\",\"id\":\"ch_1\"," +
+                            "\"ip_address\":\"127.1.2.3\",\"shipping_address\":\"194 Orchad Avenue\"," +
+                            "\"user_id\":\"test123@gmail.com\"}]}",
+                    this.getContentAsString());
 
             MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();
             result.setContentType(Json.MEDIA_TYPE);
@@ -963,8 +971,8 @@ public class ChargehoundTest {
     testDispute.kind = "chargeback";
 
     Dispute.UpdateParams disputeUpdate = new Dispute.UpdateParams.Builder()
-        .template("template")
-        .finish();
+            .template("template")
+            .finish();
 
     MockHttpTransport transport = new MockHttpTransport() {
       @Override
@@ -1043,9 +1051,9 @@ public class ChargehoundTest {
     testDispute.kind = "chargeback";
 
     Dispute.CreateParams disputeCreate = new Dispute.CreateParams.Builder()
-        .id("dp_123")
-        .kind("chargeback")
-        .finish();
+            .id("dp_123")
+            .kind("chargeback")
+            .finish();
 
     HttpTransport transport = new MockHttpTransport() {
       @Override
