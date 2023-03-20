@@ -173,8 +173,6 @@ public class ChargehoundTest {
 
     Dispute result = chargehound.disputes.retrieve("dp_123");
 
-    System.out.println(result);
-
     assertEquals("{\"amount\":9999900000,\"fee\":0,\"id\":\"dp_123\",\"is_charge_refundable\":false,\"kind\":\"chargeback\",\"livemode\":false,\"reversal_amount\":0,\"submitted_count\":0}", JSON_FACTORY.toString(result));
   }
 
@@ -855,8 +853,6 @@ public class ChargehoundTest {
         return new MockLowLevelHttpRequest() {
           @Override
           public LowLevelHttpResponse execute() throws IOException {
-            System.out.println("printing output: ");
-            System.out.println(this.getContentAsString());
             assertEquals("{\"past_payments\":[{\"amount\":100,\"charged_at\":1568831857," +
                             "\"currency\":\"usd\",\"device_id\":\"1234-4567-2324-35-45\",\"id\":\"ch_1\"," +
                             "\"ip_address\":\"127.1.2.3\",\"shipping_address\":\"194 Orchad Avenue\"," +
