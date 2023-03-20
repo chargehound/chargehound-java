@@ -1,4 +1,5 @@
 # Chargehound Java bindings
+
 Chargehound bindings for Java
 
 [![Build Status](https://github.com/chargehound/chargehound-java/actions/workflows/test-java.yaml/badge.svg)](https://github.com/chargehound/chargehound-java/actions/workflows/test-java.yaml)
@@ -10,6 +11,7 @@ Chargehound bindings for Java
 Add this dependency to your project's POM:
 
 ```xml
+
 <dependency>
     <groupId>com.chargehound</groupId>
     <artifactId>chargehound-java</artifactId>
@@ -30,7 +32,8 @@ compile "com.chargehound:chargehound-java:2.0.0"
 You'll need to manually install the following JARs:
 
 * The Chargehound JAR from https://github.com/chargehound/chargehound-java/releases/latest
-* [Google HTTP client](https://developers.google.com/api-client-library/java/google-http-java-client/) from <https://developers.google.com/api-client-library/java/google-http-java-client/download>.
+* [Google HTTP client](https://developers.google.com/api-client-library/java/google-http-java-client/)
+  from <https://developers.google.com/api-client-library/java/google-http-java-client/download>.
 
 ### Requests
 
@@ -40,17 +43,17 @@ Java requests use defined structs to represent parameters.
 import com.chargehound.Chargehound;
 import com.chargehound.models.Dispute;
 
-Chargehound chargehound = new Chargehound("test_123");
+Chargehound chargehound=new Chargehound("test_123");
 
-Map<String, Object> fields = new HashMap<String, Object>();
-fields.put("customer_name", "Susie Chargeback");
+        Map<String, Object> fields=new HashMap<String, Object>();
+        fields.put("customer_name","Susie Chargeback");
 
-Dispute result = chargehound.disputes.submit("dp_123",
-  new Dispute.UpdateParams.Builder()
-  .template("unrecognized")
-  .fields(fields)
-  .finish()
-);
+        Dispute result=chargehound.disputes.submit("dp_123",
+        new Dispute.UpdateParams.Builder()
+        .template("unrecognized")
+        .fields(fields)
+        .finish()
+        );
 ```
 
 ### Responses
@@ -63,11 +66,11 @@ Responses also include the HTTP status code on the response object.
 import com.chargehound.Chargehound;
 import com.chargehound.models.Dispute;
 
-Dispute result = chargehound.disputes.retrieve("dp_123");
+Dispute result=chargehound.disputes.retrieve("dp_123");
 
-System.out.println(result.state);
+        System.out.println(result.state);
 // "needs_response"
-System.out.println(result.response.getStatusCode());
+        System.out.println(result.response.getStatusCode());
 // 200
 ```
 
@@ -81,15 +84,16 @@ The Java library returns adapted objects rather than JSON from API calls.
 
 ## Google AppEngine
 
-If you're using the library in a Google App Engine environment, you can set the Chargehound client to use the [supported HTTP transport](https://developers.google.com/api-client-library/java/google-http-java-client/app-engine#http_transport).
+If you're using the library in a Google App Engine environment, you can set the Chargehound client to use
+the [supported HTTP transport](https://developers.google.com/api-client-library/java/google-http-java-client/app-engine#http_transport).
 
 ```java
 import com.chargehound.Chargehound;
 import com.google.api.client.extensions.appengine.http.UrlFetchTransport;
 
-Chargehound chargehound = new Chargehound("test_123");
+Chargehound chargehound=new Chargehound("test_123");
 
-chargehound.setHttpTransport(new UrlFetchTransport());
+        chargehound.setHttpTransport(new UrlFetchTransport());
 ```
 
 ## Development
@@ -110,13 +114,16 @@ To deploy a new version of the SDK, perform the following steps:
 3. Bump the version number in the `Chargehound` class in `Chargehound.java`.
 4. Bump the version number in this README.
 5. Deploy the Jar to the Maven central repository with `gradle clean build uploadArchives`
-6. Navigate here https://oss.sonatype.org/#stagingRepositories and release the build (https://central.sonatype.org/pages/releasing-the-deployment.html)
+6. Navigate here https://oss.sonatype.org/#stagingRepositories and release the
+   build (https://central.sonatype.org/pages/releasing-the-deployment.html)
 
 ### Deployment configuration
 
-You will need the Sonatype login. Set the `OSSRH_USERNAME`/`OSSRH_PASSWORD` in your local `~/.gradle/gradle.properties` file.
+You will need the Sonatype login. Set the `OSSRH_USERNAME`/`OSSRH_PASSWORD` in your local `~/.gradle/gradle.properties`
+file.
 
-You will also need to setup a PGP key. Follow the instructions here: https://docs.gradle.org/current/userguide/signing_plugin.html#sec:signatory_credentials
+You will also need to setup a PGP key. Follow the instructions
+here: https://docs.gradle.org/current/userguide/signing_plugin.html#sec:signatory_credentials
 
 Set the key info in your `~/.gradle/gradle.properties` file. Example:
 
