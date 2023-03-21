@@ -1,4 +1,4 @@
-# Chargehound Java bindings 
+# Chargehound Java bindings
 Chargehound bindings for Java
 
 [![Build Status](https://github.com/chargehound/chargehound-java/actions/workflows/test-java.yaml/badge.svg)](https://github.com/chargehound/chargehound-java/actions/workflows/test-java.yaml)
@@ -11,9 +11,9 @@ Add this dependency to your project's POM:
 
 ```xml
 <dependency>
-  <groupId>com.chargehound</groupId>
-  <artifactId>chargehound-java</artifactId>
-  <version>2.0.0</version>
+    <groupId>com.chargehound</groupId>
+    <artifactId>chargehound-java</artifactId>
+    <version>2.1.0</version>
 </dependency>
 ```
 
@@ -105,20 +105,20 @@ $ ./gradlew build
 
 To deploy a new version of the SDK, perform the following steps:
 
- 1. Update the CHANGELOG to describe what features have been added.
- 2. Bump the version number in `gradle.properties`.
- 3. Bump the version number in the `Chargehound` class in `Chargehound.java`.
- 4. Bump the version number in this README.
- 5. Deploy the Jar to the Maven central repository with `gradle clean build uploadArchives`
- 6. Navigate here https://oss.sonatype.org/#stagingRepositories and release the build (https://central.sonatype.org/pages/releasing-the-deployment.html)
+1. Update the CHANGELOG to describe what features have been added.
+2. Bump the version number in `gradle.properties`.
+3. Bump the version number in the `Chargehound` class in `Chargehound.java`.
+4. Bump the version number in this README.
+5. Deploy the Jar to the Maven central repository with `gradle clean build uploadArchives`
+6. Navigate here https://oss.sonatype.org/#stagingRepositories and release the build (https://central.sonatype.org/pages/releasing-the-deployment.html)
 
- ### Deployment configuration
+### Deployment configuration
 
- You will need the Sonatype login. Set the `OSSRH_USERNAME`/`OSSRH_PASSWORD` in your local `~/.gradle/gradle.properties` file.
+You will need the Sonatype login. Set the `OSSRH_USERNAME`/`OSSRH_PASSWORD` in your local `~/.gradle/gradle.properties` file.
 
- You will also need to setup a PGP key. Follow the instructions here: https://docs.gradle.org/current/userguide/signing_plugin.html#sec:signatory_credentials
+You will also need to setup a PGP key. Follow the instructions here: https://docs.gradle.org/current/userguide/signing_plugin.html#sec:signatory_credentials
 
- Set the key info in your `~/.gradle/gradle.properties` file. Example:
+Set the key info in your `~/.gradle/gradle.properties` file. Example:
 
  ```
 signing.keyId=24875D73
