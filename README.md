@@ -22,7 +22,7 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "com.chargehound:chargehound-java:2.0.0"
+compile "com.chargehound:chargehound-java:2.1.0"
 ```
 
 ### Others
