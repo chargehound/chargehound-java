@@ -13,7 +13,7 @@ Add this dependency to your project's POM:
 <dependency>
     <groupId>com.chargehound</groupId>
     <artifactId>chargehound-java</artifactId>
-    <version>2.1.0</version>
+    <version>2.1.1</version>
 </dependency>
 ```
 
