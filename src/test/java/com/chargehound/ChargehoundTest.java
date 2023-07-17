@@ -837,6 +837,7 @@ public class ChargehoundTest {
             .ipAddress("127.1.2.3")
             .shippingAddress("194 Orchad Avenue")
             .deviceId("1234-4567-2324-35-45")
+            .itemDescription("10 saxophones")
             .finish();
 
     ArrayList<PastPayment> pastPayments = new ArrayList<PastPayment>();
@@ -857,8 +858,8 @@ public class ChargehoundTest {
           public LowLevelHttpResponse execute() throws IOException {
             assertEquals("{\"past_payments\":[{\"amount\":100,\"charged_at\":1568831857," +
                             "\"currency\":\"usd\",\"device_id\":\"1234-4567-2324-35-45\",\"id\":\"ch_1\"," +
-                            "\"ip_address\":\"127.1.2.3\",\"shipping_address\":\"194 Orchad Avenue\"," +
-                            "\"user_id\":\"test123@gmail.com\"}]}",
+                            "\"ip_address\":\"127.1.2.3\",\"item_description\":\"10 saxophones\"," +
+                            "\"shipping_address\":\"194 Orchad Avenue\",\"user_id\":\"test123@gmail.com\"}]}",
                     this.getContentAsString());
 
             MockLowLevelHttpResponse result = new MockLowLevelHttpResponse();

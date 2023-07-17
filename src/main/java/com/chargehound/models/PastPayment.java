@@ -29,6 +29,9 @@ public class PastPayment extends GenericJson {
   @Key("device_id")
   public String deviceId;
 
+  @Key("item_description")
+  public String itemDescription;
+
   public PastPayment() {}
 
   private PastPayment(
@@ -39,7 +42,8 @@ public class PastPayment extends GenericJson {
           final String userId,
           final String ipAddress,
           final String shippingAddress,
-          final String deviceId
+          final String deviceId,
+          final String itemDescription
   ) {
     this.id = id;
     this.amount = amount;
@@ -49,6 +53,7 @@ public class PastPayment extends GenericJson {
     this.ipAddress = ipAddress;
     this.shippingAddress = shippingAddress;
     this.deviceId = deviceId;
+    this.itemDescription = itemDescription;
   }
 
   public static class Builder {
@@ -60,6 +65,8 @@ public class PastPayment extends GenericJson {
     private String ipAddress;
     private String shippingAddress;
     private String deviceId;
+    private String itemDescription;
+
 
     public Builder id(final String id) {
       this.id = id;
@@ -106,6 +113,10 @@ public class PastPayment extends GenericJson {
       return this;
     }
 
+    public Builder itemDescription(final String itemDescription){
+      this.itemDescription = itemDescription;
+      return this;
+    }
     /**
      * Finish the builder.
      * @return PastPayment
@@ -119,7 +130,8 @@ public class PastPayment extends GenericJson {
               this.userId,
               this.ipAddress,
               this.shippingAddress,
-              this.deviceId
+              this.deviceId,
+              this.itemDescription
       );
     }
   }

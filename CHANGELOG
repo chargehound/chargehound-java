@@ -36,3 +36,5 @@
 
 2.1.0 Mar, 2023
   - Added additional fields to `PastPayment` model
+2.1.1 July, 2023
+  - Added item description as an additional field in past payment model

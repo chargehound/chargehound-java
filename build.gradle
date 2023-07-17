@@ -28,6 +28,7 @@ dependencies {
 
 repositories {
   jcenter()
+  mavenCentral()
 }
 
 checkstyle {
