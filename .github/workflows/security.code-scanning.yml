@@ -10,3 +10,7 @@ on:
 jobs:
   codeql-java:
     uses: chargehound/security-workflows-public/.github/workflows/codeql-java.yml@main
+    with:
+      build-mode: 'manual'
+      build-command: './gradlew build'
+      java-version: '8'
