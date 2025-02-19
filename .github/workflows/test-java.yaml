@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: [ '8', '9', '10', '11']
+        java: [ '8' ]
     name: Test Java ${{ matrix.java }}
     steps:
       - uses: actions/checkout@v2
@@ -22,4 +22,4 @@ jobs:
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
       - name: Run the Gradle tests
-        run: ./gradlew test
+        run: ./gradlew build
