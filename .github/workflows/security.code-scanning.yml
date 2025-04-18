@@ -12,6 +12,6 @@ jobs:
     uses: chargehound/security-workflows-public/.github/workflows/codeql-java.yml@main
     with:
       build-mode: 'manual'
-      build-command: './gradlew build'
+      build-command: './gradlew --parallel --no-daemon --no-build-cache clean assemble -x test'
       java-version: '8'
       
