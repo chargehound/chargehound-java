@@ -135,3 +135,39 @@ uploadArchives {
     }
   }
 }
+
+// TODO: Remove task after upgrading Gradle >= 5.2 
+import org.gradle.api.artifacts.ResolvedDependency
+import org.gradle.api.artifacts.Configuration
+import java.io.BufferedWriter
+import java.io.FileWriter
+tasks.register("generateDependencyReport") {
+    doLast {
+        def outputFile = file("${buildDir}/dependency-report.txt")
+        File parentDir = outputFile.parentFile
+        if (!parentDir.exists() && !parentDir.mkdirs()) {
+            throw new IOException("Failed to create directory ${parentDir}")
+        }
+        BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile))
+        try {
+            project.configurations.each { Configuration config ->
+                if (config.isCanBeResolved()) {
+                    writer.write("Configuration: ${config.name}\n")
+                    config.resolvedConfiguration.firstLevelModuleDependencies.each { ResolvedDependency dep ->
+                        printDependency(dep, writer, 1)
+                    }
+                }
+            }
+        } finally {
+            writer.close()
+        }
+        println("Dependency report generated: ${outputFile.absolutePath}")
+    }
+}
+void printDependency(ResolvedDependency dependency, BufferedWriter writer, int level) {
+    def indentation = "  " * level
+    writer.write("${indentation}- ${dependency.moduleGroup}:${dependency.moduleName}:${dependency.moduleVersion}\n")
+    dependency.children.each { ResolvedDependency child ->
+        printDependency(child, writer, level + 1)
+    }
+}
