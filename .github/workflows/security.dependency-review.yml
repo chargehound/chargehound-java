@@ -12,4 +12,4 @@ jobs:
   dependency-review:
     uses: chargehound/security-workflows-public/.github/workflows/dependency-review-gradle.yml@test-gradle-submission
     with:
-      java-version: '8'    
+      java-version: 8
