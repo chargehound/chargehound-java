@@ -13,3 +13,5 @@ jobs:
     uses: chargehound/security-workflows-public/.github/workflows/dependency-review-gradle.yml@test-gradle-submission
     with:
       java-version: 8
+    secrets:
+      DATADOG_API_KEY: ${{ secrets.DATADOG_PAYPAL_QA_TOKEN }}         
