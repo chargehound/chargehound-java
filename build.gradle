@@ -135,3 +135,66 @@ uploadArchives {
     }
   }
 }
+
+// TODO: Remove task after upgrading Gradle >= 5.2 
+import org.gradle.api.artifacts.ResolvedDependency
+import org.gradle.api.artifacts.Configuration
+import java.io.BufferedWriter
+import java.io.FileWriter
+
+tasks.register("generateDependencyReport") {
+    doLast {
+        def outputFile = file("${buildDir}/dependency-report.txt")
+        File parentDir = outputFile.parentFile
+        if (!parentDir.exists() && !parentDir.mkdirs()) {
+            throw new IOException("Failed to create directory ${parentDir}")
+        }
+
+        // Create a writer to write the dependency report to the file
+        BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile))
+        try {
+            writer.write("Manifest: ${project.name}\n")
+            writer.write("# Generated on ${new Date()}\n\n")
+
+            // Iterate through all project configurations
+            project.configurations.each { Configuration config ->
+                try {
+                    if (config.isCanBeResolved()) {
+                        writer.write("${config.name}:\n")
+
+                        def dependencies = config.resolvedConfiguration.firstLevelModuleDependencies
+                        if (dependencies.isEmpty()) {
+                            writer.write("  (No dependencies found)\n")
+                        } else {
+                            dependencies.each { ResolvedDependency dep ->
+                                printDependency(dep, writer, 1)
+                            }
+                        }
+                    } else {
+                        writer.write("${config.name}:\n")
+                        writer.write("  (Cannot be resolved)\n")
+                    }
+                } catch (Exception e) {
+                    writer.write("${config.name}:\n")
+                    writer.write("  (Resolution failed: ${e.message})\n")
+                }
+
+                writer.write("\n")
+            }
+        } finally {
+            writer.close()
+        }
+
+        println("Dependency report generated: ${outputFile.absolutePath}")
+    }
+}
+
+// Recursive function to print dependencies with proper indentation
+void printDependency(ResolvedDependency dependency, BufferedWriter writer, int level) {
+    def indentation = "  " * level
+    writer.write("${indentation}- ${dependency.moduleGroup}:${dependency.moduleName}:${dependency.moduleVersion}\n")
+
+    dependency.children.each { ResolvedDependency child ->
+        printDependency(child, writer, level + 1)
+    }
+}

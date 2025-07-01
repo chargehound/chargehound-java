@@ -1,0 +1,19 @@
+name: CodeQL
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  codeql-java:
+    uses: chargehound/security-workflows-public/.github/workflows/codeql-java.yml@test-gradle-submission
+    with:
+      build-mode: 'manual'
+      build-command: './gradlew --parallel --no-daemon --no-build-cache clean assemble -x test'
+      java-version: '8'
+    secrets:
+      DATADOG_API_KEY: ${{ secrets.DATADOG_PAYPAL_QA_TOKEN }}         
+      
